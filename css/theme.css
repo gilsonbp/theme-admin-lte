@@ -1,0 +1,443 @@
+/* ========================================================================= */
+/* S T A N D A R D  H T M L  T A G S */
+/* ========================================================================= */
+
+/* Overrides Start */
+
+.btn {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.btn {
+	font-family: 'Arial' !important;
+}
+
+/* Overrides End */
+
+.theme-hidden, .cos7-hidden {
+  display: none;
+}
+.cos7-text-bad-status {
+  color: red;
+}
+
+.cos7-text-good-status {
+  color: green;
+}
+.cos7-box-tools {
+  float: right;
+  padding: 10px 10px;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Marketplace and Registration */
+/* ------------------------------------------------------------------------- */
+
+/* TODO: Markeplace and Registration merge */
+
+#marketplace-left-menu
+{
+  background-image: url('../images/left-menu-bottom.png');
+  background-repeat: no-repeat;  
+  background-position: bottom left;
+  padding: 0px 10px 10px 10px;
+}
+
+.marketplace-header {
+    height: 65px;
+    margin-left: -8px;
+    background-image: url('../images/marketplace-header-bg.png');
+    border-bottom: 1px solid #d1d3d4;
+    margin-top: 10px;
+    padding-right: 10px;
+}
+
+.marketplace-footer {
+    height: 10px;
+    height: 5px;
+    clear: both;
+}
+
+.marketplace-unavailable {
+    border:none;
+    -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+    filter:alpha(Opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.form-input-ok {
+  background-image: url(../images/icon-checkmark.png);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  margin-top: 2px;
+  height: 16px;
+  width: 16px;
+  float: right;
+}
+
+.form-input-fail {
+  background-image: url(../images/icon-xmark.png);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  height: 16px;
+  width: 16px;
+  margin-top: 2px;
+  float: right;
+}
+
+.star_on {
+  background-image: url(../images/star_on.png);
+  background-repeat: no-repeat;
+  height: 11;
+  width: 11;
+  float:right;
+}
+
+/* TODO: Markeplace merge */
+.star_off {
+  background-image: url(../images/star_off.png);
+  background-repeat: no-repeat;
+  height: 11;
+  width: 11;
+  float:right;
+}
+
+#pagination-top div {
+  padding-top: 5px;
+}
+
+#app_list {
+  margin-top: 10px;
+}
+
+#app_list .theme-button-set {
+  margin-left: 0px;
+  padding-left: 0px;
+  margin-top: 5px;
+}
+
+.marketplace-wizard-options {
+  border: 1px solid;
+  width: 40%;
+  padding: 10px;
+  margin: 4px;
+  display: inline-block;
+  vertical-align: top;
+  height: 95px;
+  cursor: pointer;
+  border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+}
+
+.marketplace-wizard-option-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#marketplace-app-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#category-container {
+  width: 95%;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#marketplace-novice-title {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+.marketplace-novice {
+  padding: 2px;
+  display: inline-block;
+  font-size: 13px;
+}
+.marketplace-novice-nav {
+  cursor: pointer;
+  width:45px;
+  height:46px;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  background-repeat: no-repeat;  
+  background-color: #62799A;
+  margin-top: 20px;
+}
+.marketplace-novice-nav:hover {
+  -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
+  filter:alpha(Opacity=80);
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+}
+.marketplace-novice-nav.novice-prev {
+  float: left;
+  background-image: url('../images/prev.png');
+  margin-left: 5px;
+  background-position: -12px 0px;
+}
+.marketplace-novice-nav.novice-next {
+  float: right;
+  margin-right: 5px;
+  background-image: url('../images/next.png');
+  background-position: 8px 0px;
+}
+.marketplace-novice.novice-selected {
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: left;
+}
+#marketplace-novice-step {
+  font-size: 8px;
+}
+.marketplace-category {
+  font-size: 12px;
+  border: 1px solid;
+  width: 100px;
+  padding: 10px 5px 10px 5px;
+  margin: 5px;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  background-color: #62799A;
+  color: #FFFFFF;
+}
+.marketplace-app.marketplace-list {
+  width: 45%;
+  height: auto;
+  text-align: left;
+  padding: 5px;
+  min-height: 120px;
+}
+.marketplace-app.marketplace-list.marketplace-selected h2 a:link {
+  color: #FFFFFF;
+}
+.marketplace-app.marketplace-list.marketplace-selected h2 a:visited {
+  color: #FFFFFF;
+}
+.marketplace-app.marketplace-list.marketplace-selected h2 a:hover {
+  color: #e1852e;
+  ^color: #e1852e;
+}
+.marketplace-app {
+  border: 1px solid #D1D3D4;
+  position: relative;
+  width: 100px;
+  padding: 2px;
+  margin: 5px;
+  display: inline-block;
+  vertical-align: top;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+  overflow: hidden;
+}
+
+.marketplace-category-selected {
+  background-color: #62799A;
+  color: #e6e6e6;
+}
+.marketplace-category-hover {
+  background-color: #e6e6e6;
+}
+.marketplace-selected {
+  background-color: #62799A !important;
+  color: #e6e6e6;
+}
+.marketplace-hover {
+    -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
+    filter:alpha(Opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+}
+
+.marketplace-linkback {
+  background-image: url('../images/left-menu-shadow.png') ;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;  
+  padding: 15px 0px 10px 0px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.marketplace-linkback a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.marketplace-logo {
+  background-image: url('../images/marketplace-logo.png');
+  background-repeat: no-repeat;
+  height:38px;
+  width:256px;
+  margin-left: 15px;
+  float: left;
+  cursor:pointer;
+}
+
+.marketplace-progress-spash {
+  background-image: url('../images/marketplace-splash.png');
+  background-repeat: no-repeat;
+  background-position: 0px 25px;
+  height:300px;
+}
+.marketplace-search-bar {
+  background-image: url('../images/icon-search.png');
+  background-repeat: no-repeat;
+  background-position: 0px 2px;
+  height: 20px;
+  width: 16px;
+  cursor: pointer;
+  margin-left: 140px;
+}
+.marketplace-search-bar-cancel {
+  background-image: url('../images/icon-cancel.png');
+}
+.marketplace-search-no-focus:focus {
+  outline: none;
+}
+
+.marketplace-description-tooltip {
+  display:none;
+  z-index: 999;
+  width: 340px;
+  text-align: left;
+  background-color: #ffa;
+  height: auto;
+  padding: 10px 10px;
+  font-size:11px;
+  border: 1px solid #d1d3d4;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+.marketplace-description-tooltip-content {
+  padding-right: 10px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.marketplace-installed, .marketplace-installed-list {
+   display: block;
+   position: absolute;
+   text-align: center;
+   opacity: 0.8;
+   -webkit-transform: rotate(45deg);
+   -moz-transform:    rotate(45deg);
+   -ms-transform:     rotate(45deg);
+   transform:         rotate(45deg);
+   font-size: 12px;
+   font-weight: 700;
+   color: white;
+   background-color: #98bb60;
+   border: 1px solid white;
+   z-index: 500;
+}
+
+.marketplace-installed-list {
+   top: 35px;
+   left: 200px;
+   width: 180px;
+   height: 32px;
+   line-height: 32px;
+}
+
+.marketplace-installed {
+   top: 15px;
+   left: 25px;
+   width: 104px;
+   height: 22px;
+   line-height: 22px;
+}
+
+.rbs-progress-spash {
+  background-image: url('../images/marketplace-splash.png');
+  background-repeat: no-repeat;
+  background-position: 0px 5px;
+  height:140px;
+  padding: 0px;
+  float: right;
+  width: 280px;
+}
+#indiv_upgrade {padding-left: 6px; padding-right: 6px; font-family: arial;}
+
+#indiv_upgrade, x:-moz-any-link, x:default {padding-left: 3px; padding-right: 3px;}
+
+#indiv_install {padding-left: 5px; padding-right: 4px;}
+
+#review_sdn_login {padding-left: 6px; padding-right: 6px;}
+
+#review_sdn_login, x:-moz-any-link, x:default {padding-left: 3px; padding-right: 3px;}
+
+#add_review {padding-left: 5px; padding-right: 0px; font-size: 10px; top: 1px;}
+#add_review {padding-right: 3px;}
+
+#app_description {width: 490px;}
+
+#prevent_review {padding-left: 6px; padding-right: 6px; margin-top: 10px; }
+
+#tabs-versions {margin-bottom: 10px;}
+
+#search_and_install div {float:right;}
+
+#search_and_install input {border: 1px solid #d1d3d4; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; padding: 3px 5px; color: #686868; float: right;}
+#pagination-top {
+  clear: right;
+  float: right;
+  position: relative;
+  text-align: right;
+}
+#pagination-bottom {
+  float: right;
+  margin-bottom: 10px;
+}
+
+#sdn_login_dialog {
+  background-image: url('../images/logo-clearcenter.png');
+  background-repeat: no-repeat;
+  background-position: 300px 70px;
+}
+
+#sdn_password_group {float: left;}
+
+#sdn_username {float: left;}
+
+#sdn_login_dialog_message_bar {
+  color: red;
+  padding-top: 5px
+}
+
+#sdn_marketplace_setup_dialog {
+  background-image: url('../images/logo-marketplace-bottom.png');
+  background-repeat: no-repeat;
+  background-position: 280px 20px;
+}
+.dialog_alert_icon {
+  background-image: url('../images/icon-note.png');
+  background-repeat: no-repeat;
+  background-position: 0px 5px;
+  width: 30;
+  height: 45;
+  float: left;
+  position: relative;
+}
+.dialog_alert_text {
+  text-align: left;
+  padding-top: 5px;
+}
+
+/* Standard links style doesn't exist?  Really? */
+a.highlight-link {
+  color: #E1852E;
+}
+
+a.highlight-link:hover {
+  color: #62799A;
+}
+
