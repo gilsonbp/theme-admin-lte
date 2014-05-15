@@ -2082,6 +2082,104 @@ function theme_summary_box($data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// O P E N   R O W
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Open a row (eg. Bootstrap grid).
+ *
+ * @param array  $options options
+ *
+ * Options:
+ *  id: DOM ID
+ *  class: class(es)
+ *
+ * @return string HTML
+ */
+
+function theme_row_open($options = NULL)
+{
+    $id = (isset($options['id'])) ? " id='" . $options['id'] . "'" : "";
+    $class = (isset($options['class'])) ? " " . $options['class'] : "";
+    
+    return "<div" . $id . " class='row" . $class . "'>"; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// C L O S E   R O W
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Close a row (eg. Bootstrap grid).
+ *
+ * @param array  $options options
+ *
+ * Options:
+ *
+ * @return string HTML
+ */
+
+function theme_row_close($options = NULL)
+{
+    return "</div>"; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// O P E N   G R I D   C O L U M N
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Open a column (eg. Bootstrap grid).
+ *
+ * @param int $desktop column counter (based on 12 grid column) for desktop
+ * @param int $tablet  column counter (based on 12 grid column) for tablet
+ * @param int $phone   column counter (based on 12 grid column) for phone
+ * @param array  $options options
+ *
+ * Options:
+ *  id: DOM ID
+ *  class: class(es)
+ *
+ * @return string HTML
+ */
+
+
+function theme_column_open($desktop, $tablet = NULL, $phone = NULL, $options = NULL)
+{
+    $id = (isset($options['id'])) ? " id='" . $options['id'] . "'" : "";
+    $class = (isset($options['class'])) ? " " . $options['class'] : "";
+    $xtr_class = '';
+    if ((int)$desktop == 0)
+        $desktop = 12;
+    if ($tablet != NULL && (int)$tablet != 0)
+        $xtr_class .= " col-sm-" . $tablet;
+    if ($phone != NULL && (int)$phone != 0)
+        $xtr_class .= " col-sm-" . $phone;
+
+    // Based on 12 column Bootstrap grid system
+    return "<div" . $id . " class='col-md-$desktop$xtr_class$class'>"; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// C L O S E   G R I D  C O L U M N
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Close a row (eg. Bootstrap grid).
+ *
+ * @param array  $options options
+ *
+ * Options:
+ *
+ * @return string HTML
+ */
+
+function theme_column_close($options = NULL)
+{
+    return "</div>"; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // C O N T R O L  P A N E L
 ///////////////////////////////////////////////////////////////////////////////
 
