@@ -2157,7 +2157,7 @@ function theme_column_open($desktop, $tablet = NULL, $phone = NULL, $options = N
         $xtr_class .= " col-sm-" . $phone;
 
     // Based on 12 column Bootstrap grid system
-    return "<div" . $id . " class='col-md-$desktop$xtr_class$class'>"; 
+    return "<section" . $id . " class='col-md-$desktop$xtr_class$class'>"; 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2176,7 +2176,7 @@ function theme_column_open($desktop, $tablet = NULL, $phone = NULL, $options = N
 
 function theme_column_close($options = NULL)
 {
-    return "</div>"; 
+    return "</section>"; 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
