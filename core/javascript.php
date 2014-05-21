@@ -49,6 +49,7 @@ function theme_page_javascript()
 <script type='text/javascript' src='$theme_url/js/jquery.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery.cookie.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery-ui-1.10.4.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/bootstrap-dialog/bootstrap-dialog.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/sparkline/jquery.sparkline.min.js'></script>

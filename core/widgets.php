@@ -319,8 +319,8 @@ function theme_field_view($label, $text, $name = NULL, $value = NULL, $input_id 
 
     if (is_bool($text)) {
         if ($text)
-            $text = "<label class='checkbox-inline'>
-                        <input type='checkbox' class='square-grey' value='' checked='checked' readonly='true'>
+            $text = "<label>
+                        <div class='icheckbox_flat-red checked' aria-checked='true' aria-disabled='true' style='position: relative;'><input type='checkbox' class='flat-red' checked='' style='position: absolute; opacity: 0;'><ins class='iCheck-helper' style='position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);'></ins></div>
                     </label>
             ";
         else
@@ -1117,11 +1117,13 @@ function theme_loading($size, $text = '', $options = NULL)
 
     if (isset($options['id']))
         $id = "id='" . $options['id'] . "'"; 
+    if ($size == 'normal')
+        $size = 'fa-lg';
 
     if (isset($options['icon-below']))
-        return "<div style='padding-bottom: 5;'>$text</div><div $id class='theme-loading-$size'></div>\n";
+        return "<div style='padding-bottom: 5;'>$text</div><i $id class='fa fa-spinner fa-spin $size'></i>\n";
     else
-        return "<div $id class='theme-loading-$size'>$text</div>\n";
+        return "<i $id class='fa fa-spinner fa-spin'>$text</i>\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2051,32 +2053,32 @@ function theme_summary_box($data)
             <div class='marketplace-linkback'>" .
             anchor_custom('/app/marketplace/view/' . $data['basename'], 'App Details') . "
             </div>
-            <div id='sidebar-recommended-apps'>
-            </div>
+            <div id='sidebar-recommended-apps'></div>
         ";
     } else {
         $marketplace = '';
     }
 
     $html = theme_dialogbox_info("
-        <h3>" . $data['name'] . "</h3>
-        <table width='100%' id='sidebar_summary_table'>
-            <tr>
-                <td width='55%'><b>" . lang('base_vendor') . "</b></td>
-                <td width='45%'>" . $data['vendor'] . "</td>
-            </tr>
-            <tr>
-                <td><b>" . lang('base_version') . "</b></td>
-                <td>" . $data['version'] . '-' . $data['release'] . "</td>
-            </tr>
-            <tr id='sidebar_additional_info_row' class='theme-hidden'>
-                <td valign='top'><b>" . lang('base_additional_info') . "</b></td>
-                <td id='sidebar_additional_info'>" . theme_loading('small') . "</td>
-            </tr>
-        </table>
-        $tooltip
-        $marketplace
-    ");
+        <div class='box-header'><h3 class='box-title'>" . $data['name'] . "</h3></div>
+        <div class='box-body' id='sidebar_summary_table'>
+            <div class='row'>
+                <div class='col-lg-6'>" . lang('base_vendor') . "</div>
+                <div class='col-lg-6'>" . $data['vendor'] . "</div>
+            </div>
+            <div class='row'>
+                <div class='col-lg-6'>" . lang('base_version') . "</div>
+                <div class='col-lg-6'>" . $data['version'] . '-' . $data['release'] . "</div>
+            </div>
+            <div id='sidebar_additional_info_row' class='row theme-hidden'>
+                <div class='col-lg-6' valign='top'>" . lang('base_additional_info') . "</div>
+                <div class='col-lg-6' id='sidebar_additional_info'>" . theme_loading('small') . "</div>
+            </div>" .
+        //$tooltip TODO
+        $marketplace . "
+        </div>
+        <div class='box-footer'></div>"
+    );
 
     return $html;
 }
@@ -2157,7 +2159,7 @@ function theme_column_open($desktop, $tablet = NULL, $phone = NULL, $options = N
         $xtr_class .= " col-sm-" . $phone;
 
     // Based on 12 column Bootstrap grid system
-    return "<section" . $id . " class='col-md-$desktop$xtr_class$class'>"; 
+    return "<div" . $id . " class='col-md-$desktop$xtr_class$class'>"; 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2176,7 +2178,7 @@ function theme_column_open($desktop, $tablet = NULL, $phone = NULL, $options = N
 
 function theme_column_close($options = NULL)
 {
-    return "</section>"; 
+    return "</div>"; 
 }
 
 ///////////////////////////////////////////////////////////////////////////////

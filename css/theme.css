@@ -15,6 +15,9 @@
 
 /* Overrides End */
 
+.theme-star {
+  color: #e1852e;
+}
 .theme-hidden, .cos7-hidden {
   display: none;
 }
@@ -29,6 +32,37 @@
   float: right;
   padding: 10px 10px;
 }
+
+.theme-support-type {
+  display: inline;
+}
+.theme-support {
+  padding-right: 1px;
+}
+.theme-support-0 {
+  color: #dddddd;
+}
+.theme-support-1 {
+  color: #ffff66; 
+}
+.theme-support-2 {
+  color: #98bb60; 
+}
+.theme-support-4 {
+  color: #008080;
+}
+.theme-support-8 {
+  color: #e1852e;
+}
+.theme-support-16 {
+  color: #000000;
+}
+
+/*
+.sidebar .sidebar-menu > li > a {
+  padding: 4px 5px 4px 15px;
+}
+*/
 
 /* ------------------------------------------------------------------------- */
 /* Marketplace and Registration */

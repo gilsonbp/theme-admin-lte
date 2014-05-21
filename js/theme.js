@@ -175,9 +175,9 @@ function theme_clearos_is_authenticated()
 
 function theme_clearos_on_page_ready(my_location)
 {
-    internet_connection = true;
-/*
+//    internet_connection = true;
     get_marketplace_data(my_location.basename);
+/*
 
     // Insert login dialog
     $('#theme-page-container').append(
@@ -280,7 +280,6 @@ function theme_clearos_on_page_ready(my_location)
 
 function get_marketplace_data(basename) {
 
-/*
     // Let's see if we have a connection to the Internet
     // Block on this call (async set to false)
     $.ajax({
@@ -413,50 +412,56 @@ function get_marketplace_data(basename) {
                     $('#sidebar_additional_info_row').after(
                         c_row(
                             lang_marketplace_support_policy,
-                            '<div id=\'theme-support-policy-trigger\'>' +
-                            '<div class=\'theme-support theme-support-' + (json.supported & 1) + '\'></div>' +
-                            '<div class=\'theme-support theme-support-' + (json.supported & 2) + '\'></div>' +
-                            '<div class=\'theme-support theme-support-' + (json.supported & 4) + '\'></div>' +
-                            '<div class=\'theme-support theme-support-' + (json.supported & 8) + '\'></div>' +
-                            '<div class=\'theme-support theme-support-' + (json.supported & 16) + '\'></div>' +
+                            '<a href=\'#\' data-toggle=\'modal\' data-target=\'#support-legend\'>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 1) + '\'></i>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 2) + '\'></i>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 4) + '\'></i>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 8) + '\'></i>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 16) + '\'></i>' +
+                            '</a>' +
+                            '<div id=\'support-legend\' class=\'modal fade\' tabindex=\'-1\' role=\'dialog\' aria-labelledby=\'basicModal\' aria-hidden=\'true\'>' +
+                            '<div class=\'modal-dialog\'>' +
+                            '<div class=\'modal-content\'>' +
+                            '<div class=\'modal-header\'>' +
+                            '<button type=\'button\' class=\'close\' data-dismiss=\'modal\' aria-hidden=\'true\'>&times;</button>' +
+                            '<h4>' + lang_marketplace_support_legend + '</h4>' +
                             '</div>' +
-                            '<div class=\'theme-rhs-tooltip\'>' +
-                            '<p class=\'theme-support-legend-title\'>' + lang_marketplace_support_legend + '</p>' +
-                            '<div class=\'theme-support theme-support-1\' style=\'margin-right: 5px;\'></div>' +
-                            '<div class=\'theme-support-type\'>' + lang_marketplace_support_1_title + '</div>' +
+                            '<div class=\'modal-body\'>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-1\' style=\'margin-right: 5px;\'></i>' +
+                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_1_title + '</h4>' +
+                            '<p>' +
                             lang_marketplace_support_1_description +
                             '</p>' +
-                            '<p><div class=\'theme-support theme-support-2\' style=\'margin-right: 5px;\'></div>' +
-                            '<div class=\'theme-support-type\'>' + lang_marketplace_support_2_title + '</div>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-2\' style=\'margin-right: 5px;\'></i>' +
+                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_2_title + '</h4>' +
+                            '<p>' +
                             lang_marketplace_support_2_description +
                             '</p>' +
-                            '<p><div class=\'theme-support theme-support-4\' style=\'margin-right: 5px;\'></div>' +
-                            '<div class=\'theme-support-type\'>' + lang_marketplace_support_4_title + '</div>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-4\' style=\'margin-right: 5px;\'></i>' +
+                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_4_title + '</h4>' +
+                            '<p>' +
                             lang_marketplace_support_4_description +
                             '</p>' +
-                            '<p><div class=\'theme-support theme-support-8\' style=\'margin-right: 5px;\'></div>' +
-                            '<div class=\'theme-support-type\'>' + lang_marketplace_support_8_title + '</div>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-8\' style=\'margin-right: 5px;\'></i>' +
+                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_8_title + '</h4>' +
+                            '<p>' +
                             lang_marketplace_support_8_description +
                             '</p>' +
-                            '<p><div class=\'theme-support theme-support-16\' style=\'margin-right: 5px;\'></div>' +
-                            '<div class=\'theme-support-type\'>' + lang_marketplace_support_16_title + '</div>' +
+                            '<i class=\'fa fa-circle theme-support theme-support-16\' style=\'margin-right: 5px;\'></i>' +
+                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_16_title + '</h4>' +
+                            '<p>' +
                             lang_marketplace_support_16_description +
                             '</p>' +
-                            '<div class=\'theme-support-learn-more\'>' +
+                            '<div class=\'modal-footer\'>' +
                             '<a href=\'http://www.clearcenter.com/clearcare/landing\' target=\'_blank\'>' + lang_marketplace_learn_more + '...</a>' +
+                            '</div>' +
+                            '</div>' +
                             '</div>' +
                             '</div>'
                         )
                     );
-                    $('#theme-support-policy-trigger').tooltip({
-                        offset: [-140, -310],
-                        position: 'center left',
-                        effect: 'slide',
-                        direction: 'left',
-                        slideOffset: 110, 
-                        opacity: 0.95,
-                        delay: 500,
-                        predelay: 1000
+                    $('#theme-support-policy-trigger').click({
+                        
                     });
                 }
 
@@ -471,20 +476,19 @@ function get_marketplace_data(basename) {
                 }
             }
             if (json.complementary_apps != undefined && json.complementary_apps.length > 0 && !json.hide_recommended_apps) {
-                comp_apps = '<h3>' + lang_marketplace_recommended_apps + '</h3>' +
+                comp_apps = '<h3 class=\'box-title\'>' + lang_marketplace_recommended_apps + '</h3>' +
                     '<div>' + lang_marketplace_sidebar_recommended_apps.replace('APP_NAME', '<b>' + json.name + '</b>') + ':</div>';
-                comp_apps += '<table border=\'0\' width=\'100%\'>';
                 for (index = 0 ; index < json.complementary_apps.length; index++) {
-                    comp_apps += '<tr><td width=\'5\' valign=\'top\'>&#8226;</td><td width=\'60%\'><a href=\'/app/marketplace/view/' +
+                    comp_apps += '<div class=\'row\'><div class=\'col-lg-8\'><a href=\'/app/marketplace/view/' +
                         json.complementary_apps[index].basename + '\'>' +
-                        json.complementary_apps[index].name + '</a></td><td width=\'35%\' valign=\'top\'>\n';
+                        json.complementary_apps[index].name + '</a></div>\n';
+                    comp_apps += '<div class=\'col-lg-4\'>';
                     for (var counter = 5 ; counter > Math.round(json.complementary_apps[index].rating); counter--)
-                        comp_apps += '<div class=\'star_off\' />';
+                        comp_apps += '<i class=\'fa fa-star-o\'></i>';
                     for (var counter = 0 ; counter < Math.round(json.complementary_apps[index].rating); counter++)
-                        comp_apps += '<div class=\'star_on\' />';
-                    comp_apps += '</td></tr>';
+                        comp_apps += '<i class=\'fa fa-star theme-star\'></i>';
+                    comp_apps += '</div></div>';
                 }
-                comp_apps += '</table>';
                 $('#sidebar-recommended-apps').html(comp_apps);
             }
         },
@@ -494,10 +498,13 @@ function get_marketplace_data(basename) {
             //    $('#sidebar_additional_info').html(xhr.responseText.toString());
         }
     });
-*/
 }
 
 function c_row(field, value) {
     // TODO style should be in CSS
-    return '<tr><td><b>' + field + '</b></td><td>' + value + '</td></tr>';
+    return '<div class=\'row\'>' +
+                '<div class=\'col-lg-6\'>' + field + '</div>' +
+                '<div class=\'col-lg-6\'>' + value + '</div>' +
+           '</div>'
+    ;
 }

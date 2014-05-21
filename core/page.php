@@ -87,7 +87,15 @@ function _configuration_page($page)
 
 function _wide_configuration_page($page)
 {
-    echo "todo - wide configuration";
+    $layout = 
+        _get_header($page) .
+        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
+        _get_left_menu($page) .
+        _get_main_content($page) .
+        "</div>"
+    ;
+
+    return $layout;
 }
 
 /**
@@ -126,7 +134,15 @@ function _report_overview_page($page)
 
 function _dashboard_page($page)
 {
-    echo "todo - dashboard";
+    $layout = 
+        _get_header($page) .
+        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
+        _get_left_menu($page) .
+        _get_main_content($page) .
+        "</div>"
+    ;
+
+    return $layout;
 }
 
 /**
@@ -216,16 +232,39 @@ function _console_page($page)
 
 function _get_main_content($page)
 {
-    return "
-        <aside class='right-side'>
-            <section class='content-header'>
-                <h1>" . $page['title'] . "</h1>
-            </section>
-            <section class='content'>
-            " . $page['app_view'] . "
-            </section>
-        </aside>
-    ";
+    if ($page['type']== MY_Page::TYPE_DASHBOARD)
+        return "
+            <aside class='right-side'>
+                <section class='content-header'>
+                    <h1>" . $page['title'] . "</h1>
+                </section>
+                <section class='content'>
+                    <div class='col-lg-12'>
+                " . $page['app_view'] . "
+                    </div>
+                </section>
+            </aside>
+        ";
+    else 
+        return "
+            <aside class='right-side'>
+                <section class='content-header'>
+                    <h1>" . $page['title'] . "</h1>
+                </section>
+                <section class='content'>
+                    <div class='col-lg-8'>
+                " . $page['app_view'] . "
+                    </div>
+                    <div class='col-lg-4'>
+                        <div id='theme-sidebar-container'>
+                            <div class='theme-sidebar-top box'>
+                            " . $page['page_summary'] . "
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        ";
 }
 
 /**

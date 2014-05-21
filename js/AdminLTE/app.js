@@ -26,8 +26,13 @@ $(function() {
             $('.row-offcanvas').toggleClass("relative");
         } else {
             //Else, enable content streching
-            $('.left-side').toggleClass("collapse-left");
-            $(".right-side").toggleClass("strech");
+            if ($('.left-side').hasClass('collapse-left')) {
+                $('.left-side').toggleClass("collapse-left");
+                $(".right-side").toggleClass("strech").animate({'margin-left':'220px'});
+            } else {
+                $('.left-side').toggleClass("collapse-left");
+                $(".right-side").toggleClass("strech").animate({'margin-left':'0px'});
+            }
         }
     });
 
