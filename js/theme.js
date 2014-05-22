@@ -1,43 +1,33 @@
 
-    
-// Credit for this function belongs to http://stackoverflow.com/questions/5047498/how-do-you-animate-the-value-for-a-jquery-ui-progressbar
-$(function() {
-    $.fn.animate_progressbar = function(value, duration, easing, complete) {
-        // Jump the progress bar if 0 or 100
-        if (value == 0 || value == 100) {
-            $(this.selector).progressbar({value: value});
-            return;
-        }
-        // If we're decreasing, jump to new position rather than animate
-        // This script does not set the value internally to the Jquery extension
-        // So we hack it a bit to find out the current value
-        if (value < Math.round($(this.selector).children().width() / $(this.selector).width() * 100)) {
-            $(this.selector).progressbar({value: value});
-            return;
-        }
-        if (value == null)
-            value = 0;
-        if (duration == null)
-            duration = 1000;
-        if (easing == null)
-            easing = 'swing';
-        if (complete == null)
-            complete = function(){};
-        var progress = this.find('.ui-progressbar-value');
-        progress.stop(true).animate({
-            width: value + '%'
-        }, duration, easing, function(){
-            if(value>=99.5){
-                progress.addClass('ui-corner-right');
+$(document).ready(function() {
+    $('#category-select input:radio').change(function (e) {
+        var category = $('input[name=options]:checked', '#category-select').attr('id');
+        $('.treeview').hide();
+        $('.' + category).removeClass('active');
+        $('.' + category).show();
+        $(".sidebar .treeview").tree();
+        // Hacks below keep style the same even though we're hiding li elements
+        $('.' + category).filter(':first').css('border-top', '1px solid #dbdbdb');
+        $('.' + category + ' a').filter(':first').css('border-top', '1px solid #fff');
+        console.log(category);
+    });
+    $('#category-select label.btn').click(function (e) {
+        var category = $('input[name=options]:checked', '#category-select').attr('id');
+        // If user clicked on button that was already selected, toggle the sliders
+        if (category == $(this).children('input[type=\'radio\']:first').attr('id')) {
+            if ($('.sidebar-menu').hasClass('all-active')) {
+                var menu = $('.treeview-menu');
+                menu.slideUp();
+                $('.sidebar-menu').removeClass('all-active');
             } else {
-                progress.removeClass('ui-corner-right');
+                var menu = $('.treeview-menu');
+                menu.slideDown();
+                $('.sidebar-menu').addClass('all-active');
             }
-            complete();
-        });
-    }
-});
-    
+        }
+    });
 
+});
 /*
  * TODO
     // Charts

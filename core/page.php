@@ -277,7 +277,7 @@ function _get_main_content($page)
 
 function _get_header($page, $menus = array())
 {
-    $theme_url = clearos_theme_url('clipone');
+    $theme_url = clearos_theme_url('AdminLTE');
 
     return "
             <header class='header'>
@@ -545,12 +545,30 @@ function _get_left_menu($page)
         // Spotlight pages (read: Dashboard and Marketplace)
         //--------------------------------------------------
 
+        if (lang('base_category_cloud') == $page_meta['category'])
+            $category_id = 'cloud';
+        else if (lang('base_category_network') == $page_meta['category'])
+            $category_id = 'network';
+        else if (lang('base_category_gateway') == $page_meta['category'])
+            $category_id = 'gateway';
+        else if (lang('base_category_server') == $page_meta['category'])
+            $category_id = 'server';
+        else if (lang('base_category_system') == $page_meta['category'])
+            $category_id = 'system';
+        else if (lang('base_category_reports') == $page_meta['category'])
+            $category_id = 'report';
+        else
+            $category_id = 'unknown';
+
         if ($page_meta['category'] === lang('base_category_spotlight')) {
             $spotlights .= "\t\t<li"  . ($url == $current_basename ? " class='active'" : "") . ">\n";
-            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><i class='clip-home-3'></i>\n";
+            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><i class='fa fa-laptop'></i>\n";
             $spotlights .= "\t\t\t<span class='title'> " . $page_meta['title'] . " </span>" . ($url == $current_base ? "<span class='selected'></span>" : "") . "\n";
             $spotlights .= "\t\t\t</a>\n";
             $spotlights .= "\t\t</li>\n";
+            continue;
+        }
+        if ($page_meta['category'] === lang('base_category_my_account')) {
             continue;
         }
 
@@ -566,8 +584,8 @@ function _get_left_menu($page)
             // Close out subcategory and category
             $main_apps .= "\t\t\t\t\t</ul>\n";
             $main_apps .= "\t\t\t\t</li>\n";
-            $main_apps .= "\t\t\t</ul>\n";
-            $main_apps .= "\t\t</li>\n";
+   //         $main_apps .= "\t\t\t</ul>\n";
+//            $main_apps .= "\t\t</div>\n";
         } else if ($new_subcategory) {
             $main_apps .= "\t\t\t\t\t</ul>\n";
             $main_apps .= "\t\t\t\t</li>\n";
@@ -575,11 +593,11 @@ function _get_left_menu($page)
 
         if ($page_meta['category'] != $current_category) {
             $current_category = $page_meta['category'];
-            $main_apps .= "\t\t<li class='treeview"  . ($current_category == $page['current_category'] ? " active" : "") . "'>\n";
-            $main_apps .= "\t\t\t<a href='#'><i class='fa fa-laptop'></i>\n";
-            $main_apps .= "\t\t\t\t<span class='title'> " . $page_meta['category'] . " </span>" . ($page_meta['category'] == $current_category ? "<span class='selected'></span>" : "") . "<i class='icon-arrow'></i>\n";
-            $main_apps .= "\t\t\t</a>\n";
-            $main_apps .= "\t\t\t<ul class='treeview-menu'>\n";
+            //$main_apps .= "\t\t<li class='treeview"  . ($current_category == $page['current_category'] ? " active" : "") . "'>\n";
+//            $main_apps .= "\t\t\t<a href='#'><i class='fa fa-laptop'></i>\n";
+//            $main_apps .= "\t\t\t\t<span class='title'> " . $page_meta['category'] . " </span>" . ($page_meta['category'] == $current_category ? "<span class='selected'></span>" : "") . "<i class='icon-arrow'></i>\n";
+ //           $main_apps .= "\t\t\t</a>\n";
+//            $main_apps .= "\t\t\t<ul class='treeview-menu'>\n";
         }
         
         // Subcategory transition
@@ -588,7 +606,7 @@ function _get_left_menu($page)
         if ($current_subcategory != $page_meta['subcategory']) {
             $current_subcategory = $page_meta['subcategory'];
 
-            $main_apps .= "\t\t\t\t<li class='treeview" . ($page['current_subcategory'] == $page_meta['subcategory'] ? " active'" : "") . "'>\n";
+            $main_apps .= "\t\t\t\t<li class='theme-hidden category-" . $category_id . " treeview" . ($page['current_subcategory'] == $page_meta['subcategory'] ? " active" : "") . "'>\n";
             $main_apps .= "\t\t\t\t\t<a href='#'><i class='fa fa-angle-double-right'></i>" . $page_meta['subcategory'] . "</a>\n";
             $main_apps .= "\t\t\t\t\t<ul class='treeview-menu'>\n";
         }
@@ -610,17 +628,7 @@ function _get_left_menu($page)
     return "
 <aside class='left-side sidebar-offcanvas'>
     <section class='sidebar'>
-        <div class='user-panel'>
-            <div class='pull-left image'>
-                <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='User Image'>
-            </div>
-            <div class='pull-left info'>
-                <p>Hello, Jane</p>
-
-                <a href='#'><i class='fa fa-circle text-success'></i> Online</a>
-            </div>
-        </div>
-        <form action='#' method='get' class='sidebar-form'>
+<!--        <form action='#' method='get' class='sidebar-form'>
             <div class='input-group'>
                 <input type='text' name='q' class='form-control' placeholder='Search...'>
                 <span class='input-group-btn'>
@@ -628,8 +636,32 @@ function _get_left_menu($page)
                 </span>
             </div>
         </form>
+-->
+        <form action='#' method='get' id='category-select'>
+            <div class='btn-toolbar' style='margin: 9px 8px;'> <!-- TODO move to css -->
+                <div class='btn-group' data-toggle='buttons'>
+                    <label class='btn btn-default'>
+                        <input type='radio' name='options' id='category-cloud'><i class='fa fa-cloud theme-navbar-category'></i>
+                    </label>
+                    <label class='btn btn-default'>
+                        <input type='radio' name='options' id='category-network'><i class='fa fa-fire theme-navbar-category'></i>
+                    </label>
+                    <label class='btn btn-default'>
+                        <input type='radio' name='options' id='category-gateway'><i class='fa fa-shield theme-navbar-category'></i>
+                    </label>
+                    <label class='btn btn-default'>
+                        <input type='radio' name='options' id='category-server'><i class='fa fa-hdd-o theme-navbar-category'></i>
+                    </label>
+                    <label class='btn btn-default'>
+                        <input type='radio' name='options' id='category-system'><i class='fa fa-wrench theme-navbar-category'></i>
+                    </label>
+                    <label class='btn btn-default'>
+                        <input type='radio' name='options' id='category-report'><i class='fa fa-bar-chart-o theme-navbar-category'></i>
+                    </label>
+                </div>
+            </div>
+        </form>
         <ul class='sidebar-menu'>
-$spotlights
 $main_apps
         </ul>
     </section>

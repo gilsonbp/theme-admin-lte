@@ -58,12 +58,12 @@ body > .header {
 /*right side - contins main content*/
 .right-side {
   background-color: #f9f9f9;
-  margin-left: 220px;
+  margin-left: 250px;
 }
 /*left side - contains sidebar*/
 .left-side {
   position: absolute;
-  width: 220px;
+  width: 250px;
   top: 0;
 }
 @media screen and (min-width: 992px) {
@@ -79,7 +79,7 @@ body > .header {
   }
   /* Left side collapse */
   .left-side.collapse-left {
-    left: -220px;
+    left: -250px;
   }
 }
 /*Give content full width on xs screens*/
@@ -338,7 +338,7 @@ body > .header {
 body > .header .navbar {
   height: 50px;
   margin-bottom: 0;
-  margin-left: 220px;
+  margin-left: 250px;
 }
 body > .header .navbar .sidebar-toggle {
   float: left;
@@ -400,7 +400,7 @@ body > .header .logo {
   line-height: 50px;
   text-align: center;
   padding: 0 10px;
-  width: 220px;
+  width: 250px;
   font-family: 'Kaushan Script', cursive;
   font-weight: 500;
   height: 50px;
@@ -594,26 +594,26 @@ body > .header .logo .icon {
     position: relative;
   }
   .row-offcanvas-right .sidebar-offcanvas {
-    right: -220px;
+    right: -250px;
   }
   .row-offcanvas-left .sidebar-offcanvas {
-    left: -220px;
+    left: -250px;
   }
   .row-offcanvas-right.active {
-    right: 220px;
+    right: 250px;
   }
   .row-offcanvas-left.active {
-    left: 220px;
+    left: 250px;
   }
   .sidebar-offcanvas {
     left: 0;
   }
   body.fixed .sidebar-offcanvas {
     margin-top: 50px;
-    left: -220px;
+    left: -250px;
   }
   body.fixed .row-offcanvas-left.active .navbar {
-    left: 220px !important;
+    left: 250px !important;
     right: 0;
   }
   body.fixed .row-offcanvas-left.active .sidebar-offcanvas {
@@ -2708,61 +2708,6 @@ Component: timeline
   border-bottom-right-radius: 2px !important;
   border-bottom-left-radius: 0 !important;
   border-left: 0;
-}
-/*!
- * iCheck v1.0.1, http://git.io/arlzeA
- * =================================
- * Powerful jQuery and Zepto plugin for checkboxes and radio buttons customization
- *
- * (c) 2013 Damir Sultanov, http://fronteed.com
- * MIT Licensed
- */
-/* iCheck plugin Minimal skin, black
------------------------------------ */
-.icheckbox_minimal,
-.iradio_minimal {
-  display: inline-block;
-  *display: inline;
-  vertical-align: middle;
-  margin: 0;
-  padding: 0;
-  width: 18px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.7) url(iCheck/minimal/minimal.png) no-repeat;
-  border: none;
-  cursor: pointer;
-}
-.icheckbox_minimal {
-  background-position: 0 0;
-}
-.icheckbox_minimal.hover {
-  background-position: -20px 0;
-}
-.icheckbox_minimal.checked {
-  background-position: -40px 0;
-}
-.icheckbox_minimal.disabled {
-  background-position: -60px 0;
-  cursor: default;
-}
-.icheckbox_minimal.checked.disabled {
-  background-position: -80px 0;
-}
-.iradio_minimal {
-  background-position: -100px 0;
-}
-.iradio_minimal.hover {
-  background-position: -120px 0;
-}
-.iradio_minimal.checked {
-  background-position: -140px 0;
-}
-.iradio_minimal.disabled {
-  background-position: -160px 0;
-  cursor: default;
-}
-.iradio_minimal.checked.disabled {
-  background-position: -180px 0;
 }
 /* Retina support */
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {

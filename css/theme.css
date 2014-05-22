@@ -13,8 +13,25 @@
 	font-family: 'Arial' !important;
 }
 
+/* Selector category in LHS menu */
+.btn-default.active {
+  background-color: #ebebeb!important;
+}
+
+/* Tone down the spacing in the LHS menu */
+.sidebar .sidebar-menu > li > a {
+  padding: 8px 5px 8px 15px;
+}
+
+.sidebar .sidebar-menu .treeview-menu > li > a {
+  padding: 2px 5px 2px 25px;
+}
+
 /* Overrides End */
 
+.theme-navbar-category {
+  font-size: 15px;
+}
 .theme-star {
   color: #e1852e;
 }
