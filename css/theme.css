@@ -25,7 +25,7 @@
 }
 
 .sidebar .sidebar-menu .treeview-menu > li > a {
-  padding: 2px 5px 2px 25px;
+  padding: 2px 5px 2px 34px;
 }
 
 /* Overrides End */
@@ -87,14 +87,6 @@
 /* ------------------------------------------------------------------------- */
 
 /* TODO: Markeplace and Registration merge */
-
-#marketplace-left-menu
-{
-  background-image: url('../images/left-menu-bottom.png');
-  background-repeat: no-repeat;  
-  background-position: bottom left;
-  padding: 0px 10px 10px 10px;
-}
 
 .marketplace-header {
     height: 65px;
@@ -311,15 +303,6 @@
     opacity: 0.8;
 }
 
-.marketplace-linkback {
-  background-image: url('../images/left-menu-shadow.png') ;
-  background-position: 5px 5px;
-  background-repeat: no-repeat;  
-  padding: 15px 0px 10px 0px;
-  text-align: center;
-  margin-top: 5px;
-}
-
 .marketplace-linkback a {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -439,37 +422,7 @@
 #search_and_install div {float:right;}
 
 #search_and_install input {border: 1px solid #d1d3d4; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; padding: 3px 5px; color: #686868; float: right;}
-#pagination-top {
-  clear: right;
-  float: right;
-  position: relative;
-  text-align: right;
-}
-#pagination-bottom {
-  float: right;
-  margin-bottom: 10px;
-}
 
-#sdn_login_dialog {
-  background-image: url('../images/logo-clearcenter.png');
-  background-repeat: no-repeat;
-  background-position: 300px 70px;
-}
-
-#sdn_password_group {float: left;}
-
-#sdn_username {float: left;}
-
-#sdn_login_dialog_message_bar {
-  color: red;
-  padding-top: 5px
-}
-
-#sdn_marketplace_setup_dialog {
-  background-image: url('../images/logo-marketplace-bottom.png');
-  background-repeat: no-repeat;
-  background-position: 280px 20px;
-}
 .dialog_alert_icon {
   background-image: url('../images/icon-note.png');
   background-repeat: no-repeat;
@@ -493,3 +446,14 @@ a.highlight-link:hover {
   color: #62799A;
 }
 
+/* ========================================================================= */
+/* L O G I N  O V E R I D E
+/* ========================================================================= */
+
+.theme-login-container {
+  width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-top: 10%;
+}

@@ -1,24 +1,92 @@
 
+var left_side_width = 250; //Sidebar width in pixels
+
+$(function() {
+    'use strict';
+
+    //Enable sidebar toggle
+    $("[data-toggle='offcanvas']").click(function(e) {
+        e.preventDefault();
+
+        //If window is small enough, enable sidebar push menu
+        if ($(window).width() <= 992) {
+            $('.row-offcanvas').toggleClass('active');
+            $('.left-side').removeClass("collapse-left");
+            $(".right-side").removeClass("strech");
+            $('.row-offcanvas').toggleClass("relative");
+        } else {
+            //Else, enable content streching
+            if ($('.left-side').hasClass('collapse-left')) {
+                $('.left-side').toggleClass("collapse-left");
+                $(".right-side").toggleClass("strech").animate({'margin-left':'250px'});
+            } else {
+                $('.left-side').toggleClass("collapse-left");
+                $(".right-side").toggleClass("strech").animate({'margin-left':'0px'});
+            }
+        }
+    });
+});
+(function($) {
+    'use strict';
+
+    $.fn.navmenu = function() {
+
+        return this.each(function() {
+            var btn = $(this).children("a").first();
+            var menu = $(this).children(".treeview-menu").first();
+            var isActive = $(this).hasClass('active');
+
+            //initialize already active menus
+            if (isActive) {
+                menu.show();
+            }
+            //Slide open or close the menu on link click
+            btn.click(function(e) {
+                e.preventDefault();
+                if (isActive) {
+                    //Slide up to close menu
+                    menu.slideUp();
+                    isActive = false;
+                    btn.parent("li").removeClass("active");
+                } else {
+                    //Slide down to open menu
+                    menu.slideDown();
+                    isActive = true;
+                    btn.parent("li").addClass("active");
+                }
+            });
+
+        });
+
+    };
+
+}(jQuery));
+
+
 $(document).ready(function() {
+    var menu_category = $('input[name=options]:checked', '#category-select').attr('id');
+    $('.' + menu_category).show();
+    $('#' + menu_category).parent().addClass('active');
+    $(".sidebar .treeview").navmenu();
     $('#category-select input:radio').change(function (e) {
-        var category = $('input[name=options]:checked', '#category-select').attr('id');
+        menu_category = $('input[name=options]:checked', '#category-select').attr('id');
         $('.treeview').hide();
-        $('.' + category).removeClass('active');
-        $('.' + category).show();
-        $(".sidebar .treeview").tree();
+        $('.' + menu_category).removeClass('active');
+        $('.' + menu_category).show();
+        $(".sidebar .treeview").navmenu();
         // Hacks below keep style the same even though we're hiding li elements
-        $('.' + category).filter(':first').css('border-top', '1px solid #dbdbdb');
-        $('.' + category + ' a').filter(':first').css('border-top', '1px solid #fff');
-        console.log(category);
+        $('.' + menu_category).filter(':first').css('border-top', '1px solid #dbdbdb');
+        $('.' + menu_category + ' a').filter(':first').css('border-top', '1px solid #fff');
     });
     $('#category-select label.btn').click(function (e) {
-        var category = $('input[name=options]:checked', '#category-select').attr('id');
+        menu_category = $('input[name=options]:checked', '#category-select').attr('id');
         // If user clicked on button that was already selected, toggle the sliders
-        if (category == $(this).children('input[type=\'radio\']:first').attr('id')) {
+        if (menu_category == $(this).children('input[type=\'radio\']:first').attr('id')) {
             if ($('.sidebar-menu').hasClass('all-active')) {
                 var menu = $('.treeview-menu');
                 menu.slideUp();
                 $('.sidebar-menu').removeClass('all-active');
+                $('.' + menu_category).removeClass('active');
             } else {
                 var menu = $('.treeview-menu');
                 menu.slideDown();
@@ -73,14 +141,13 @@ function theme_clearos_dialog_box(id, title, message, options)
 function theme_clearos_is_authenticated()
 {
 
-/*
     data_payload = 'ci_csrf_token=' + $.cookie('ci_csrf_token');
     if ($('#sdn_username').val() != undefined)
         data_payload += '&username=' + $('#sdn_username').val();
-    $('#sdn_login_dialog_message_bar').html('');
+    $('#sdn-login-dialog_message_bar').html('');
     if (auth_options.action_type == 'login') {
         if ($('#sdn_password').val() == '') {
-            $('#sdn_login_dialog_message_bar').html(lang_sdn_password_invalid);
+            $('#sdn-login-dialog_message_bar').html(lang_sdn_password_invalid);
             $('.autofocus').focus();
             return;
         } else {
@@ -88,7 +155,7 @@ function theme_clearos_is_authenticated()
         }
     } else if (auth_options.action_type == 'lost_password') {
         if ($('#sdn_email').val() == '') {
-            $('#sdn_login_dialog_message_bar').html(lang_sdn_email_invalid);
+            $('#sdn-login-dialog_message_bar').html(lang_sdn_email_invalid);
             $('.autofocus').focus();
             return;
         } else {
@@ -111,7 +178,7 @@ function theme_clearos_is_authenticated()
                 // Might have pages where account is displayed (eg. Marketplace)
                 $('#display_sdn_username').html(data.sdn_username);
                 // Only case where authorized is true.
-                $('#sdn_login_dialog').dialog('close');
+                $('#sdn-login-dialog').dialog('close');
                 // If we're logged in and there is a 'check_sdn_edit' function defined on page, check to see if we need to get settings
                 if (window.check_sdn_edit)
                     check_sdn_edit();
@@ -120,14 +187,13 @@ function theme_clearos_is_authenticated()
             } else if (data.code == 0 && !data.authorized) {
 
                 // Open dialog and change some look and feel
-                $('#sdn_login_dialog').dialog('open');
-                $('.ui-dialog-titlebar-close').hide();
+                $('#sdn-login-dialog').modal();
 
                 // If email was submitted...reset was a success...
                 if (data.email != undefined) {
                     $('#sdn_lost_password_group').hide();
-                    $('#sdn_login_dialog_message_bar').css('color', '#686868');
-                    $('#sdn_login_dialog_message_bar').html(lang_sdn_password_reset + ': ' + data.email);
+                    $('#sdn-login-dialog_message_bar').css('color', '#686868');
+                    $('#sdn-login-dialog_message_bar').html(lang_sdn_password_reset + ': ' + data.email);
                     $('.ui-dialog-buttonpane button:contains(\'' + lang_reset_password_and_send + '\') span').parent().hide();
                     return;
                 }
@@ -141,12 +207,12 @@ function theme_clearos_is_authenticated()
 
             } else if (data.code == 10) {
                 // Code 10 is an invalid email
-                $('#sdn_login_dialog_message_bar').html(lang_sdn_email_invalid);
+                $('#sdn-login-dialog_message_bar').html(lang_sdn_email_invalid);
             } else if (data.code == 11) {
                 // Code 11 is an email mismatch for lost password
-                $('#sdn_login_dialog_message_bar').html(lang_sdn_email_mismatch);
+                $('#sdn-login-dialog_message_bar').html(lang_sdn_email_mismatch);
             } else if (data.code > 0) {
-                $('#sdn_login_dialog_message_bar').html(lang_sdn_password_invalid);
+                $('#sdn-login-dialog_message_bar').html(lang_sdn_password_invalid);
             } else if (data.code < 0) {
                 theme_clearos_dialog_box('login_failure', lang_warning, data.errmsg);
                 return;
@@ -160,42 +226,57 @@ function theme_clearos_is_authenticated()
             $('#sidebar_setting_status').html('---');
         }
     });
-*/
 }
 
 function theme_clearos_on_page_ready(my_location)
 {
 //    internet_connection = true;
     get_marketplace_data(my_location.basename);
-/*
 
     // Insert login dialog
-    $('#theme-page-container').append(
-       '<div id=\'sdn_login_dialog\' title=\'' + sdn_org + ' ' + lang_sdn_authentication_required + '\' class=\'theme-hidden\'> \
-          <p style=\'text-align: left\'>' + lang_sdn_authentication_required_help + '</p> \
-          <div style=\'float: left; width: 120px; text-align: right; padding-top: 4px;\'>' + lang_username + '</div> \
-          <div style=\'float: left; margin-left: 10px;\'><select id=\'sdn_username\' style=\'width: 120px;\'></select></div> \
-          <br><br> \
-          <div id=\'sdn_password_group\'> \
-            <div style=\'float: left; width: 120px; text-align: right; padding-top: 5px;\'>' + lang_password + '</div> \
-            <div style=\'float: left; margin-left: 10px;\'> \
-              <input id=\'sdn_password\' type=\'password\' style=\'width: 120px\' name=\'password\' value=\'\' class=\'autofocus\' /> \
-            </div> \
-            <div style=\'padding: 2px 2px 0px 0px; width: 250px; text-align: right; clear: both;\'> \
-              <a href=\'#\' id=\'sdn_forgot_password\' style=\'font-size: 9px;\'>' + lang_forgot_password + '</a> \
+    // TODO find a proper dom to hitch this to
+    $('.right-side').append(' \
+        <div id="sdn-login-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"> \
+          <div class="modal-dialog"> \
+            <div class="modal-content"> \
+              <div class="modal-header"> \
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> \
+                <h4>' + sdn_org + ' ' + lang_sdn_authentication_required + '</h4> \
+              </div> \
+              <div class="modal-body"> \
+                <p>' + lang_sdn_authentication_required_help + '</p> \
+                <form class="form-horizontal theme-form" role="form"> \
+                  <div class="form-group"><label class="col-md-4 control-label" for="sdn_usernme">' + lang_username + '</label> \
+                    <div class="col-md-8"><select id="sdn_username" class="form-control"></select></div> \
+                  </div> \
+                  <div id="sdn_password_group" class="form-group"> \
+                    <label class="col-md-4 control-label" for="sdn_password">' + lang_password + '</label> \
+                    <div class="col-md-8"> \
+                      <input id="sdn_password" type="password" name="password" value="" class="form-control" /> \
+                    </div> \
+                  </div> \
+                  <div style="padding: 0px 170px 10px 0px; text-align: right" id="sdn-login-dialog-message-bar"></div> \
+                </form> \
+              </div> \
+              <div class="modal-footer"> \
+              </div> \
             </div> \
           </div> \
-          <div id=\'sdn_lost_password_group\' class=\'theme-hidden\'> \
-            <div style=\'float: left; width: 120px; text-align: right; padding-top: 5px;\'>' + lang_sdn_email + '</div> \
-            <div style=\'float: left; width: 120px; margin-left: 10px;\'> \
-              <input id=\'sdn_email\' type=\'text\' style=\'width: 120px\' name=\'sdn_email\' value=\'\' class=\'autofocus\' /> \
-            </div> \
-          </div> \
-          <div style=\'padding: 0px 170px 10px 0px; text-align: right\' id=\'sdn_login_dialog_message_bar\'></div> \
-        </div>'
-    );
+        </div> \
+    ');
+/*
 
-    $('#sdn_login_dialog').dialog({
+                  <div id="sdn_lost_password_group" class="theme-hidden"> \
+                    <div style="float: left; width: 120px; text-align: right; padding-top: 5px;">' + lang_sdn_email + '</div> \
+                    <div style="float: left; width: 120px; margin-left: 10px;"> \
+                      <input id="sdn_email" type="text" style="width: 120px" name="sdn_email" value="" class="autofocus" /> \
+                    </div> \
+                  </div> \
+                    <div> \
+                      <a href="#" id="sdn_forgot_password" style="font-size: 9px;">' + lang_forgot_password + '</a> \
+                    </div> \
+
+    $('#sdn-login-dialog').dialog({
         autoOpen: false,
         bgiframe: true,
         title: false,
@@ -246,7 +327,7 @@ function theme_clearos_on_page_ready(my_location)
 
     $('a#sdn_forgot_password').click(function (e) {
         e.preventDefault();
-        $('#sdn_login_dialog_message_bar').html('');
+        $('#sdn-login-dialog_message_bar').html('');
         $('#sdn_password_group').remove();
         $('#sdn_lost_password_group').show();
         $('.autofocus').focus();
@@ -450,9 +531,6 @@ function get_marketplace_data(basename) {
                             '</div>'
                         )
                     );
-                    $('#theme-support-policy-trigger').click({
-                        
-                    });
                 }
 
                 // Version updates

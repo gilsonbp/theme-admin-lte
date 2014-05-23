@@ -1489,7 +1489,7 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
 </div>
 <script type='text/javascript'>
     jQuery(document).ready(function() {
-        var table_" . $dom_id_var . " = $('#" . $dom_id_selector . "').dataTable({
+        table_" . $dom_id_var . " = $('#" . $dom_id_selector . "').dataTable({
             \"aoColumnDefs\": [
                 { $sorting_cols },
                 { \"bVisible\": $first_column_visible, \"aTargets\": [ 0 ] }

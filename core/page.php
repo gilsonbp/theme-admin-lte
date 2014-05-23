@@ -176,7 +176,13 @@ function _spotlight_page($page)
 
 function _login_page($page)
 {
-    echo "todo - login";
+    return "
+<!-- Page Container -->
+<div class='theme-login-container'>
+    <div class='theme-login-logo'></div>
+    " . $page['app_view'] . "
+</div>
+";
 }
 
 /**
@@ -608,7 +614,7 @@ function _get_left_menu($page)
 
             $main_apps .= "\t\t\t\t<li class='theme-hidden category-" . $category_id . " treeview" . ($page['current_subcategory'] == $page_meta['subcategory'] ? " active" : "") . "'>\n";
             $main_apps .= "\t\t\t\t\t<a href='#'><i class='fa fa-angle-double-right'></i>" . $page_meta['subcategory'] . "</a>\n";
-            $main_apps .= "\t\t\t\t\t<ul class='treeview-menu'>\n";
+            $main_apps .= "\t\t\t\t\t<ul class='treeview-menu'" . ($page['current_subcategory'] == $page_meta['subcategory'] ? " style='display: block;'" : "") . ">\n";
         }
 
         // App page
@@ -625,6 +631,27 @@ function _get_left_menu($page)
     $main_apps .= "\t\t\t\t</ul>\n";
     $main_apps .= "\t\t\t</li>\n";
 
+    // Select radio button for category
+    $active_category = array(
+        'cloud' => '',
+        'network' => '',
+        'gateway' => '',
+        'server' => '',
+        'system' => '',
+        'report' => ''
+    );
+    if (lang('base_category_cloud') == $page['current_category'])
+        $active_category['cloud'] = ' checked';
+    else if (lang('base_category_network') == $page['current_category'])
+        $active_category['network'] = ' checked';
+    else if (lang('base_category_gateway') == $page['current_category'])
+        $active_category['gateway'] = ' checked';
+    else if (lang('base_category_server') == $page['current_category'])
+        $active_category['server'] = ' checked';
+    else if (lang('base_category_system') == $page['current_category'])
+        $active_category['system'] = ' checked';
+    else if (lang('base_category_reports') == $page['current_category'])
+        $active_category['report'] = ' checked';
     return "
 <aside class='left-side sidebar-offcanvas'>
     <section class='sidebar'>
@@ -641,22 +668,22 @@ function _get_left_menu($page)
             <div class='btn-toolbar' style='margin: 9px 8px;'> <!-- TODO move to css -->
                 <div class='btn-group' data-toggle='buttons'>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-cloud'><i class='fa fa-cloud theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-cloud'" . $active_category['cloud'] . "><i class='fa fa-cloud theme-navbar-category'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-network'><i class='fa fa-fire theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-network'" . $active_category['network'] . "><i class='fa fa-fire theme-navbar-category'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-gateway'><i class='fa fa-shield theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-gateway'" . $active_category['gateway'] . "><i class='fa fa-shield theme-navbar-category'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-server'><i class='fa fa-hdd-o theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-server'" . $active_category['server'] . "><i class='fa fa-hdd-o theme-navbar-category'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-system'><i class='fa fa-wrench theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-system'" . $active_category['system'] . "><i class='fa fa-wrench theme-navbar-category'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-report'><i class='fa fa-bar-chart-o theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-report'" . $active_category['report'] . "><i class='fa fa-bar-chart-o theme-navbar-category'></i>
                     </label>
                 </div>
             </div>

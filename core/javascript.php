@@ -60,9 +60,6 @@ function theme_page_javascript()
 
 <![endif]-->
 
-<!-- MAIN APP JS FILE -->
-<script src='$theme_url/js/AdminLTE/app.js'></script>
-
 <!-- Custom Javascript -->
 <script type='text/javascript' src='$theme_url/js/theme.js?v=$version'></script>
 
