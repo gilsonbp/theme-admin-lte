@@ -274,8 +274,8 @@ function _theme_button_set($buttons, $options, $type)
     if ($type === 'field') {
         return "
             <div class='form-group'>
-                <div class='col-sm-3'></div>
-                <div class='col-sm-9 btn-group'$id>$button_html</div>
+                <div class='col-sm-5'></div>
+                <div class='col-sm-7 btn-group'$id>$button_html</div>
             </div>
         ";
     } else {
@@ -336,8 +336,8 @@ function theme_field_view($label, $text, $name = NULL, $value = NULL, $input_id 
     // TODO - CSS hacks below for
     return "
         <div id='$field_id_html' class='form-group theme-fieldview" . $hide_field . "'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right'><span class='form-control' style='border: none; box-shadow: none; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html</div>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right'><span class='form-control' style='border: none; box-shadow: none; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html</div>
         </div>
     ";
 }
@@ -402,8 +402,8 @@ function _theme_field_input_password($name, $value, $label, $error, $input_id, $
 
     return "
         <div id='$field_id_html' class='form-group theme-field-$type" . $hide_field . "'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right'> <input type='$type' name='$name' value='$value' id='$input_id' style='$style' class='form-control'> $error_html</div>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right'> <input type='$type' name='$name' value='$value' id='$input_id' style='$style' class='form-control'> $error_html</div>
         </div>
     ";
 }
@@ -492,8 +492,8 @@ function theme_field_dropdown($name, $value, $label, $error, $values, $input_id,
 
     return "
         <div id='$field_id_html' class='form-group theme-field-dropdown'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right'>" . form_dropdown($name, $values, $value, $input_id_html) . " $error_html</div>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $value, $input_id_html) . " $error_html</div>
         </div>
     ";
 }
@@ -532,8 +532,8 @@ function theme_field_multiselect_dropdown($name, $value, $label, $error, $values
 
     return "
         <div id='$field_id_html' class='theme-multiselect-dropdown'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right'>" . form_multiselect($name, $values, $value, $input_id_html) . " $error_html</div>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right'>" . form_multiselect($name, $values, $value, $input_id_html) . " $error_html</div>
         </div>
     ";
 }
@@ -572,8 +572,8 @@ function theme_field_toggle_enable_disable($name, $selected, $label, $error, $va
 
     return "
         <div id='$field_id_html' class='form-group theme-field-toggle'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right'>" . form_dropdown($name, $values, $selected, $input_id_html) . " $error_html </div>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $selected, $input_id_html) . " $error_html </div>
         </div>
     ";
 }
@@ -609,7 +609,7 @@ function theme_field_checkbox($name, $value, $label, $error, $input_id, $options
 
     return "
         <div id='$field_id_html' class='form-group theme-field-checkboxes'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
             <div class='checkbox-inline theme-field-right check'>  <input type='checkbox' name='$name' id='$input_id' class='form-control square-grey' $select_html></div>
         </div>
     ";
@@ -647,8 +647,8 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
 
     return "
         <div id='$field_id_html' class='form-group theme-field-textarea" . $hide_field . "'>
-            <label class='col-sm-3 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right theme-field-textarea-box'> <textarea name='$name' id='$input_id' class='form-control'>$value</textarea>$error_html</div>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right theme-field-textarea-box'> <textarea name='$name' id='$input_id' class='form-control'>$value</textarea>$error_html</div>
         </div>
     ";
 }
@@ -762,8 +762,8 @@ function theme_field_progress_bar($label, $id, $options = array())
 
     return "
         <div id='$field_id_html' class='form-group theme-field-info'>
-            <label for='$id' id='$label_id_html' class='col-sm-3 control-label'>$label</label>
-            <div class='col-sm-9 theme-field-right'>
+            <label for='$id' id='$label_id_html' class='col-sm-5 control-label'>$label</label>
+            <div class='col-sm-7 theme-field-right'>
                 <div id='$id-container' class='progress progress-sm'>
                   <div id='$id' class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='$value' aria-valuemin='0' aria-valuemax='100' style='width: $value%;'></div>
                 </div>
@@ -810,8 +810,8 @@ function theme_field_info($id, $label, $text, $options = NULL)
     // Style hack on border below...move to css. TODO
     return "
         <div id='$field_id_html' class='form-group theme-field-info" . $hide_field . "'>
-            <label class='col-sm-3 control-label' id='$label_id_html'>$label</label>
-            <div class='col-sm-9 theme-field-right'><div class='form-control' style='border: none;'>$text</div></div>
+            <label class='col-sm-5 control-label' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right'><div class='form-control' style='border: none;'>$text</div></div>
         </div>
     ";
 } 
@@ -842,8 +842,7 @@ function theme_form_header($title, $options)
             <div class='box-header'>
                 <h3 class='box-title'>$title</h3>
             </div>
-            <form role='form'>
-                <div class='box-body'>
+            <div class='box-body'>
     ";
 }
 
@@ -884,9 +883,8 @@ function theme_form_banner($html, $options)
 function theme_form_footer($options)
 {
     return "
-                    </div>
-                    <div class='box-footer'></div>
-                </form>
+                </div>
+                <div class='box-footer'></div>
             </div>
     ";
 }

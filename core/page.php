@@ -52,6 +52,8 @@ function theme_page($page)
         return _login_page($page);
     else if ($page['type'] == MY_Page::TYPE_WIZARD)
         return _wizard_page($page);
+    else if ($page['type'] == MY_Page::TYPE_EXCEPTION)
+        return _exception_page($page);
     else if ($page['type'] == MY_Page::TYPE_CONSOLE)
         return _console_page($page);
 }
@@ -199,6 +201,27 @@ function _splash_page($page)
 }
 
 /**
+ * Returns the exception page.
+ *
+ * @param array $page page data   
+ *
+ * @return string HTML output
+ */   
+
+function _exception_page($page)
+{
+    $layout = 
+        _get_header($page) .
+        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
+        _get_left_menu($page) .
+        _get_main_content($page) .
+        "</div>"
+    ;
+
+    return $layout;
+}
+
+/**
  * Returns the wizard page.
  *
  * @param array $page page data   
@@ -238,7 +261,7 @@ function _console_page($page)
 
 function _get_main_content($page)
 {
-    if ($page['type']== MY_Page::TYPE_DASHBOARD)
+    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION)
         return "
             <aside class='right-side'>
                 <section class='content-header'>
@@ -491,14 +514,14 @@ function _get_header($page, $menus = array())
                             <li class='dropdown user user-menu'>
                                 <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
                                     <i class='glyphicon glyphicon-user'></i>
-                                    <span>Jane Doe <i class='caret'></i></span>
+                                    <span>" . $page['username'] . " <i class='caret'></i></span>
                                 </a>
                                 <ul class='dropdown-menu'>
                                     <!-- User image -->
                                     <li class='user-header bg-light-blue'>
-                                        <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='User Image'>
+                                        <img src='https://www.gravatar.com/avatar/f37b423116a79be036352dae9f58acfc' class='img-circle' alt='User Image'>
                                         <p>
-                                            Jane Doe - Web Developer
+                                            " . $page['username'] . "
                                             <small>Member since Nov. 2012</small>
                                         </p>
                                     </li>

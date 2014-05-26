@@ -138,16 +138,40 @@ function theme_clearos_dialog_box(id, title, message, options)
     });
 }
 
+function theme_clearos_info_box(type, title, message, options)
+{
+    if (type === 'critical') {
+        box_class = 'alert-danger';
+        icon_class = 'fa fa-times-circle';
+    } else if (type === 'warning') {
+        box_class = 'alert-warning';
+        icon_class = 'fa fa-exclamation-triangle';
+    } else {
+        box_class = 'alert-success';
+        icon_class = 'fa fa-check-circle';
+    }
+
+    id = (options != undefined && options.id != undefined) ? ' id="' . options.id + '"' : '';
+
+    return ' \
+        <div class="alert ' + box_class + '"' + id + '> \
+            <i class="' + icon_class + '"></i> \
+            <strong style="padding-right: 10px;">' + title + '</strong>' + message + ' \
+        </div> \
+    ';
+}
+
 function theme_clearos_is_authenticated()
 {
 
     data_payload = 'ci_csrf_token=' + $.cookie('ci_csrf_token');
     if ($('#sdn_username').val() != undefined)
         data_payload += '&username=' + $('#sdn_username').val();
-    $('#sdn-login-dialog_message_bar').html('');
+    $('#sdn-login-dialog-message-bar').html('');
     if (auth_options.action_type == 'login') {
         if ($('#sdn_password').val() == '') {
-            $('#sdn-login-dialog_message_bar').html(lang_sdn_password_invalid);
+            $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_password_invalid));
+            $('#sdn-login-dialog-message-bar').show(200);
             $('.autofocus').focus();
             return;
         } else {
@@ -155,7 +179,8 @@ function theme_clearos_is_authenticated()
         }
     } else if (auth_options.action_type == 'lost_password') {
         if ($('#sdn_email').val() == '') {
-            $('#sdn-login-dialog_message_bar').html(lang_sdn_email_invalid);
+            $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_email_invalid));
+            $('#sdn-login-dialog-message-bar').show(200);
             $('.autofocus').focus();
             return;
         } else {
@@ -178,7 +203,7 @@ function theme_clearos_is_authenticated()
                 // Might have pages where account is displayed (eg. Marketplace)
                 $('#display_sdn_username').html(data.sdn_username);
                 // Only case where authorized is true.
-                $('#sdn-login-dialog').dialog('close');
+                $('#sdn-login-dialog').modal('hide');
                 // If we're logged in and there is a 'check_sdn_edit' function defined on page, check to see if we need to get settings
                 if (window.check_sdn_edit)
                     check_sdn_edit();
@@ -186,15 +211,25 @@ function theme_clearos_is_authenticated()
                     window.location.reload();
             } else if (data.code == 0 && !data.authorized) {
 
-                // Open dialog and change some look and feel
+                // Open dialog
                 $('#sdn-login-dialog').modal();
+                // If user closes modal box, redirect to non-edit mode
+                $('#sdn-login-dialog').on('hidden.bs.modal', function() {
+                    if (!my_location.default_controller)
+                        return;
+                    window.location = '/app/' + my_location.basename;
+                });
 
                 // If email was submitted...reset was a success...
                 if (data.email != undefined) {
+                    $('#sdn-login-dialog-message-bar').html(
+                        theme_clearos_info_box('info', lang_success + '!', lang_sdn_password_reset + ': <span style="font-weight: bold">' + data.email + '</span>')
+                    );
+                    $('#sdn-login-dialog-message-bar').show(200);
+                    $('#sdn_password_group').show();
                     $('#sdn_lost_password_group').hide();
-                    $('#sdn-login-dialog_message_bar').css('color', '#686868');
-                    $('#sdn-login-dialog_message_bar').html(lang_sdn_password_reset + ': ' + data.email);
-                    $('.ui-dialog-buttonpane button:contains(\'' + lang_reset_password_and_send + '\') span').parent().hide();
+                    $('.autofocus').focus();
+                    $('#sdn_login_action').text(lang_login);
                     return;
                 }
                 
@@ -207,14 +242,18 @@ function theme_clearos_is_authenticated()
 
             } else if (data.code == 10) {
                 // Code 10 is an invalid email
-                $('#sdn-login-dialog_message_bar').html(lang_sdn_email_invalid);
+                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_email_invalid));
+                $('#sdn-login-dialog-message-bar').show(200);
             } else if (data.code == 11) {
                 // Code 11 is an email mismatch for lost password
-                $('#sdn-login-dialog_message_bar').html(lang_sdn_email_mismatch);
+                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_email_mismatch));
+                $('#sdn-login-dialog-message-bar').show(200);
             } else if (data.code > 0) {
-                $('#sdn-login-dialog_message_bar').html(lang_sdn_password_invalid);
+                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_password_invalid));
+                $('#sdn-login-dialog-message-bar').show(200);
             } else if (data.code < 0) {
-                theme_clearos_dialog_box('login_failure', lang_warning, data.errmsg);
+                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, data.errmsg));
+                $('#sdn-login-dialog-message-bar').show(200);
                 return;
             }
             $('.autofocus').focus();
@@ -253,17 +292,45 @@ function theme_clearos_on_page_ready(my_location)
                     <label class="col-md-4 control-label" for="sdn_password">' + lang_password + '</label> \
                     <div class="col-md-8"> \
                       <input id="sdn_password" type="password" name="password" value="" class="form-control" /> \
+                      <a href="#" id="sdn_forgot_password" class="btn btn-sm btn-link">' + lang_forgot_password + '</a> \
                     </div> \
                   </div> \
-                  <div style="padding: 0px 170px 10px 0px; text-align: right" id="sdn-login-dialog-message-bar"></div> \
+                  <div id="sdn_lost_password_group" class="form-group theme-hidden"> \
+                    <label class="col-md-4 control-label" for="sdn_password">' + lang_sdn_email + '</label> \
+                    <div class="col-md-8"> \
+                      <input id="sdn_email" type="text" name="sdn_email" value="" class="form-control autofocus" /> \
+                    </div> \
+                  </div> \
+                  <div id="sdn-login-dialog-message-bar"></div> \
                 </form> \
               </div> \
               <div class="modal-footer"> \
+                <div class="btn-group"> \
+                  <a href="#" id="sdn_login_action" class="btn btn-sm btn-primary theme-anchor-edit">' + lang_login + '</a> \
+                  <a href="/app/' + my_location.basename + '" class="btn btn-sm btn-link theme-anchor-cancel">' + lang_cancel + '</a> \
+                </div> \
               </div> \
             </div> \
           </div> \
         </div> \
     ');
+
+    $('#sdn_login_action').click(function (e) {
+        auth_options.action_type = 'login';
+
+        if ($('#sdn_lost_password_group').is(':visible'))
+            auth_options.action_type = 'lost_password';
+        theme_clearos_is_authenticated();
+    });
+
+    $('#sdn_forgot_password').click(function (e) {
+        e.preventDefault();
+        $('#sdn-login-dialog-message-bar').html('');
+        $('#sdn_password_group').hide();
+        $('#sdn_lost_password_group').show();
+        $('.autofocus').focus();
+        $('#sdn_login_action').text($('#sdn_login_action').text() == lang_login ? lang_reset_password_and_send : lang_login);
+    });
 /*
 
                   <div id="sdn_lost_password_group" class="theme-hidden"> \
@@ -276,16 +343,6 @@ function theme_clearos_on_page_ready(my_location)
                       <a href="#" id="sdn_forgot_password" style="font-size: 9px;">' + lang_forgot_password + '</a> \
                     </div> \
 
-    $('#sdn-login-dialog').dialog({
-        autoOpen: false,
-        bgiframe: true,
-        title: false,
-        modal: true,
-        resizable: false,
-        draggable: false,
-        closeOnEscape: false,
-        height: 250,
-        width: 450,
         buttons: {
             'authenticate': {
                 text: lang_authenticate,
@@ -325,14 +382,6 @@ function theme_clearos_on_page_ready(my_location)
         }
     });
 
-    $('a#sdn_forgot_password').click(function (e) {
-        e.preventDefault();
-        $('#sdn-login-dialog_message_bar').html('');
-        $('#sdn_password_group').remove();
-        $('#sdn_lost_password_group').show();
-        $('.autofocus').focus();
-        $('.ui-dialog-buttonpane button:contains(\'' + lang_authenticate + '\') span').text(lang_reset_password_and_send);
-    });
 
     $('#theme-banner-my-account-nav').click(function (e) {
         e.preventDefault();
