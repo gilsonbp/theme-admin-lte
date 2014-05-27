@@ -110,7 +110,68 @@ function _wide_configuration_page($page)
 
 function _report_page($page)
 {
-    echo "todo - report";
+    $layout = 
+        _get_header($page) .
+        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
+        _get_left_menu($page) .
+        _get_main_content($page) .
+        "</div>"
+    ;
+    return $layout;
+    $menus = _get_left_menu($page);
+
+    return "
+<!-- Body -->
+<body>
+" . $page['devel_message'] . "
+
+<!-- Page Container -->
+<div id='theme-page-container'>
+    " .
+    _get_banner($page, $menus) .
+    "
+    <!-- Main Content Container -->
+    <div id='theme-main-content-container'>
+        <div class='theme-main-content-top'>
+            <div class='theme-content-border-top'></div>
+            <div class='theme-content-border-left'></div>
+            <div class='theme-content-border-right'></div>
+        </div>
+        <div class='theme-core-content'>
+        " .
+            _get_left_menu($menus) .
+        "
+            <!-- Content -->
+            <div id='theme-content-container'>
+                <div id='theme-help-box-container'>
+                    <div class='theme-help-box'>
+                    " . $page['page_help'] . "
+                    </div>
+                </div>
+                <div id='theme-sidebar-container'>
+                    <div class='theme-sidebar-report-top'>
+                    " . $page['page_report_helper'] . "
+                    </div>
+                    $report
+                    <div class='theme-sidebar-bottom'></div>
+                </div>
+                <div id='theme-content-left'>
+                    " . _get_message() . "
+                    " . $page['page_report_chart'] . "
+                </div>
+                <div>
+                    " . $page['page_report_table'] . "
+                </div>
+            </div>
+        </div>
+        " .
+        _get_footer($page) .
+        "
+    </div>
+</div>
+</body>
+</html>
+";
 }
 
 /**
@@ -265,6 +326,7 @@ function _get_main_content($page)
         return "
             <aside class='right-side'>
                 <section class='content-header'>
+                    " . _get_content_header() . "
                     <h1>" . $page['title'] . "</h1>
                 </section>
                 <section class='content'>
@@ -278,6 +340,7 @@ function _get_main_content($page)
         return "
             <aside class='right-side'>
                 <section class='content-header'>
+                    " . _get_content_header() . "
                     <h1>" . $page['title'] . "</h1>
                 </section>
                 <section class='content'>
@@ -289,7 +352,13 @@ function _get_main_content($page)
                             <div class='theme-sidebar-top box'>
                             " . $page['page_summary'] . "
                             </div>
+                        </div>" .
+                        (isset($page['page_report_helper']) ? "
+                        <div class='theme-sidebar-report-top'>
+                        " . $page['page_report_helper'] . "
                         </div>
+                        $report
+                        <div class='theme-sidebar-bottom'></div>" : "") . "
                     </div>
                 </section>
             </aside>
@@ -311,7 +380,7 @@ function _get_header($page, $menus = array())
     return "
             <header class='header'>
                 <a class='logo' href='/app/dashboard'>
-                    ClearOS7 (Admin LTE)
+                    ClearOS 7
                 </a>
                 <nav class='navbar navbar-static-top' role='navigation'>
                     <a href='#' class='navbar-btn sidebar-toggle' data-toggle='offcanvas' role='button'>
@@ -555,6 +624,62 @@ function _get_header($page, $menus = array())
 ";
 }
 
+/**
+ * Returns content header
+ * 
+ * @return string menu HTML output
+ */
+
+function _get_content_header()
+{
+    return "
+        <div class='row'>
+            <div class='col-lg-6 col-xs-6'></div>
+            <div class='col-lg-2 col-xs-6'>
+                <!-- small box -->
+                <div class='small-box theme-bg-green'>
+                    <div class='inner'>
+                        <p>Dashboard</p>
+                    </div>
+                    <div class='icon'>
+                        <i style='font-size: 35px;' class='fa fa-dashboard'></i>
+                    </div>
+                    <a href='/app/dashboard' class='small-box-footer'>
+                        Go <i class='fa fa-arrow-circle-right'></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+            <div class='col-lg-2 col-xs-6'>
+                <!-- small box -->
+                <div class='small-box theme-bg-blue'>
+                    <div class='inner'>
+                        <p>Support</p>
+                    </div>
+                    <div class='icon'>
+                        <i style='font-size: 35px; color: rgba(0, 0, 0, 0.25);' class='icon-ClearCenterLogo'></i>
+                    </div>
+                    <a href='#' class='small-box-footer'>
+                        More info <i class='fa fa-arrow-circle-right'></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+            <div class='col-lg-2 col-xs-6'>
+                <!-- small box -->
+                <div class='small-box theme-bg-orange'>
+                    <div class='inner'>
+                        <p>Marketplace</p>
+                    </div>
+                    <div class='icon'>
+                        <i style='font-size: 40px;' class='ion ion-bag'></i>
+                    </div>
+                    <a href='#' class='small-box-footer'>
+                        Search <i class='fa fa-arrow-circle-right'></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+        </div>
+    ";
+}
 
 /**
  * Returns left panel menu

@@ -28,7 +28,13 @@
   padding: 2px 5px 2px 34px;
 }
 
+body > .header .logo {
+    font-family: Arial;
+}
+
 /* Overrides End */
+
+.theme-summary-table-action {float: right; padding: 10px 10px 0px 0px}
 
 .theme-navbar-category {
   font-size: 15px;
@@ -457,3 +463,460 @@ a.highlight-link:hover {
   position: relative;
   padding-top: 10%;
 }
+
+/* Clear Background colors */
+.theme-bg-orange,
+.theme-bg-blue,
+.theme-bg-green {
+  color: #f9f9f9 !important;
+}
+.theme-bg-orange {
+  background-color: #de7921 !important;
+}
+.theme-bg-blue {
+  background-color: #5a6e9f !important;
+}
+.theme-bg-green {
+  background-color: #92af46 !important;
+} 
+
+ 
+/* Clear Fonts */
+@font-face {
+	font-family: 'clear';
+	src:url('../fonts/clear.eot?era4yi');
+	src:url('../fonts/clear.eot?#iefixera4yi') format('embedded-opentype'),
+		url('../fonts/clear.woff?era4yi') format('woff'),
+		url('../fonts/clear.ttf?era4yi') format('truetype'),
+		url('../fonts/clear.svg?era4yi#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'clear';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	font-size: 125px;
+	line-height: 1;
+	color: #a4591b;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-wireless:before {
+	content: "\e600";
+}
+.icon-Windows_Settings:before {
+	content: "\e601";
+}
+.icon-Web_WebServer:before {
+	content: "\e602";
+}
+.icon-Web_Proxy:before {
+	content: "\e603";
+}
+.icon-warnings:before {
+	content: "\e604";
+}
+.icon-WARNING:before {
+	content: "\e605";
+}
+.icon-VPN_PPTP:before {
+	content: "\e606";
+}
+.icon-VPN_OpenVPN:before {
+	content: "\e607";
+}
+.icon-VPN_IPsec:before {
+	content: "\e608";
+}
+.icon-VOIP:before {
+	content: "\e609";
+}
+.icon-vectro:before {
+	content: "\e60a";
+}
+.icon-upload_arrow:before {
+	content: "\e60b";
+}
+.icon-triangle_gears:before {
+	content: "\e60c";
+}
+.icon-system1:before {
+	content: "\e60d";
+}
+.icon-System_Resource:before {
+	content: "\e60e";
+}
+.icon-System:before {
+	content: "\e60f";
+}
+.icon-Subscriptions:before {
+	content: "\e610";
+}
+.icon-Software_Updates:before {
+	content: "\e611";
+}
+.icon-Software_Modules:before {
+	content: "\e612";
+}
+.icon-SMTP_Server:before {
+	content: "\e613";
+}
+.icon-Settings_ShutdownRestart:before {
+	content: "\e614";
+}
+.icon-Settings_MailNotification:before {
+	content: "\e615";
+}
+.icon-Settings_Language:before {
+	content: "\e616";
+}
+.icon-Settings_Date:before {
+	content: "\e617";
+}
+.icon-Settings_Administrators:before {
+	content: "\e618";
+}
+.icon-server6:before {
+	content: "\e619";
+}
+.icon-server5:before {
+	content: "\e61a";
+}
+.icon-server4:before {
+	content: "\e61b";
+}
+.icon-server3:before {
+	content: "\e61c";
+}
+.icon-server2:before {
+	content: "\e61d";
+}
+.icon-Server_Web:before {
+	content: "\e61e";
+}
+.icon-Server_MySQL:before {
+	content: "\e61f";
+}
+.icon-Server_Monitor:before {
+	content: "\e620";
+}
+.icon-Server_Mail_Queue:before {
+	content: "\e621";
+}
+.icon-Server_Flexshare:before {
+	content: "\e622";
+}
+.icon-Server_Backup:before {
+	content: "\e623";
+}
+.icon-Server_Aliases:before {
+	content: "\e624";
+}
+.icon-SERVER:before {
+	content: "\e625";
+}
+.icon-Security_Audit:before {
+	content: "\e626";
+}
+.icon-scroll_checkmark:before {
+	content: "\e627";
+}
+.icon-Scanning_Quarantine:before {
+	content: "\e628";
+}
+.icon-Scanning_Antispam:before {
+	content: "\e629";
+}
+.icon-Scanning_Antimalware:before {
+	content: "\e62a";
+}
+.icon-Resources_Services:before {
+	content: "\e62b";
+}
+.icon-Resources_Processes:before {
+	content: "\e62c";
+}
+.icon-Reports_Network:before {
+	content: "\e62d";
+}
+.icon-reports:before {
+	content: "\e62e";
+}
+.icon-Register_System:before {
+	content: "\e62f";
+}
+.icon-recycle:before {
+	content: "\e630";
+}
+.icon-RBS_100GB:before {
+	content: "\e631";
+}
+.icon-RBS_50GB:before {
+	content: "\e632";
+}
+.icon-RBS_25GB:before {
+	content: "\e633";
+}
+.icon-RBS_10GB:before {
+	content: "\e634";
+}
+.icon-RBS_5GB:before {
+	content: "\e635";
+}
+.icon-radio_tower:before {
+	content: "\e636";
+}
+.icon-Protocol_Filter_Report:before {
+	content: "\e637";
+}
+.icon-Protection_Updates:before {
+	content: "\e638";
+}
+.icon-Print_Flexshares:before {
+	content: "\e639";
+}
+.icon-pie_graph:before {
+	content: "\e63a";
+}
+.icon-Overview_Summary:before {
+	content: "\e63b";
+}
+.icon-org_chart:before {
+	content: "\e63c";
+}
+.icon-open_lock:before {
+	content: "\e63d";
+}
+.icon-network2:before {
+	content: "\e63e";
+}
+.icon-network1:before {
+	content: "\e63f";
+}
+.icon-Network_RADIUS:before {
+	content: "\e640";
+}
+.icon-Network_Multi_WAN:before {
+	content: "\e641";
+}
+.icon-Network_IP_Settings:before {
+	content: "\e642";
+}
+.icon-network_1-to-1NAT:before {
+	content: "\e643";
+}
+.icon-network:before {
+	content: "\e644";
+}
+.icon-Multi_WAN:before {
+	content: "\e645";
+}
+.icon-MailScanning_Greylisting:before {
+	content: "\e646";
+}
+.icon-Mail_Webmail:before {
+	content: "\e647";
+}
+.icon-MAIL:before {
+	content: "\e648";
+}
+.icon-lock:before {
+	content: "\e649";
+}
+.icon-letter_bubble:before {
+	content: "\e64a";
+}
+.icon-letter:before {
+	content: "\e64b";
+}
+.icon-Hardware_Summary:before {
+	content: "\e64c";
+}
+.icon-Hardware_RAID:before {
+	content: "\e64d";
+}
+.icon-groups:before {
+	content: "\e64e";
+}
+.icon-GNVS:before {
+	content: "\e64f";
+}
+.icon-globe:before {
+	content: "\e650";
+}
+.icon-Gateway_Web_Proxy:before {
+	content: "\e651";
+}
+.icon-gateway:before {
+	content: "\e652";
+}
+.icon-FTP_Server:before {
+	content: "\e653";
+}
+.icon-Folder:before {
+	content: "\e654";
+}
+.icon-firewell_incoming:before {
+	content: "\e655";
+}
+.icon-firewell_forwarding:before {
+	content: "\e656";
+}
+.icon-Firewall_Outgoing:before {
+	content: "\e657";
+}
+.icon-Filter_Configuration:before {
+	content: "\e658";
+}
+.icon-encripted:before {
+	content: "\e659";
+}
+.icon-Dynamic_DNS:before {
+	content: "\e65a";
+}
+.icon-dropbox:before {
+	content: "\e65b";
+}
+.icon-Down_Arrow:before {
+	content: "\e65c";
+}
+.icon-DNS_Server:before {
+	content: "\e65d";
+}
+.icon-diverging_arrows:before {
+	content: "\e65e";
+}
+.icon-Directory_Password:before {
+	content: "\e65f";
+}
+.icon-Directory_ImportExport:before {
+	content: "\e660";
+}
+.icon-Directory_Domain:before {
+	content: "\e661";
+}
+.icon-DHCP_Server:before {
+	content: "\e662";
+}
+.icon-controls:before {
+	content: "\e663";
+}
+.icon-computers:before {
+	content: "\e664";
+}
+.icon-CLOUD:before {
+	content: "\e665";
+}
+.icon-ClearOS:before {
+	content: "\e666";
+}
+.icon-ClearFoundationLogo:before {
+	content: "\e667";
+}
+.icon-ClearCenterLogo:before {
+	content: "\e668";
+}
+.icon-clear_center1:before {
+	content: "\e669";
+}
+.icon-camera:before {
+	content: "\e66a";
+}
+.icon-Base_Subscription:before {
+	content: "\e66b";
+}
+.icon-bar_graph:before {
+	content: "\e66c";
+}
+.icon-Bandwidth_Monitor:before {
+	content: "\e66d";
+}
+.icon-Antispam_Updates:before {
+	content: "\e66e";
+}
+.icon-Antimalware_Updates:before {
+	content: "\e66f";
+}
+.icon-alarm_clock:before {
+	content: "\e670";
+}
+.icon-Advanced_Print:before {
+	content: "\e671";
+}
+.icon-Access_Control:before {
+	content: "\e672";
+}
+
+
+
+
+
+
+.icon-small .glyph{width: 80px; padding:4px 0 0 ;}
+
+.icon-small [class^="icon-"], .icon-small [class*=" icon-"]
+ {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 30px;
+  padding: 10px;
+  text-align: center;
+  width: 50px;
+  line-height: 50px;
+background: #ffffff; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2U3ZWFlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #ffffff 0%, #e7eaed 50%, #ffffff 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#e7eaed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+}
+
+.icon-large .glyph{width: 130px; padding:4px 0 0 ;}
+
+.icon-large [class^="icon-"], .icon-large [class*=" icon-"]{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 58px;
+  padding: 10px;
+  text-align: center;
+  line-height: 100px;
+  width: 100px;
+background: #ffffff; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2U3ZWFlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #ffffff 0%, #e7eaed 50%, #ffffff 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#e7eaed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #ffffff 0%,#e7eaed 50%,#ffffff 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+}
+
+
+
+.icon-large .icon-ClearFoundationLogo:before, .icon-large .icon-ClearCenterLogo:before {
+  font-size: 60%;
+  line-height: 90%;
+  position: relative;
+  top: -10px;
+}
+
+
+.white.icon-large [class^="icon-"], .white.icon-large [class*=" icon-"], .white.icon-small [class^="icon-"], .white.icon-small [class*=" icon-"]{background: #000;}
+
+.white [class^="icon-"], .white [class*=" icon-"] {  color: #fff;}

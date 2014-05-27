@@ -1042,15 +1042,14 @@ function theme_chart_widget($title, $payload, $options)
     $action = ($options['action']) ? $options['action'] : '';
 
     return "
-        <table border='0' cellpadding='0' cellspacing='0' class='theme-chart-wrapper'$id_html>
-            <tr class='theme-chart-header'>
-                <td><span class='theme-form-header-heading'>$title</span></td>
-                <td align='right'>" . $action . "</td>
-            </tr>
-            <tr>
-                <td colspan='2' class='theme-chart-payload'>$payload</td>
-            </tr>
-        </table>
+        <div class='box'$id_html>
+          <div class='box-header'>
+            <h3 class='box-title'>$title</h3>
+            <div class='theme-summary-table-action'>$action</div>
+          </div>
+          <div class='box-body'>$payload</div>
+          <div class='box-footer'></div>
+        </div>
     ";
 }
 
@@ -1121,7 +1120,7 @@ function theme_loading($size, $text = '', $options = NULL)
     if (isset($options['icon-below']))
         return "<div style='padding-bottom: 5;'>$text</div><i $id class='fa fa-spinner fa-spin $size'></i>\n";
     else
-        return "<i $id class='fa fa-spinner fa-spin'>$text</i>\n";
+        return "<i $id class='fa fa-spinner fa-spin'></i><span style='padding-left: 5px;'>$text</span>\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////

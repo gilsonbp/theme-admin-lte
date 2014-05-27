@@ -53,6 +53,23 @@ function theme_page_javascript()
 <script type='text/javascript' src='$theme_url/js/plugins/bootstrap-dialog/bootstrap-dialog.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/sparkline/jquery.sparkline.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.resize.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.pie.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.categories.min.js'></script>
+
+<!-- Review with Pete -->
+<script type='text/javascript' src='/themes/default/js/jqplot/jquery.jqplot.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.json2.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.barRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.pieRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.dateAxisRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.pointLabels.min.js?v=6.5.0'></script>
+<script type='text/javascript' src='/themes/default/js/jqplot/plugins/jqplot.highlighter.min.js?v=6.5.0'></script>
 
 <!--[if IE 7]>
 
