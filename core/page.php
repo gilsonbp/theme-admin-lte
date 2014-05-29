@@ -380,7 +380,7 @@ function _get_header($page, $menus = array())
     return "
             <header class='header'>
                 <a class='logo' href='/app/dashboard'>
-                    ClearOS 7
+                    <i style='font-size: 48px; color: rgba(255, 255, 255, 0.85);' class='icon-ClearOS'></i>
                 </a>
                 <nav class='navbar navbar-static-top' role='navigation'>
                     <a href='#' class='navbar-btn sidebar-toggle' data-toggle='offcanvas' role='button'>
@@ -672,7 +672,7 @@ function _get_content_header()
                     <div class='icon'>
                         <i style='font-size: 40px;' class='ion ion-bag'></i>
                     </div>
-                    <a href='#' class='small-box-footer'>
+                    <a href='/app/marketplace' class='small-box-footer'>
                         Search <i class='fa fa-arrow-circle-right'></i>
                     </a>
                 </div>
@@ -800,6 +800,11 @@ function _get_left_menu($page)
         $active_category['system'] = ' checked';
     else if (lang('base_category_reports') == $page['current_category'])
         $active_category['report'] = ' checked';
+
+    // If we're on a spotlight page (dashboard etc.) pick one
+    if (!array_filter($active_category))
+        $active_category['cloud'] = ' checked';
+        
     return "
 <aside class='left-side sidebar-offcanvas'>
     <section class='sidebar'>
@@ -816,22 +821,22 @@ function _get_left_menu($page)
             <div class='btn-toolbar' style='margin: 9px 8px;'> <!-- TODO move to css -->
                 <div class='btn-group' data-toggle='buttons'>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-cloud'" . $active_category['cloud'] . "><i class='fa fa-cloud theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-cloud'" . $active_category['cloud'] . "><i class='fa fa-cloud theme-navbar-category' data-placement='top' title='" . lang('base_category_cloud') . "'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-network'" . $active_category['network'] . "><i class='fa fa-fire theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-network'" . $active_category['network'] . "><i class='fa fa-fire theme-navbar-category' data-placement='top' title='" . lang('base_category_network') . "'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-gateway'" . $active_category['gateway'] . "><i class='fa fa-shield theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-gateway'" . $active_category['gateway'] . "><i class='fa fa-shield theme-navbar-category' data-placement='top' title='" . lang('base_category_gateway') . "'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-server'" . $active_category['server'] . "><i class='fa fa-hdd-o theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-server'" . $active_category['server'] . "><i class='fa fa-hdd-o theme-navbar-category' data-placement='top' title='" . lang('base_category_server') . "'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-system'" . $active_category['system'] . "><i class='fa fa-wrench theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-system'" . $active_category['system'] . "><i class='fa fa-wrench theme-navbar-category' data-placement='top' title='" . lang('base_category_system') . "'></i>
                     </label>
                     <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-report'" . $active_category['report'] . "><i class='fa fa-bar-chart-o theme-navbar-category'></i>
+                        <input type='radio' name='options' id='category-report'" . $active_category['report'] . "><i class='fa fa-bar-chart-o theme-navbar-category' data-placement='top' title='" . lang('base_category_reports') . "'></i>
                     </label>
                 </div>
             </div>

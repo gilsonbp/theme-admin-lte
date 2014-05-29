@@ -64,6 +64,9 @@ $(function() {
 
 
 $(document).ready(function() {
+
+    $('.theme-navbar-category').tooltip({container: 'body'});
+
     var menu_category = $('input[name=options]:checked', '#category-select').attr('id');
     $('.' + menu_category).show();
     $('#' + menu_category).parent().addClass('active');
