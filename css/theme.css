@@ -920,3 +920,142 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .white.icon-large [class^="icon-"], .white.icon-large [class*=" icon-"], .white.icon-small [class^="icon-"], .white.icon-small [class*=" icon-"]{background: #000;}
 
 .white [class^="icon-"], .white [class*=" icon-"] {  color: #fff;}
+
+
+
+
+/* LHS Menu Type 2 (move me TODO) */
+
+.navbar-static-side ul li {
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.navbar-static-side ul li a {
+    color: @gray;
+}
+
+.navbar-static-side ul li a:hover {
+    background-color: darken(@gray-lighter, 10%);
+}
+
+.navbar-static-side ul li.toggle {
+    padding: 10px 15px;
+    text-align: right;
+    a.btn {
+        border-radius: 0;
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: darken(@gray-lighter, 5%);
+    }
+}
+dy.toggled-sidebar {
+    #page-wrapper {
+        margin: 0 0 0 50px;
+    }
+    .navbar-static-side {
+        width: 50px;
+        .sidebar-collapse {
+            ul.nav {
+                li {
+                    background-color: @gray-lighter;
+                    a {
+                        .menu-item {
+                            display: none;
+                        }
+                        .fa.arrow {
+                            display: none;
+                        }
+                        &:hover {
+                            .menu-item {
+                                display: inline-block;
+                            }
+                            .fa.arrow {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                    &:hover {
+                        width: 250px;
+                    }
+                    ul.nav-second-level.in,
+                    ul.nav-third-level.in {
+                        display: none;
+                    }
+                }
+                li:hover {
+                    a {
+                        .menu-item {
+                            display: inline-block;
+                        }
+                    }
+                    ul.nav-second-level.in,
+                    ul.nav-third-level.in {
+                        display: block;
+                    }
+                }
+                li.toggle {
+                    padding: 10px 0;
+                    text-align: center;
+                    &:hover {
+                        width: 50px;
+                    }
+                }
+            }
+            .system-details {
+                display: none;
+            }
+        }
+    }
+}
+
+.fa.arrow {
+    float: right;
+}
+
+.fa.arrow:before {
+    content: "\f104";
+}
+
+.active > a > .fa.arrow:before {
+    content: "\f107";
+}
+
+.nav-second-level li,
+.nav-third-level li {
+    border-bottom: none !important;
+}
+.nav-second-level li a {
+    padding-left: 37px;
+}
+
+.nav-third-level li a {
+    padding-left: 52px;
+}
+
+@media (min-width: 768px) {
+  .navbar-static-side {
+    z-index: 1;
+    position: fixed;
+    width: 249px;
+  }
+  .navbar-top-links .dropdown-messages,
+  .navbar-top-links .dropdown-tasks,
+  .navbar-top-links .dropdown-alerts {
+    margin-left: auto;
+  }
+}
+
+@media(max-height:600px) and (max-width:767px) {
+    .sidebar-collapse {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+}
+
+@media(max-height:400px) and (max-width:767px) {
+    .sidebar-collapse {
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+}
+

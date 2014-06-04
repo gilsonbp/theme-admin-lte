@@ -25,10 +25,39 @@ $package['settings'] = array(
         'lang_tag' => 'base_menu',
         'type' => 'dropdown',
         'options' => array(
-            0 => 'Type 1',
-            1 => 'Type 2',
+            1 => 'Type 1',
+            2 => 'Type 2',
         ),
+        'required' => TRUE,
         'default' => 0,
+    ),
+    'css' => array(
+        'lang_tag' => 'base_css_style',
+        'type' => 'dropdown',
+        'options' => array(
+            'skin-blue' => 'Blue',
+            'skin-black' => 'Black',
+        ),
+        'required' => TRUE,
+        'default' => 'blue',
+    ),
+    'color_1' => array(
+        'lang_tag' => 'base_color_primary',
+        'type' => 'color',
+        'required' => FALSE,
+        'default' => NULL,
+    ),
+    'color_2' => array(
+        'lang_tag' => 'base_color_secondary',
+        'type' => 'color',
+        'required' => FALSE,
+        'default' => NULL,
+    ),
+    'color_3' => array(
+        'lang_tag' => 'base_color_tertiary',
+        'type' => 'color',
+        'required' => FALSE,
+        'default' => NULL,
     ),
 );
 

@@ -21,13 +21,43 @@ $(function() {
                 $(".right-side").toggleClass("strech").animate({'margin-left':'250px'});
             } else {
                 $('.left-side').toggleClass("collapse-left");
-                $(".right-side").toggleClass("strech").animate({'margin-left':'0px'});
+                $(".right-side").toggleClass("strech").animate({'margin-left':'50px'});
             }
         }
     });
-});
-(function($) {
-    'use strict';
+
+    /* 
+     * Make sure that the sidebar is streched full height
+     * ---------------------------------------------
+     * We are gonna assign a min-height value every time the
+     * wrapper gets resized and upon page load. We will use
+     * Ben Alman's method for detecting the resize event.
+     * 
+     **/
+    function _fix() {
+        //Get window height and the wrapper height
+        var height = $(window).height() - $("body > .header").height();
+        $(".wrapper").css("min-height", height + "px");
+        var content = $(".wrapper").height();
+        //If the wrapper height is greater than the window
+        if (content > height)
+            //then set sidebar height to the wrapper
+            $(".left-side, html, body").css("min-height", content + "px");
+        else {
+            //Otherwise, set the sidebar to the height of the window
+            $(".left-side, html, body").css("min-height", height + "px");
+        }
+    }
+    //Fire upon load
+    _fix();
+    //Fire when wrapper is resized
+    $(".wrapper").resize(function() {
+        _fix();
+        fix_sidebar();
+    });
+
+    //Fix the fixed layout sidebar scroll bug
+    fix_sidebar();
 
     $.fn.navmenu = function() {
 
@@ -62,10 +92,28 @@ $(function() {
 
 }(jQuery));
 
+function fix_sidebar() {
+    //Make sure the body tag has the .fixed class
+    if (!$("body").hasClass("fixed")) {
+        return;
+    }
+
+    //Add slimscroll
+    $(".sidebar").slimscroll({
+        height: ($(window).height() - $(".header").height()) + "px",
+        color: "rgba(0,0,0,0.2)"
+    });
+}
+function change_layout() {
+    $("body").toggleClass("fixed");
+    fix_sidebar();
+}
 
 $(document).ready(function() {
 
     $('.theme-navbar-category').tooltip({container: 'body'});
+
+    $(".my-colorpicker").colorpicker();
 
     var menu_category = $('input[name=options]:checked', '#category-select').attr('id');
     $('.' + menu_category).show();

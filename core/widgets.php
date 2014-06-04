@@ -334,12 +334,24 @@ function theme_field_view($label, $text, $name = NULL, $value = NULL, $input_id 
     $input_html = "<input type='hidden' name='$name' value='$value' id='$input_id'>";
 
     // TODO - CSS hacks below for
-    return "
-        <div id='$field_id_html' class='form-group theme-fieldview" . $hide_field . "'>
-            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right'><span class='form-control' style='border: none; box-shadow: none; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html</div>
-        </div>
-    ";
+    if (isset($options['color-picker']) && $options['color-picker']) {
+        return "
+            <div id='$field_id_html' class='form-group theme-fieldview" . $hide_field . "'>
+                <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+                <div class='input-group my-colorpicker2 colorpicker-element col-sm-7 theme-field-right'>
+                    <span class='form-control' style='border: none; box-shadow: none; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html
+                    <div class='input-group-addon'></div>
+                </div>
+            </div>
+        ";
+    } else {
+        return "
+            <div id='$field_id_html' class='form-group theme-fieldview" . $hide_field . "'>
+                <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+                <div class='col-sm-7 theme-field-right'><span class='form-control' style='border: none; box-shadow: none; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html</div>
+            </div>
+        ";
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -365,6 +377,29 @@ function theme_field_view($label, $text, $name = NULL, $value = NULL, $input_id 
  */
 
 function theme_field_input($name, $value, $label, $error, $input_id, $options = NULL)
+{
+    return _theme_field_input_password($name, $value, $label, $error, $input_id, $options, 'text');
+}
+
+/**
+ * Text color input field.
+ *
+ * Supported options:
+ * - field_id 
+ * - label_id 
+ * - error_id 
+ *
+ * @param string $name     name of text input element
+ * @param string $value    value of text input 
+ * @param string $label    label for text input field
+ * @param string $error    validation error message
+ * @param string $input_id input ID
+ * @param array  $options  options
+ *
+ * @return string HTML
+ */
+
+function theme_field_color($name, $value, $label, $error, $input_id, $options = NULL)
 {
     return _theme_field_input_password($name, $value, $label, $error, $input_id, $options, 'text');
 }
@@ -400,10 +435,21 @@ function _theme_field_input_password($name, $value, $label, $error, $input_id, $
 
     $error_html = (empty($error)) ? "" : "<br/><span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
+    $div_class = '';
+    if (isset($options['color-picker']) && $options['color-picker'])
+        $div_class = ' my-colorpicker';
     return "
         <div id='$field_id_html' class='form-group theme-field-$type" . $hide_field . "'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right'> <input type='$type' name='$name' value='$value' id='$input_id' style='$style' class='form-control'> $error_html</div>
+            <div class='col-sm-7 theme-field-right" . $div_class . "'>
+                <div class='input-group'><input type='$type' name='$name' value='$value' id='$input_id' style='$style' class='form-control'> $error_html
+                " . ((isset($options['color-picker']) && $options['color-picker']) ? "
+                    <div class='input-group-addon'>
+                        <i></i>
+                    </div>
+                " : "") . "
+                </div>
+            </div>
         </div>
     ";
 }
