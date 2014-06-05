@@ -36,7 +36,7 @@
  * @return string HTML output
  */
 
-function theme_page_javascript()
+function theme_page_javascript($custom_settings)
 {
     $theme_url = clearos_theme_url('AdminLTE');
 
@@ -52,7 +52,6 @@ function theme_page_javascript()
 <script type='text/javascript' src='$theme_url/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/bootstrap-dialog/bootstrap-dialog.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/metisMenu/jquery.metisMenu.js'></script>
-<script type='text/javascript' src='$theme_url/js/side-menu-2.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/colorpicker/bootstrap-colorpicker.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/sparkline/jquery.sparkline.min.js'></script>
@@ -60,6 +59,7 @@ function theme_page_javascript()
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.resize.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.pie.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.categories.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/nav-menu-" . $custom_settings['menu'] . ".js'></script>
 
 <!-- Review with Pete -->
 <script type='text/javascript' src='/themes/default/js/jqplot/jquery.jqplot.min.js?v=6.5.0'></script>

@@ -536,12 +536,15 @@ function theme_field_dropdown($name, $value, $label, $error, $values, $input_id,
 
     $error_html = (empty($error)) ? "" : "<br><span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
-    return "
-        <div id='$field_id_html' class='form-group theme-field-dropdown'>
-            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $value, $input_id_html) . " $error_html</div>
-        </div>
-    ";
+    if (isset($options['no-field']))
+        return form_dropdown($name, $values, $value, "class='theme-dropdown'$input_id_html") . " $error_html";
+    else
+        return "
+            <div id='$field_id_html' class='form-group theme-field-dropdown'>
+                <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+                <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $value, "class='theme-dropdown'$input_id_html") . " $error_html</div>
+            </div>
+        ";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1868,7 +1871,8 @@ function theme_infobox($type, $title, $message, $options = NULL)
     return "
         <div class='alert $class' $id>
             <i class='$iconclass'></i>
-            <strong style='padding-right: 10px;'>$title</strong>$message
+            <div class='theme-infobox-title'>$title</div>
+            <div>$message</div>
         </div>
 
     ";

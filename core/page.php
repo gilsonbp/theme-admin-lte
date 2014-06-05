@@ -58,9 +58,9 @@ function theme_page($page)
         return _console_page($page);
 }
 
-function theme_page_open($custom_settings)
+function theme_page_open($settings)
 {
-    return "<body class='" . $custom_settings['css'] . "'>\n";
+    return "<body class='" . $settings['css'] . "'>\n";
 }
 
 function theme_page_close()
@@ -387,6 +387,14 @@ function _get_header($page, $menus = array())
 {
     $theme_url = clearos_theme_url('AdminLTE');
 
+    $my_account = '';
+    if (! isset($framework->session->userdata['wizard'])) {
+        foreach ($page['menus'] as $route => $details) {
+            if ($details['category'] == lang('base_category_my_account')) {
+                $my_account .= "<div class='theme-banner-my-account-links'><a href='$route'>" . $details['title'] . "</a></div>\n";
+            }
+        }
+    }
     return "
             <header class='header'>
                 <a class='logo' href='/app/dashboard'>
@@ -606,15 +614,7 @@ function _get_header($page, $menus = array())
                                     </li>
                                     <!-- Menu Body -->
                                     <li class='user-body'>
-                                        <div class='col-xs-4 text-center'>
-                                            <a href='#'>Followers</a>
-                                        </div>
-                                        <div class='col-xs-4 text-center'>
-                                            <a href='#'>Sales</a>
-                                        </div>
-                                        <div class='col-xs-4 text-center'>
-                                            <a href='#'>Friends</a>
-                                        </div>
+                                        $my_account
                                     </li>
                                     <!-- Menu Footer-->
                                     <li class='user-footer'>

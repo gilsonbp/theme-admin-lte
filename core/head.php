@@ -31,12 +31,12 @@
 /**
  * Returns additional <head> data required for the theme.
  *
- * @param string $nil not used anymore, ignore
+ * @param string $settings custom theme settings
  *
  * @return string HTML output
  */
 
-function theme_page_head($nil)
+function theme_page_head($settings)
 {
     $theme_url = clearos_theme_url('AdminLTE');
 	$basepath = preg_replace('/\/core\/.*/', '', realpath(__FILE__));
@@ -69,7 +69,7 @@ function theme_page_head($nil)
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap-dialog/bootstrap-dialog.min.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/colorpicker/bootstrap-colorpicker.min.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/AdminLTE.css'>
-<link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/menu2.css'>
+<link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/nav-menu-" . $settings['menu'] . ".css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/font-awesome.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/ionicons.min.css'>
 
