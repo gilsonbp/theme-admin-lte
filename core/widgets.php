@@ -520,7 +520,7 @@ function theme_field_password($name, $value, $label, $error, $input_id, $options
  * @param string $value    value of dropdown 
  * @param string $label    label for dropdown field
  * @param string $error    validation error message
- * @param array  $values    hash list of values for dropdown
+ * @param array  $values   hash list of values for dropdown
  * @param string $input_id input ID
  * @param array  $options  options
  *
@@ -533,16 +533,19 @@ function theme_field_dropdown($name, $value, $label, $error, $values, $input_id,
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
+    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . implode(' ', $options['class']) : '';
 
     $error_html = (empty($error)) ? "" : "<br><span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
     if (isset($options['no-field']))
-        return form_dropdown($name, $values, $value, "class='theme-dropdown'$input_id_html") . " $error_html";
+        return form_dropdown($name, $values, $value, "class='form-control theme-dropdown$add_classes'$input_id_html") . " $error_html";
     else
         return "
             <div id='$field_id_html' class='form-group theme-field-dropdown'>
                 <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-                <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $value, "class='theme-dropdown'$input_id_html") . " $error_html</div>
+                <div class='col-sm-7 theme-field-right'>" . 
+                    form_dropdown($name, $values, $value, "class='form-control theme-dropdown$add_classes'$input_id_html") . " $error_html
+                </div>
             </div>
         ";
 }
@@ -888,9 +891,11 @@ function theme_form_header($title, $options)
 
     return "
         <div class='box box-primary' id='$id_html'>
+            " . ($title != NULL ? "
             <div class='box-header'>
                 <h3 class='box-title'>$title</h3>
             </div>
+            " : "") . "
             <div class='box-body'>
     ";
 }
