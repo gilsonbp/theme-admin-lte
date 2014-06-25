@@ -25,6 +25,10 @@ body > .header .logo {
 
 /* Overrides End */
 
+#action-selected {
+  font-weight: bold;
+  font-style: italic;
+}
 .theme-infobox-title {
   margin-bottom: 10px;
   font-weight: bold;
@@ -75,6 +79,21 @@ body > .header .logo {
 }
 .theme-support-16 {
   color: #000000;
+}
+
+.dashboard-delete-element {
+  font-size: 2em;
+  color: red;
+  position: absolute;
+  right: -12px;
+  top: -20px;
+}
+.dashboard-delete-element:hover {
+  color: red !important;
+  -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
+  filter:alpha(Opacity=70);
+  -moz-opacity: 0.7;
+  opacity: 0.7;
 }
 
 /*

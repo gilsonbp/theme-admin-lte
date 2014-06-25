@@ -113,6 +113,46 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
 ";
 }
 
+function theme_modal_confirm($title, $message, $confirm)
+{
+
+    $buttons = array(
+        anchor_custom($confirm, lang('base_confirm')),
+        anchor_cancel('#', 'low', array('id' => 'modal-close'))
+    );
+
+    echo "
+            <div id='modal-confirm' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true'>
+              <div class='modal-dialog'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                    <h4>$title</h4>
+                  </div>
+                  <div class='modal-body'>
+                    <p>$message</p>
+                  </div>
+                  <div class='modal-footer'>
+                    " . _theme_button_set($buttons) . "
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script type='text/javascript'>
+                $(document).ready(function() {
+                    $('#confirm-action').click(function(e) {
+                        e.preventDefault();
+                        $('#modal-confirm').modal();
+                    });
+                    $('#modal-close').click(function(e) {
+                        e.preventDefault();
+                        $('#modal-confirm').modal('hide');
+                    });
+                });
+            </script>
+    ";
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // B U T T O N S
 ///////////////////////////////////////////////////////////////////////////////
@@ -890,7 +930,7 @@ function theme_form_header($title, $options)
     $status_id_html = (isset($options['id'])) ? "status_" . $options['id'] : 'status_rnd_' . rand(0, 1000);
 
     return "
-        <div class='box box-primary' id='$id_html'>
+        <div id='$id_html'>
             " . ($title != NULL ? "
             <div class='box-header'>
                 <h3 class='box-title'>$title</h3>
