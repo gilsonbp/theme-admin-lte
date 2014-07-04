@@ -438,52 +438,7 @@ function get_marketplace_data(basename) {
                     $('#sidebar_additional_info_row').after(
                         c_row(
                             lang_marketplace_support_policy,
-                            '<a href=\'#\' data-toggle=\'modal\' data-target=\'#support-legend\'>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 1) + '\'></i>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 2) + '\'></i>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 4) + '\'></i>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 8) + '\'></i>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 16) + '\'></i>' +
-                            '</a>' +
-                            '<div id=\'support-legend\' class=\'modal fade\' tabindex=\'-1\' role=\'dialog\' aria-labelledby=\'basicModal\' aria-hidden=\'true\'>' +
-                            '<div class=\'modal-dialog\'>' +
-                            '<div class=\'modal-content\'>' +
-                            '<div class=\'modal-header\'>' +
-                            '<button type=\'button\' class=\'close\' data-dismiss=\'modal\' aria-hidden=\'true\'>&times;</button>' +
-                            '<h4>' + lang_marketplace_support_legend + '</h4>' +
-                            '</div>' +
-                            '<div class=\'modal-body\'>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-1\' style=\'margin-right: 5px;\'></i>' +
-                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_1_title + '</h4>' +
-                            '<p>' +
-                            lang_marketplace_support_1_description +
-                            '</p>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-2\' style=\'margin-right: 5px;\'></i>' +
-                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_2_title + '</h4>' +
-                            '<p>' +
-                            lang_marketplace_support_2_description +
-                            '</p>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-4\' style=\'margin-right: 5px;\'></i>' +
-                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_4_title + '</h4>' +
-                            '<p>' +
-                            lang_marketplace_support_4_description +
-                            '</p>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-8\' style=\'margin-right: 5px;\'></i>' +
-                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_8_title + '</h4>' +
-                            '<p>' +
-                            lang_marketplace_support_8_description +
-                            '</p>' +
-                            '<i class=\'fa fa-circle theme-support theme-support-16\' style=\'margin-right: 5px;\'></i>' +
-                            '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_16_title + '</h4>' +
-                            '<p>' +
-                            lang_marketplace_support_16_description +
-                            '</p>' +
-                            '<div class=\'modal-footer\'>' +
-                            '<a href=\'http://www.clearcenter.com/clearcare/landing\' target=\'_blank\'>' + lang_marketplace_learn_more + '...</a>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
+                            get_support_policy(json)
                         )
                     );
                 }
@@ -530,4 +485,53 @@ function c_row(field, value) {
                 '<div class=\'col-lg-6\'>' + value + '</div>' +
            '</div>'
     ;
+}
+
+function get_support_policy(json) {
+    return '<a href=\'#\' data-toggle=\'modal\' data-target=\'#support-legend\'>' +
+        '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 1) + '\'></i>' +
+        '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 2) + '\'></i>' +
+        '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 4) + '\'></i>' +
+        '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 8) + '\'></i>' +
+        '<i class=\'fa fa-circle theme-support theme-support-' + (json.supported & 16) + '\'></i>' +
+        '</a>' +
+        '<div id=\'support-legend\' class=\'modal fade\' tabindex=\'-1\' role=\'dialog\' aria-labelledby=\'basicModal\' aria-hidden=\'true\'>' +
+        '<div class=\'modal-dialog\'>' +
+        '<div class=\'modal-content\'>' +
+        '<div class=\'modal-header\'>' +
+        '<button type=\'button\' class=\'close\' data-dismiss=\'modal\' aria-hidden=\'true\'>&times;</button>' +
+        '<h4>' + lang_marketplace_support_legend + '</h4>' +
+        '</div>' +
+        '<div class=\'modal-body\'>' +
+        '<i class=\'fa fa-circle theme-support theme-support-1\' style=\'margin-right: 5px;\'></i>' +
+        '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_1_title + '</h4>' +
+        '<p>' +
+        lang_marketplace_support_1_description +
+        '</p>' +
+        '<i class=\'fa fa-circle theme-support theme-support-2\' style=\'margin-right: 5px;\'></i>' +
+        '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_2_title + '</h4>' +
+        '<p>' +
+        lang_marketplace_support_2_description +
+        '</p>' +
+        '<i class=\'fa fa-circle theme-support theme-support-4\' style=\'margin-right: 5px;\'></i>' +
+        '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_4_title + '</h4>' +
+        '<p>' +
+        lang_marketplace_support_4_description +
+        '</p>' +
+        '<i class=\'fa fa-circle theme-support theme-support-8\' style=\'margin-right: 5px;\'></i>' +
+        '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_8_title + '</h4>' +
+        '<p>' +
+        lang_marketplace_support_8_description +
+        '</p>' +
+        '<i class=\'fa fa-circle theme-support theme-support-16\' style=\'margin-right: 5px;\'></i>' +
+        '<h4 class=\'theme-support-type\'>' + lang_marketplace_support_16_title + '</h4>' +
+        '<p>' +
+        lang_marketplace_support_16_description +
+        '</p>' +
+        '<div class=\'modal-footer\'>' +
+        '<a href=\'http://www.clearcenter.com/clearcare/landing\' target=\'_blank\'>' + lang_marketplace_learn_more + '...</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
 }

@@ -113,16 +113,26 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
 ";
 }
 
-function theme_modal_confirm($title, $message, $confirm)
+/**
+ * Modal confirmation form.
+ *
+ * @param string $title   title
+ * @param string $message message
+ * @param string $confirm confirmation URL
+ * @param string $form_id form ID
+ *
+ * @return HTML for anchor
+ */
+function theme_modal_confirm($title, $message, $confirm, $form_id = NULL)
 {
 
     $buttons = array(
-        anchor_custom($confirm, lang('base_confirm')),
+        anchor_custom(($form_id == NULL ? $confirm : "#"), lang('base_confirm'), 'high', array('id' => 'modal-confirm')),
         anchor_cancel('#', 'low', array('id' => 'modal-close'))
     );
 
     echo "
-            <div id='modal-confirm' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true'>
+            <div id='modal-confirm-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
                   <div class='modal-header'>
@@ -142,12 +152,18 @@ function theme_modal_confirm($title, $message, $confirm)
                 $(document).ready(function() {
                     $('#confirm-action').click(function(e) {
                         e.preventDefault();
-                        $('#modal-confirm').modal();
+                        $('#modal-confirm-wrapper').modal({backdrop: 'static'});
                     });
                     $('#modal-close').click(function(e) {
                         e.preventDefault();
-                        $('#modal-confirm').modal('hide');
+                        $('#modal-confirm-wrapper').modal('hide');
                     });
+                    " . ($form_id != NULL ? "
+                    $('#modal-confirm').click(function() {
+                        $('#modal-confirm-wrapper').modal('hide');
+                        $('#$form_id').submit();
+                    });
+                    " : "") . "
                 });
             </script>
     ";
@@ -909,6 +925,51 @@ function theme_field_info($id, $label, $text, $options = NULL)
 } 
 
 ///////////////////////////////////////////////////////////////////////////////
+// G E N E R I C  B O X
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Open Box element.
+ *
+ * Supported options:
+ * - id 
+ *
+ * @param string $title box title
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_box_open($title, $options)
+{
+    $id_html = (isset($options['id'])) ? $options['id'] : 'options_' . rand(0, 1000);
+    $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
+    return "
+        <div class='box box-solid$classes' id='$id_html'>
+            " . ($title != NULL ? "
+            <div class='box-header'>
+                <h3 class='box-title' id='" . $id_html . "_title'>$title</h3>
+            </div>
+            " : "") . "
+            <div class='box-body'>
+    ";
+}
+
+/**
+ * Close Box element.
+ *
+ * @return string HTML
+ */
+
+function theme_box_close()
+{
+    return "
+            </div>
+        </div>
+    ";
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // F O R M  H E A D E R / F O O T E R
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -926,11 +987,11 @@ function theme_field_info($id, $label, $text, $options = NULL)
 
 function theme_form_header($title, $options)
 {
-    $id_html = (isset($options['id'])) ? $options['id'] : 'rnd_' . rand(0, 1000);
-    $status_id_html = (isset($options['id'])) ? "status_" . $options['id'] : 'status_rnd_' . rand(0, 1000);
+    $id_html = (isset($options['id'])) ? $options['id'] : 'options_' . rand(0, 1000);
+    $status_id_html = (isset($options['id'])) ? "status_" . $options['id'] : 'status_options_' . rand(0, 1000);
 
     return "
-        <div id='$id_html'>
+        <div class='box box-primary' id='$id_html'>
             " . ($title != NULL ? "
             <div class='box-header'>
                 <h3 class='box-title'>$title</h3>
@@ -2271,6 +2332,107 @@ function theme_column_open($desktop, $tablet = NULL, $phone = NULL, $options = N
 function theme_column_close($options = NULL)
 {
     return "</div>"; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// A P P   L O G O
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Get an app logo.
+ *
+ * @param string $basename app base name
+ * @param array  $options  options
+ *
+ * Options:
+ *  id: DOM ID
+ *  size: DOM ID
+ *  alttext: Alt text
+ *  class: class(es)
+ *
+ * @return string HTML
+ */
+
+function theme_app_logo($basename, $options = NULL)
+{
+    $id = (isset($options['id'])) ? " id='" . $options['id'] . "'" : "";
+    $class = (isset($options['class'])) ? " " . $options['class'] : "";
+    $alt = (isset($options['alt'])) ? " " . $options['alt'] : "";
+    $size = (isset($options['size'])) ? " " . $options['size'] : "";
+    $color = (isset($options['color'])) ? " " . $options['color'] : "";
+    
+    //return "<img" . $id . " class='theme-app-logo" . $class . "' src='" . clearos_app_htdocs($basename) . "/" . $basename . "_50x50.png' alt='" . $alt . "'>"; 
+    return "
+        <div class='theme-app-logo-container box box-solid bg-navy'>
+            <div class='theme-app-logo box-body'>
+                <i class='icon-$basename'></i>
+            </div>
+        </div>
+    ";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// M A R K E T P L A C E
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Get marketplace filter.
+ *
+ * @param string $name     name of filter
+ * @param array  $values   values to select from
+ * @param string $selected selected option
+ * @param array  $options  options
+ *
+ * Options:
+ *
+ * @return string HTML
+ */
+
+function theme_marketplace_filter($name, $values, $selected = 'all', $options)
+{
+    $class = (isset($options['class'])) ? " " . $options['class'] : "";
+    
+    //$html = "<select class='filter_event$class' name='filter_$name' id='filter_$name'>";
+    //foreach ($values as $key => $readable)
+    //    $html .= "<option value='$name'" . ($key == $selected ? ' selected' : '') . ">" . $readable . "</option>";
+    //$html .= "</select>";
+
+    $html = "<div class='btn-group'>
+        <button type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle' data-toggle='dropdown'>" .
+            $values[$selected] . "<span class='caret'></span>
+        </button>
+        <ul class='dropdown-menu' role='menu'>
+    ";
+
+    foreach ($values as $key => $readable)
+        $html .= "<li><a href='$key'>$readable</a>";
+
+    $html .= "  </ul>";
+    $html .= "</div>";
+    return $html;
+}
+
+/**
+ * Get marketplace search.
+ *
+ * @param string $placeholder placeholder
+ *
+ * @return string HTML
+ */
+
+function theme_marketplace_search($placeholder)
+{
+    $html = "
+        <form action='#' class='text-right'>
+            <div class='input-group'>                                                            
+                <input type='text' class='form-control input-sm' placeholder='$placeholder'>
+                <div class='input-group-btn'>
+                    <button type='submit' name='q' class='btn btn-sm btn-primary'><i class='fa fa-search'></i></button>
+                </div>
+            </div>                                                     
+        </form>
+    ";
+    return $html;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

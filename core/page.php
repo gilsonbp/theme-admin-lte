@@ -332,7 +332,7 @@ function _console_page($page)
 
 function _get_main_content($page)
 {
-    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION)
+    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION || $page['type'] == MY_Page::TYPE_SPOTLIGHT)
         return "
             <aside class='right-side'>
                 <section class='content-header'>
@@ -388,6 +388,8 @@ function _get_header($page, $menus = array())
     $theme_url = clearos_theme_url('AdminLTE');
 
     $my_account = '';
+    $framework =& get_instance();
+
     if (! isset($framework->session->userdata['wizard'])) {
         foreach ($page['menus'] as $route => $details) {
             if ($details['category'] == lang('base_category_my_account')) {

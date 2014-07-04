@@ -14,6 +14,11 @@
 	font-family: 'Arial' !important;
 }
 
+/* Override button dropdowns in Marketplace */
+.btn .caret {
+	margin-left: 5px;
+}
+
 /* Selector category in LHS menu */
 .btn-default.active {
   background-color: #ebebeb!important;
@@ -44,9 +49,43 @@ body > .header .logo {
 .theme-hidden, .cos7-hidden {
   display: none;
 }
+
+.theme-app-logo-container {
+  width: 144px;
+}
+.theme-app-logo {
+  font-size: 55pt;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
 .cos7-text-bad-status {
   color: red;
 }
+
+/* ===================== */
+/* M A R K E T P L A C E */
+/* ===================== */
+
+.marketplace-app-info-container .box-header .box-title {
+  font-size: 2.5em;
+}
+.marketplace-app-info {
+  margin-top: -12px;
+}
+.marketplace-about {
+  padding-top: 10px;
+}
+.marketplace-about-field {
+  text-transform:uppercase;
+  color: #e1852e;
+}
+.marketplace-about-value {
+  text-transform:capitalize;
+}
+
+
+
 
 .cos7-text-good-status {
   color: green;
@@ -85,8 +124,8 @@ body > .header .logo {
   font-size: 2em;
   color: red;
   position: absolute;
-  right: -12px;
-  top: -20px;
+  right: -10px;
+  top: -15px;
 }
 .dashboard-delete-element:hover {
   color: red !important;
@@ -514,9 +553,7 @@ a.highlight-link:hover {
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	font-size: 125px;
 	line-height: 1;
-	color: #a4591b;
 
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
