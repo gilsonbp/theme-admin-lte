@@ -2371,6 +2371,30 @@ function theme_app_logo($basename, $options = NULL)
     ";
 }
 
+/**
+ * Get and display a screenshot set.
+ *
+ * @param string $id      DOM id
+ * @param array  $images  array of metadata
+ * @param array  $options options
+ *
+ * Options:
+ *  TODO
+ *
+ * @return string HTML
+ */
+
+function theme_screenshot_set($id, $images, $options)
+{
+    // TODO add support for images array if not ajax pulled
+    
+    return "
+        <div class='image-row'>
+            <div id='$id' class='image-set'></div>
+        </div>
+    ";
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // M A R K E T P L A C E
 ///////////////////////////////////////////////////////////////////////////////
@@ -2431,6 +2455,37 @@ function theme_marketplace_search($placeholder)
                 </div>
             </div>                                                     
         </form>
+    ";
+    return $html;
+}
+
+/**
+ * Get marketplace developer field metadata.
+ *
+ * @param string $id      DOM id
+ * @param string $field   Human readable field name
+ * @param array  $options Options
+ *
+ * @return string HTML
+ */
+
+function theme_marketplace_developer_field($id, $field, $options = NULL)
+{
+    $icon = 'fa-question';
+    if (preg_match('/.*org$/', $id))
+        $icon = 'fa-building';
+    else if (preg_match('/.*contact$/', $id))
+        $icon = 'fa-user';
+    else if (preg_match('/.*email$/', $id))
+        $icon = 'fa-envelope-o';
+    else if (preg_match('/.*website$/', $id))
+        $icon = 'fa-globe';
+    $html = "
+        <div class='marketplace-devel-container'>
+            <div class='marketplace-devel-icon'><i class='fa $icon'></i></div>
+            <div class='marketplace-devel-field'>$field:</div>
+            <div id='$id' class='marketplace-devel-value'></div>
+        </div>                                                     
     ";
     return $html;
 }

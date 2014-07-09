@@ -50,6 +50,7 @@ function theme_page_javascript($custom_settings)
 <script type='text/javascript' src='$theme_url/js/jquery.cookie.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery-ui-1.10.4.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/bootstrap.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/lightbox.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/bootstrap-dialog/bootstrap-dialog.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/metisMenu/jquery.metisMenu.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/colorpicker/bootstrap-colorpicker.min.js'></script>
