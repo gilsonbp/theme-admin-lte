@@ -28,16 +28,20 @@ $(document).ready(function() {
 
 function theme_clearos_dialog_box(id, title, message, options)
 {
+    // TODO window.location should be replaced with native API calls
+    // http://nakupanda.github.io/bootstrap3-dialog/
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_WARNING,
         title: title,
         buttons: [{
-            label: 'Close',
-            action: function() {
-                if (options.reload_on_close)
+            label: lang_close,
+            action: function(my_dialog) {
+                if (typeof options != 'undefined' && options.reload_on_close)
                     window.location.reload();
-                else if (options.redirect_on_close)
+                else if (typeof options != 'undefined' && options.redirect_on_close)
                     window.location = options.redirect_on_close;
+                else
+                    my_dialog.close();
             }
         }],
         message: message

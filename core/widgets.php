@@ -2490,6 +2490,69 @@ function theme_marketplace_developer_field($id, $field, $options = NULL)
     return $html;
 }
 
+/**
+ * Get marketplace developer field metadata.
+ *
+ * @param string $basename  basename
+ * @param string $pseudonym pseudonym
+ *
+ * @return string HTML
+ */
+
+function theme_marketplace_review($basename, $pseudonum)
+{
+    $buttons = array(
+        anchor_custom("#", lang('marketplace_submit_review'), 'high', array('id' => 'submit_review')),
+        anchor_cancel('#', 'low', array('id' => 'cancel_review'))
+    );
+
+    return "
+        <div id='review-form' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true'>
+          <div class='modal-dialog'>
+            <div class='modal-content'>
+              <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                <h2>" . lang('marketplace_write_a_review') . "</h2>
+              </div>\n
+              <div class='modal-body'>
+                <table width='100%' border='0'>
+                  <tr class='rating'><td onclick='update_rating(0)'>" . lang('marketplace_rating') . "</td>
+                    <td>
+                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star1' onclick='update_rating(1)' />
+                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star2' onclick='update_rating(2)' />
+                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star3' onclick='update_rating(3)' />
+                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star4' onclick='update_rating(4)' />
+                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star5' onclick='update_rating(5)' />
+                      <input type='hidden' name='rating' id='rating' value='0' />
+                    </td>
+                  </tr>
+                  <tr class='rating'><td valign='top'>" . lang('marketplace_comment') . "</td><td><textarea id='comment' style='font-size: 9pt; width: 400px; height: 80px;'></textarea><div id='char-remaining'>1000 " . lang('marketplace_remaining') . "</div></td></tr>
+                  <tr class='rating'><td>" . lang('marketplace_submitted_by') . "</td>
+                    <td><input type='text' id='pseudonym' name='pseudonym' value='$pseudonym' /></td>
+                  </tr>
+                </table>
+              </div>
+              <div class='modal-footer'>
+                 " . _theme_button_set($buttons) . "
+              </div>
+            </div>
+          </div>
+        </div>
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                $('#cancel_review').click(function(e) {
+                    e.preventDefault();
+                    $('#review-form').modal('hide');
+                });
+                $('#modal-confirm').click(function() {
+                    $('#review-form').modal('hide');
+                    $('#$form_id').submit();
+                });
+            });
+        </script>
+    ";
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // C O N T R O L  P A N E L
 ///////////////////////////////////////////////////////////////////////////////
