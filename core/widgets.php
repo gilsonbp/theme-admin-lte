@@ -118,21 +118,30 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
  *
  * @param string $title   title
  * @param string $message message
- * @param string $confirm confirmation URL
+ * @param mixed  $confirm confirmation URL or array containing JS
  * @param string $form_id form ID
+ * @param string $id      DOM ID
  *
  * @return HTML for anchor
  */
-function theme_modal_confirm($title, $message, $confirm, $form_id = NULL)
+function theme_modal_confirm($title, $message, $confirm, $form_id = NULL, $id = NULL)
 {
 
+    if ($id == NULL)
+        $id = 'modal-confirm-' . rand(0,50);
+
     $buttons = array(
-        anchor_custom(($form_id == NULL ? $confirm : "#"), lang('base_confirm'), 'high', array('id' => 'modal-confirm')),
+        anchor_custom(($form_id == NULL && !is_array($confirm) ? $confirm : "#"), lang('base_confirm'), 'high', array('id' => $id)),
         anchor_cancel('#', 'low', array('id' => 'modal-close'))
     );
 
+    $js_lines = "";
+    if (is_array($confirm)) {
+        foreach ($confirm as $line)
+            $js_lines .= $line . "\n";
+    }
     echo "
-            <div id='modal-confirm-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
+            <div id='" . $id . "-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
                   <div class='modal-header'>
@@ -152,18 +161,23 @@ function theme_modal_confirm($title, $message, $confirm, $form_id = NULL)
                 $(document).ready(function() {
                     $('#confirm-action').click(function(e) {
                         e.preventDefault();
-                        $('#modal-confirm-wrapper').modal({backdrop: 'static'});
+                        $('#" . $id . "-wrapper').modal({backdrop: 'static'});
                     });
                     $('#modal-close').click(function(e) {
                         e.preventDefault();
-                        $('#modal-confirm-wrapper').modal('hide');
+                        $('#" . $id . "-wrapper').modal('hide');
                     });
                     " . ($form_id != NULL ? "
-                    $('#modal-confirm').click(function() {
-                        $('#modal-confirm-wrapper').modal('hide');
+                    $('#$id').click(function() {
+                        $('#" . $id . "-wrapper').modal('hide');
                         $('#$form_id').submit();
                     });
-                    " : "") . "
+                    " : (is_array($confirm) ? "
+                    $('#$id').click(function() {
+                        $('#" . $id . "-wrapper').modal('hide');
+                        " . $js_lines . "
+                    });
+                    " : "")) . "
                 });
             </script>
     ";
@@ -2515,22 +2529,33 @@ function theme_marketplace_review($basename, $pseudonum)
                 <h2>" . lang('marketplace_write_a_review') . "</h2>
               </div>\n
               <div class='modal-body'>
-                <table width='100%' border='0'>
-                  <tr class='rating'><td onclick='update_rating(0)'>" . lang('marketplace_rating') . "</td>
-                    <td>
-                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star1' onclick='update_rating(1)' />
-                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star2' onclick='update_rating(2)' />
-                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star3' onclick='update_rating(3)' />
-                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star4' onclick='update_rating(4)' />
-                      <img src='" . clearos_app_htdocs('marketplace') . "/star_off.png' alt='-' id='star5' onclick='update_rating(5)' />
-                      <input type='hidden' name='rating' id='rating' value='0' />
-                    </td>
-                  </tr>
-                  <tr class='rating'><td valign='top'>" . lang('marketplace_comment') . "</td><td><textarea id='comment' style='font-size: 9pt; width: 400px; height: 80px;'></textarea><div id='char-remaining'>1000 " . lang('marketplace_remaining') . "</div></td></tr>
-                  <tr class='rating'><td>" . lang('marketplace_submitted_by') . "</td>
-                    <td><input type='text' id='pseudonym' name='pseudonym' value='$pseudonym' /></td>
-                  </tr>
-                </table>
+                " . theme_row_open() .
+                theme_column_open(3) . lang('marketplace_rating') . theme_column_close() .
+                theme_column_open(9) . "
+                    <i class='app-rating-action theme-star fa fa-star' id='star1'></i>
+                    <i class='app-rating-action theme-star fa fa-star' id='star2'></i>
+                    <i class='app-rating-action theme-star fa fa-star' id='star3'></i>
+                    <i class='app-rating-action theme-star fa fa-star' id='star4'></i>
+                    <i class='app-rating-action theme-star fa fa-star' id='star5'></i>
+                    <input type='hidden' name='rating' id='rating' value='0' />" .
+                theme_column_close() .
+                theme_row_close() .
+                theme_row_open() .
+                theme_column_open(3) . lang('marketplace_comment') . theme_column_close() .
+                theme_column_open(9) . "
+                    <textarea id='comment' class='marketplace-comment-box'></textarea>
+                    <div id='char-remaining' class='theme-smaller-text'>1000 " . lang('marketplace_remaining') . "</div>" . 
+                theme_column_close() .
+                theme_row_close() .
+                theme_row_open() .
+                theme_column_open(3) . lang('marketplace_submitted_by') . theme_column_close() .
+                theme_column_open(9) . "
+                    <input type='text' class='theme-full-width' id='pseudonym' name='pseudonym' value='$pseudonym' />" .
+                theme_column_close() .
+                theme_row_close() .
+                theme_row_open() . "
+                <div id='review-message-bar' class='theme-errmsg-separator'></div>" .
+                theme_row_close() . "
               </div>
               <div class='modal-footer'>
                  " . _theme_button_set($buttons) . "
@@ -2548,9 +2573,21 @@ function theme_marketplace_review($basename, $pseudonum)
                     $('#review-form').modal('hide');
                     $('#$form_id').submit();
                 });
+                $('.app-rating-action').on('click', function() {
+                    rating = this.id.substr(4,5);
+                    for (var starindex = 1; starindex <= 5; starindex++) {
+                        if (rating >= starindex)
+                            $('#star' + starindex).addClass('on');
+                        else
+                            $('#star' + starindex).removeClass('on');
+                    }
+                    $('#rating').val(rating);
+                });
             });
-        </script>
-    ";
+
+        </script>" .
+        theme_modal_confirm(lang('base_warning'), lang('marketplace_confirm_review_replace'), array("submit_review(true);"), NULL, 'confirm-review-replace')
+    ;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

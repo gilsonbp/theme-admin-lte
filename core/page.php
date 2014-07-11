@@ -63,7 +63,7 @@ function theme_page_open($settings)
     return "<body class='" . $settings['css'] . "'>\n";
 }
 
-function theme_page_close()
+function theme_page_close($page)
 {
     return "</body></html>\n";
 }
@@ -83,7 +83,8 @@ function _configuration_page($page)
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
         _get_main_content($page) .
-        "</div>"
+        "</div>" .
+        _get_footer($page)
     ;
 
     return $layout;
@@ -104,7 +105,8 @@ function _wide_configuration_page($page)
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
         _get_main_content($page) .
-        "</div>"
+        "</div>" .
+        _get_footer($page)
     ;
 
     return $layout;
@@ -124,8 +126,8 @@ function _report_page($page)
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
-        _get_main_content($page) .
-        "</div>"
+        "</div>" .
+        _get_footer($page)
     ;
     return $layout;
     $menus = _get_left_menu($page);
@@ -212,7 +214,8 @@ function _dashboard_page($page)
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
         _get_main_content($page) .
-        "</div>"
+        "</div>" .
+        _get_footer($page)
     ;
 
     return $layout;
@@ -233,7 +236,8 @@ function _spotlight_page($page)
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
         _get_main_content($page) .
-        "</div>"
+        "</div>" .
+        _get_footer($page)
     ;
 
     return $layout;
@@ -286,7 +290,8 @@ function _exception_page($page)
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
         _get_main_content($page) .
-        "</div>"
+        "</div>" .
+        _get_footer($page)
     ;
 
     return $layout;
@@ -340,7 +345,7 @@ function _get_main_content($page)
                     <h1>" . $page['title'] . "</h1>
                 </section>
                 <section class='content'>
-                    <div class='col-lg-12'>
+                    <div class='col-lg-12 theme-content'>
                 " . $page['app_view'] . "
                     </div>
                 </section>
@@ -354,7 +359,7 @@ function _get_main_content($page)
                     <h1>" . $page['title'] . "</h1>
                 </section>
                 <section class='content'>
-                    <div class='col-lg-8'>
+                    <div class='col-lg-8 theme-content'>
                 " . $page['app_view'] . "
                     </div>
                     <div class='col-lg-4'>
@@ -690,6 +695,26 @@ function _get_content_header()
                 </div>
             </div><!-- ./col -->
         </div>
+    ";
+}
+
+/**
+ * Returns footer
+ * 
+ * @param array $page page data
+ *
+ * @return string menu HTML output
+ */
+
+function _get_footer($page) 
+{
+    return "
+    <!-- Footer -->
+    <div id='theme-footer-container'>
+      <section id='copyright' class='theme-copyright'>
+        <div><p>Web Theme Copyright © 2010 - 2014 ClearCenter</p></div>
+      </section>
+    </div>
     ";
 }
 

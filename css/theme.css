@@ -44,10 +44,17 @@ body > .header .logo {
   font-size: 15px;
 }
 .theme-star {
+  color: #cccccc;
+}
+.theme-star.on {
   color: #e1852e;
 }
+
 .theme-hidden, .cos7-hidden {
   display: none;
+}
+.theme-smaller-text {
+  font-size: .75em;
 }
 
 .theme-app-logo-container {
@@ -65,7 +72,41 @@ body > .header .logo {
   min-height: 120px;
   padding-left: 10px;
 }
-
+.theme-full-width {
+  width: 100%;
+}
+.theme-errmsg-separator {
+  margin: 20px 20px 0px 20px;
+}
+.theme-copyright {
+  padding: 50px;
+  color: #ffffff;
+  text-align: center;
+  background-color: #454545;
+}
+.theme-content {
+  padding-bottom: 50px;
+}
+.theme-review {
+  padding-top: 10px;
+}
+.theme-review-reviewer, .theme-review-rating {
+  float: left;
+}
+.theme-review-reviewer {
+  padding-right: 10px;
+}
+.theme-review-title {
+  float: left;
+  width: 80%;
+}
+.theme-review-title-highlight {
+  font-weight: bold;
+}
+.theme-review-mod {
+  float: left;
+  width: 5%;
+}
 .cos7-text-bad-status {
   color: red;
 }
@@ -102,6 +143,10 @@ body > .header .logo {
   float: left;
   padding-right: 15px;
   font-weight: bold;
+}
+.marketplace-comment-box {
+  width: 100%;
+  min-height: 80px;
 }
 
 .cos7-text-good-status {
@@ -205,23 +250,6 @@ body > .header .logo {
   width: 16px;
   margin-top: 2px;
   float: right;
-}
-
-.star_on {
-  background-image: url(../images/star_on.png);
-  background-repeat: no-repeat;
-  height: 11;
-  width: 11;
-  float:right;
-}
-
-/* TODO: Markeplace merge */
-.star_off {
-  background-image: url(../images/star_off.png);
-  background-repeat: no-repeat;
-  height: 11;
-  width: 11;
-  float:right;
 }
 
 #pagination-top div {
@@ -481,21 +509,6 @@ body > .header .logo {
 #indiv_upgrade, x:-moz-any-link, x:default {padding-left: 3px; padding-right: 3px;}
 
 #indiv_install {padding-left: 5px; padding-right: 4px;}
-
-#review_sdn_login {padding-left: 6px; padding-right: 6px;}
-
-#review_sdn_login, x:-moz-any-link, x:default {padding-left: 3px; padding-right: 3px;}
-
-#add_review {padding-left: 5px; padding-right: 0px; font-size: 10px; top: 1px;}
-#add_review {padding-right: 3px;}
-
-#prevent_review {padding-left: 6px; padding-right: 6px; margin-top: 10px; }
-
-#tabs-versions {margin-bottom: 10px;}
-
-#search_and_install div {float:right;}
-
-#search_and_install input {border: 1px solid #d1d3d4; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; padding: 3px 5px; color: #686868; float: right;}
 
 .dialog_alert_icon {
   background-image: url('../images/icon-note.png');

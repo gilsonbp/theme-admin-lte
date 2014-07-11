@@ -122,12 +122,13 @@ function theme_clearos_is_authenticated()
             } else if (data.code == 0 && !data.authorized) {
 
                 // Open dialog
-                $('#sdn-login-dialog').modal();
+                $('#sdn-login-dialog').modal({show: true, backdrop: 'static'});
                 // If user closes modal box, redirect to non-edit mode
                 $('#sdn-login-dialog').on('hidden.bs.modal', function() {
                     if (!my_location.default_controller)
                         return;
-                    window.location = '/app/' + my_location.basename;
+// TODO TODO - Need workaround.cannot enable code below...set flag? 
+//                    window.location = '/app/' + my_location.basename;
                 });
 
                 // If email was submitted...reset was a success...
@@ -225,7 +226,8 @@ function theme_clearos_on_page_ready(my_location)
         </div> \
     ');
 
-    $('#sdn_login_action').click(function (e) {
+    $('#sdn_login_action').on('click', function () {
+        auth_options.reload_after_auth = false;
         auth_options.action_type = 'login';
 
         if ($('#sdn_lost_password_group').is(':visible'))
@@ -241,42 +243,6 @@ function theme_clearos_on_page_ready(my_location)
         $('.autofocus').focus();
         $('#sdn_login_action').text($('#sdn_login_action').text() == lang_login ? lang_reset_password_and_send : lang_login);
     });
-/*
-
-                  <div id="sdn_lost_password_group" class="theme-hidden"> \
-                    <div style="float: left; width: 120px; text-align: right; padding-top: 5px;">' + lang_sdn_email + '</div> \
-                    <div style="float: left; width: 120px; margin-left: 10px;"> \
-                      <input id="sdn_email" type="text" style="width: 120px" name="sdn_email" value="" class="autofocus" /> \
-                    </div> \
-                  </div> \
-                    <div> \
-                      <a href="#" id="sdn_forgot_password" style="font-size: 9px;">' + lang_forgot_password + '</a> \
-                    </div> \
-
-        buttons: {
-            'authenticate': {
-                text: lang_authenticate,
-                click: function() {
-                    auth_options.action_type = 'login';
-
-                    if ($('#sdn_lost_password_group').is(':visible'))
-                        auth_options.action_type = 'lost_password';
-                    theme_clearos_is_authenticated();
-                }
-            },
-            'close': {
-                text: lang_close,
-                click: function() {
-                    // Go back to basename
-                    $(this).dialog('close');
-                    // If not at default controller, reload page
-                    if (!my_location.default_controller)
-                        return;
-                    window.location = 'https://' + document.location.host + '/app/' + my_location.basename;
-                }
-            }
-        }
-    });
 
     $('input#sdn_password').keyup(function(event) {
         if (event.keyCode == 13) {
@@ -291,6 +257,7 @@ function theme_clearos_on_page_ready(my_location)
             theme_clearos_is_authenticated();
         }
     });
+/*
 
 
     $('#theme-banner-my-account-nav').click(function (e) {
@@ -306,6 +273,31 @@ function theme_clearos_on_page_ready(my_location)
         setTimeout(function() {$('#theme-banner-my-account-container').hide('slide', {direction: 'right'}, 500)}, 1000);
     });
 */
+}
+
+function theme_rating_review(basename, id, title, comment, rating, pseudonym, timestamp, agree, disagree) {
+    return '' +
+        '<div class=\'theme-review\'>' +
+        '  <div>' +
+        '    <div class=\'theme-review-reviewer\'>' + pseudonym + '</div>' +
+        '    <div class=\'theme-review-rating\'>' + theme_star_rating(rating) + '</div>' +
+        '  </div>' +
+        '  <div style=\'clear: both;\'</div>' +
+        '  <div>' +
+        '    <div class=\'theme-review-title\'><span class=\'theme-review-title-highlight\'>' + title + '</span>' + (comment != null ? comment.substr(title.length) : '') + '</div>' +
+        '    <div class=\'theme-review-mod agree\'><a href=\'#\' id=\'' + basename + '-' + id + '-up\' class=\'btn btn-sm btn-primary review-action\'><span id=\'agree_' + id + '\'>' + agree + '</span> <i class=\'fa fa-thumbs-up\'></i></a></div>' +
+        '    <div class=\'theme-review-mod disagree\'><a href=\'#\' id=\'' + basename + '-' + id + '-dn\' class=\'btn btn-sm btn-primary review-action\'><span id=\'disagree_' + id + '\'>' + disagree + '</span> <i class=\'fa fa-thumbs-down\'></i></a></div>' +
+        '  </div>' +
+        '</div>'
+    ;
+}
+
+function theme_star_rating(stars) {
+    var html = '';
+    for (var index = 1; index <= 5; index++)
+        html += '<i class=\'app-rating-action theme-star fa fa-star' + (stars >= index ? ' on' : '') + '\'></i>';
+
+    return html;
 }
 
 function get_marketplace_data(basename) {
