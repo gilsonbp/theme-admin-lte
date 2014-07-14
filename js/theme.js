@@ -71,6 +71,36 @@ function theme_clearos_info_box(type, title, message, options)
     ';
 }
 
+function theme_related_app(type, app)
+{
+    box_class = 'box-primary';
+
+    if (type == 'complimentary')
+        box_class = 'box-primary';
+    else if (type == 'other_by_devel')
+        box_class = 'box-warning';
+console.log(app);
+    return '\
+        <div class="box ' + box_class + ' marketplace-related-app" id="box-' + app.basename + '">\
+            <div class="box-header">\
+                <h3 class="box-title">' + app.name + '</h3>\
+            </div>\
+            <div class="box-body">\
+                <div class="marketplace-app-info">\
+                    <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
+                    <div class="marketplace-app-info-icon"><i class="icon-' + app.basename + '"></i></div>\
+                    <div class="marketplace-app-info-description">\
+                    ' + app.description.substr(0,200).replace(/\\n/g, '</p><p>') + ' \
+                    </div>\
+                </div>\
+            </div>\
+            <div class="box-footer">\
+                <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '">' + lang_marketplace_learn_more + '</a></div>\
+            </div>\
+        </div>\
+    ';
+}
+
 function theme_clearos_is_authenticated()
 {
 

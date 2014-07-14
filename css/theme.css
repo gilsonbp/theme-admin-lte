@@ -148,6 +148,22 @@ body > .header .logo {
   width: 100%;
   min-height: 80px;
 }
+.marketplace-related-app {
+  width: 45%;
+  margin-right: 20px;
+  float: left;
+}
+
+.marketplace-app-info-icon {
+  float: left;
+  width: 10%;
+  margin-right: 20px;
+  font-size: 3.5em;
+}
+
+.marketplace-app-info-more {
+  text-align: right;
+}
 
 .cos7-text-good-status {
   color: green;
@@ -690,7 +706,7 @@ a.highlight-link:hover {
 .icon-Server_Mail_Queue:before {
 	content: "\e621";
 }
-.icon-Server_Flexshare:before {
+.icon-flexshare:before {
 	content: "\e622";
 }
 .icon-Server_Backup:before {
@@ -702,7 +718,7 @@ a.highlight-link:hover {
 .icon-SERVER:before {
 	content: "\e625";
 }
-.icon-Security_Audit:before {
+.icon-security_audit:before {
 	content: "\e626";
 }
 .icon-scroll_checkmark:before {
@@ -858,7 +874,10 @@ a.highlight-link:hover {
 .icon-encripted:before {
 	content: "\e659";
 }
-.icon-Dynamic_DNS:before {
+.icon-dynamic_dns:before {
+	content: "\e65a";
+}
+.icon-dynamic_vpn:before {
 	content: "\e65a";
 }
 .icon-dropbox:before {
@@ -918,10 +937,10 @@ a.highlight-link:hover {
 .icon-Bandwidth_Monitor:before {
 	content: "\e66d";
 }
-.icon-Antispam_Updates:before {
+.icon-antispam_updates:before {
 	content: "\e66e";
 }
-.icon-Antimalware_Updates:before {
+.icon-antimalware_updates:before {
 	content: "\e66f";
 }
 .icon-alarm_clock:before {
