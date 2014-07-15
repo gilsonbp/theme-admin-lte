@@ -272,7 +272,29 @@ function _login_page($page)
 
 function _splash_page($page)
 {
-    echo "todo - splash";
+    $org_css = preg_replace('/\/core\/.*/', '', realpath(__FILE__)) . '/css/theme-organization.css';
+
+    if (!preg_match('/Community/', $page['os_name']) && ($page['type'] == MY_Page::TYPE_SPLASH_ORGANIZATION) && file_exists($org_css))
+        $class = 'theme-splash-organization-logo';
+    else
+        $class = 'theme-splash-logo';
+
+    return "
+        <!-- Body -->
+        <body>
+
+        <!-- Page Container -->
+        <div class='theme-page-splash-container'>
+            <div class='$class'></div>
+            <div class='theme-content-splash-container'>
+                " . _get_message() . "
+                " . $page['app_view'] . "
+            </div>
+        </div>
+        </body>
+        </html>
+    ";
+
 }
 
 /**
@@ -327,6 +349,24 @@ function _console_page($page)
 // L A Y O U T  H E L P E R S
 //////////////////////////////////////////////////////////////////////////////
 
+function _get_message()
+{
+    $framework =& get_instance();
+
+    if (! $framework->session->userdata('message_text'))
+        return;
+
+    $message = $framework->session->userdata('message_text');
+    $type =  $framework->session->userdata('message_code');
+    $title = $framework->session->userdata('message_title');
+
+    $framework->session->unset_userdata('message_text');
+    $framework->session->unset_userdata('message_code');
+    $framework->session->unset_userdata('message_title');
+
+    return theme_infobox($type, $title, $message);
+}
+
 /**
  * Returns main content.
  * 
@@ -346,6 +386,7 @@ function _get_main_content($page)
                 </section>
                 <section class='content'>
                     <div class='col-lg-12 theme-content'>
+                " . _get_message() . "
                 " . $page['app_view'] . "
                     </div>
                 </section>
@@ -360,6 +401,7 @@ function _get_main_content($page)
                 </section>
                 <section class='content'>
                     <div class='col-lg-8 theme-content'>
+                " . _get_message() . "
                 " . $page['app_view'] . "
                     </div>
                     <div class='col-lg-4'>

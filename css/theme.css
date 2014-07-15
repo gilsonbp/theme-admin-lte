@@ -64,6 +64,12 @@ body > .header .logo {
 .theme-app-logo-container {
   width: 144px;
 }
+.theme-page-splash-container {
+  margin-top: 150px; 
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
 .theme-app-logo {
   font-size: 55pt;
   color: rgba(255, 255, 255, 0.85);

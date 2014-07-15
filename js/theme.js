@@ -496,15 +496,16 @@ function get_marketplace_data(basename) {
                 comp_apps = '<h3 class=\'box-title\'>' + lang_marketplace_recommended_apps + '</h3>' +
                     '<div>' + lang_marketplace_sidebar_recommended_apps.replace('APP_NAME', '<b>' + json.name + '</b>') + ':</div>';
                 for (index = 0 ; index < json.complementary_apps.length; index++) {
-                    comp_apps += '<div class=\'row\'><div class=\'col-lg-8\'><a href=\'/app/marketplace/view/' +
-                        json.complementary_apps[index].basename + '\'>' +
-                        json.complementary_apps[index].name + '</a></div>\n';
-                    comp_apps += '<div class=\'col-lg-4\'>';
-                    for (var counter = 5 ; counter > Math.round(json.complementary_apps[index].rating); counter--)
-                        comp_apps += '<i class=\'fa fa-star-o\'></i>';
-                    for (var counter = 0 ; counter < Math.round(json.complementary_apps[index].rating); counter++)
-                        comp_apps += '<i class=\'fa fa-star theme-star\'></i>';
-                    comp_apps += '</div></div>';
+                    comp_apps += '<div class=\'row\'>';
+                    comp_apps += '  <div class=\'col-lg-8\'>';
+                    comp_apps += '    <a href=\'/app/marketplace/view/' + json.complementary_apps[index].basename + '\'>';
+                    comp_apps += json.complementary_apps[index].name;
+                    comp_apps += '    </a>';
+                    comp_apps += '  </div>\n';
+                    comp_apps += '  <div class=\'col-lg-4\'>';
+                    comp_apps += theme_star_rating(Math.round(json.complementary_apps[index].rating));
+                    comp_apps += '  </div>';
+                    comp_apps += '</div>';
                 }
                 $('#sidebar-recommended-apps').html(comp_apps);
             }
