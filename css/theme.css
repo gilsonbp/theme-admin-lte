@@ -34,6 +34,10 @@ body > .header .logo {
   font-weight: bold;
   font-style: italic;
 }
+.theme-infobox {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
 .theme-infobox-title {
   margin-bottom: 10px;
   font-weight: bold;

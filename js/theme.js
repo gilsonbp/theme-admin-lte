@@ -64,10 +64,24 @@ function theme_clearos_info_box(type, title, message, options)
     id = (options != undefined && options.id != undefined) ? ' id="' . options.id + '"' : '';
 
     return ' \
-        <div class="alert ' + box_class + '"' + id + '> \
+        <div class="theme-infobox alert ' + box_class + '"' + id + '> \
             <i class="' + icon_class + '"></i> \
             <strong style="padding-right: 10px;">' + title + '</strong>' + message + ' \
         </div> \
+    ';
+}
+
+function theme_clearos_progress_bar(value, options)
+{
+
+    id = (options != undefined && options.id != undefined) ? ' id="' . options.id + '"' : '';
+
+    return ' \
+        <div class="progress sm " ' + id + '>\
+            <div class="progress-bar progress-bar-primary sm" role="progressbar" valuenow="' + value + '" aria-valuemin="0" aria-valuemax="100" style="width:' + value + '%">\
+                <span class="sr-only">' + value + '%</span>\
+            </div>\
+        </div>\
     ';
 }
 
@@ -79,7 +93,6 @@ function theme_related_app(type, app)
         box_class = 'box-primary';
     else if (type == 'other_by_devel')
         box_class = 'box-warning';
-console.log(app);
     return '\
         <div class="box ' + box_class + ' marketplace-related-app" id="box-' + app.basename + '">\
             <div class="box-header">\

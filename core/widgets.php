@@ -1989,7 +1989,7 @@ function theme_infobox($type, $title, $message, $options = NULL)
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
 
     return "
-        <div class='alert $class' $id>
+        <div class='theme-infobox alert $class' $id>
             <i class='$iconclass'></i>
             <div class='theme-infobox-title'>$title</div>
             <div>$message</div>
