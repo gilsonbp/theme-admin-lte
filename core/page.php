@@ -382,7 +382,8 @@ function _get_main_content($page)
             <aside class='right-side'>
                 <section class='content-header'>
                     " . _get_content_header() . "
-                    <h1>" . $page['title'] . "</h1>
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
+                    <div style='clear: both;'>
                 </section>
                 <section class='content'>
                     <div class='col-lg-12 theme-content'>
@@ -397,7 +398,8 @@ function _get_main_content($page)
             <aside class='right-side'>
                 <section class='content-header'>
                     " . _get_content_header() . "
-                    <h1>" . $page['title'] . "</h1>
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
+                    <div style='clear: both;'>
                 </section>
                 <section class='content'>
                     <div class='col-lg-8 theme-content'>
@@ -1028,17 +1030,43 @@ function _get_left_menu_2($page)
     $main_apps .= "\t\t\t\t</ul>\n";
     $main_apps .= "\t\t\t</li>\n";
 
-file_put_contents("/tmp/bob.txt", $main_apps);
     return "
-<aside class='left-side sidebar-offcanvas'>
-    <div class='navbar-default navbar-static-side' role='navigation'>
-        <div class='sidebar-collapse'>
-            <ul class='nav' id='side-menu'>
-                $spotlights
-                $main_apps
-            </ul>
-        </div>
-    </div>
-</aside>
-";
+        <aside class='left-side sidebar-offcanvas'>
+            <div class='navbar-default navbar-static-side' role='navigation'>
+                <div class='sidebar-collapse'>
+                    <ul class='nav' id='side-menu'>
+                        $spotlights
+                        $main_apps
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    ";
 }
+
+/**
+ * Returns links related to page
+ * 
+ * @param array $links link data
+ *
+ * @return string menu HTML output
+ */
+
+function _get_breadcrumb_links($links)
+{
+    $link_html;
+
+    // Use buttons, images/icons or font
+    foreach ($links as $type => $link) {
+        $icon = 'fa fa-question';
+        if ($type == 'settings')
+            $icon = 'fa fa-gear';
+        else if ($type == 'delete')
+            $icon = 'fa fa-trash-o';
+
+        $link_html .= "<a href='" . $link['url'] . "'" . (isset($link['class']) ? " class='" . $link['class'] . "'" : "") . ">" .
+            "<icon class='$icon' title='" . $link['tag'] . "'></i></a>";
+        
+    }
+    return "<span class='theme-breadcrumb-links'>" . $link_html . "</span>";
+};

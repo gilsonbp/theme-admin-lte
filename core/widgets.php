@@ -1280,16 +1280,28 @@ selected: 0
 function theme_loading($size, $text = '', $options = NULL)
 {
     $id = '';
+    $font_size = '';
+    $center = '';
+    $classes = '';
 
     if (isset($options['id']))
         $id = "id='" . $options['id'] . "'"; 
-    if ($size == 'normal')
+    if (isset($options['center']))
+        $center = "theme-center-text";
+    if (isset($options['class']))
+        $classes = $options['class'];
+    if ($size === 'normal') {
         $size = 'fa-lg';
+    } else if (preg_match('/\d+em$/', $size)) {
+        $font_size = "style='font-size: $size;'";
+    }
 
     if (isset($options['icon-below']))
-        return "<div style='padding-bottom: 5;'>$text</div><i $id class='fa fa-spinner fa-spin $size'></i>\n";
+        return "<div $id class='theme-loading-wrapper $center $classes'><div>$text</div><div $font_size><i class='fa fa-spinner fa-spin $size'></i></div></div>\n";
+    elseif (isset($options['icon-above']))
+        return "<div $id class='theme-loading-wrapper $center $classes'><i class='fa fa-spinner fa-spin $size'></i><div>$text</div></div>\n";
     else
-        return "<i $id class='fa fa-spinner fa-spin'></i><span style='padding-left: 5px;'>$text</span>\n";
+        return "<div $id class='theme-loading-wrapper $classes'><i class='fa fa-spinner fa-spin'></i><span style='padding-left: 5px;'>$text</span></div>\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1987,12 +1999,16 @@ function theme_infobox($type, $title, $message, $options = NULL)
     }
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
+    $buttons = "";
+    if (isset($options['buttons']))
+        $buttons = "<div class='theme-infobox-buttons'>" . $options['buttons'] . '</div>';
 
     return "
         <div class='theme-infobox alert $class' $id>
             <i class='$iconclass'></i>
             <div class='theme-infobox-title'>$title</div>
             <div>$message</div>
+            $buttons
         </div>
 
     ";
@@ -2588,6 +2604,18 @@ function theme_marketplace_review($basename, $pseudonum)
         </script>" .
         theme_modal_confirm(lang('base_warning'), lang('marketplace_confirm_review_replace'), array("submit_review(true);"), NULL, 'confirm-review-replace')
     ;
+}
+
+/**
+ * Get marketplace layout.
+ *
+ * @return string HTML
+ */
+
+function theme_marketplace_layout()
+{
+    echo "<div id='marketplace-app-container'></div>";
+    echo "<div style='clear: both;'></div>";
 }
 
 ///////////////////////////////////////////////////////////////////////////////

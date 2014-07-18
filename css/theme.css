@@ -23,6 +23,15 @@
 .btn-default.active {
   background-color: #ebebeb!important;
 }
+.btn-secondary {
+  background-color: #efefef;
+  border-color: #efefef;
+  color: #333333;
+}
+.btn-secondary:hover {
+  background-color: #ebebeb;
+  border-color: #ebebeb;
+}
 
 body > .header .logo {
     font-family: Arial;
@@ -54,6 +63,11 @@ body > .header .logo {
   color: #e1852e;
 }
 
+.theme-center-text {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
 .theme-hidden, .cos7-hidden {
   display: none;
 }
@@ -74,6 +88,9 @@ body > .header .logo {
   font-size: 55pt;
   color: rgba(255, 255, 255, 0.85);
   text-align: center;
+}
+.theme-app-logo.sm {
+  font-size: 35pt;
 }
 .theme-screenshot-img {
   max-width: 160px;
@@ -117,6 +134,21 @@ body > .header .logo {
   float: left;
   width: 5%;
 }
+.theme-breadcrumb {
+  float: left;
+}
+.theme-breadcrumb-links {
+  float: right;
+  font-size: 1.7em;
+  padding-right: 10px;
+}
+.theme-breadcrumb-links a {
+  padding-left: 12px;
+}
+.theme-infobox-buttons {
+  text-align: center;
+  margin-top: 10px;
+}
 .cos7-text-bad-status {
   color: red;
 }
@@ -158,21 +190,84 @@ body > .header .logo {
   width: 100%;
   min-height: 80px;
 }
+.marketplace-app {
+  width: 48%;
+  margin: 10px;
+  float: left;
+  overflow: hidden;
+}
 .marketplace-related-app {
-  width: 45%;
-  margin-right: 20px;
+  width: 48%;
+  margin: 10px;
   float: left;
 }
 
 .marketplace-app-info-icon {
   float: left;
-  width: 10%;
-  margin-right: 20px;
   font-size: 3.5em;
+  text-align: center;
+  width: 90%;
+}
+.marketplace-app-info-icon .box {
+  margin-bottom: 5px;
+}
+.marketplace-app-info-rating {
+  width: 90%;
 }
 
 .marketplace-app-info-more {
   text-align: right;
+}
+
+.marketplace-app-info-description {
+  max-height: 100px;
+  min-height: 100px;
+}
+.marketplace-app-loading {
+  margin-top: 100px;
+}
+
+.marketplace-installed, .marketplace-installed-tile {
+  display: block;
+  position: absolute;
+  text-align: center;
+  opacity: 0.8;
+  -webkit-transform: rotate(45deg);
+  -moz-transform:    rotate(45deg);
+  -ms-transform:     rotate(45deg);
+  transform:         rotate(45deg);
+  font-size: 1.2em;
+  font-weight: 700;
+  color: white;
+  background-color: #98bb60;
+  border: 1px solid white;
+  z-index: 500;
+}
+
+.marketplace-installed-tile {
+  top: 15px;
+  left: 25px;
+  width: 104px;
+  height: 22px;
+  line-height: 22px;
+}
+
+.marketplace-installed {
+  top: 35px;
+  left: 360px;
+  width: 180px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.marketplace-app-lhs {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+.marketplace-app-rhs {
+  float: left;
+  width: 80%;
 }
 
 .cos7-text-good-status {
@@ -311,13 +406,6 @@ body > .header .logo {
   text-align: center;
 }
 
-#marketplace-app-container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
 #category-container {
   width: 95%;
   padding: 5px;
@@ -401,19 +489,6 @@ body > .header .logo {
   color: #e1852e;
   ^color: #e1852e;
 }
-.marketplace-app {
-  border: 1px solid #D1D3D4;
-  position: relative;
-  width: 100px;
-  padding: 2px;
-  margin: 5px;
-  display: inline-block;
-  vertical-align: top;
-  height: 100px;
-  cursor: pointer;
-  border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
-  overflow: hidden;
-}
 
 .marketplace-category-selected {
   background-color: #62799A;
@@ -486,39 +561,6 @@ body > .header .logo {
   padding-right: 10px;
   max-height: 200px;
   overflow: auto;
-}
-
-.marketplace-installed, .marketplace-installed-list {
-   display: block;
-   position: absolute;
-   text-align: center;
-   opacity: 0.8;
-   -webkit-transform: rotate(45deg);
-   -moz-transform:    rotate(45deg);
-   -ms-transform:     rotate(45deg);
-   transform:         rotate(45deg);
-   font-size: 12px;
-   font-weight: 700;
-   color: white;
-   background-color: #98bb60;
-   border: 1px solid white;
-   z-index: 500;
-}
-
-.marketplace-installed-list {
-   top: 35px;
-   left: 200px;
-   width: 180px;
-   height: 32px;
-   line-height: 32px;
-}
-
-.marketplace-installed {
-   top: 15px;
-   left: 25px;
-   width: 104px;
-   height: 22px;
-   line-height: 22px;
 }
 
 .rbs-progress-spash {
@@ -620,10 +662,10 @@ a.highlight-link:hover {
 .icon-Windows_Settings:before {
 	content: "\e601";
 }
-.icon-Web_WebServer:before {
+.icon-web_server:before {
 	content: "\e602";
 }
-.icon-Web_Proxy:before {
+.icon-web_proxy:before {
 	content: "\e603";
 }
 .icon-warnings:before {
@@ -677,16 +719,16 @@ a.highlight-link:hover {
 .icon-Settings_ShutdownRestart:before {
 	content: "\e614";
 }
-.icon-Settings_MailNotification:before {
+.icon-mail_notification:before {
 	content: "\e615";
 }
-.icon-Settings_Language:before {
+.icon-language:before {
 	content: "\e616";
 }
-.icon-Settings_Date:before {
+.icon-date:before {
 	content: "\e617";
 }
-.icon-Settings_Administrators:before {
+.icon-administrators:before {
 	content: "\e618";
 }
 .icon-server6:before {
@@ -710,7 +752,7 @@ a.highlight-link:hover {
 .icon-Server_MySQL:before {
 	content: "\e61f";
 }
-.icon-Server_Monitor:before {
+.icon-system_monitor:before {
 	content: "\e620";
 }
 .icon-Server_Mail_Queue:before {
@@ -719,7 +761,7 @@ a.highlight-link:hover {
 .icon-flexshare:before {
 	content: "\e622";
 }
-.icon-Server_Backup:before {
+.icon-configuration_backup:before {
 	content: "\e623";
 }
 .icon-Server_Aliases:before {
@@ -755,7 +797,7 @@ a.highlight-link:hover {
 .icon-reports:before {
 	content: "\e62e";
 }
-.icon-Register_System:before {
+.icon-registration:before {
 	content: "\e62f";
 }
 .icon-recycle:before {
@@ -905,7 +947,7 @@ a.highlight-link:hover {
 .icon-Directory_Password:before {
 	content: "\e65f";
 }
-.icon-Directory_ImportExport:before {
+.icon-account_import:before {
 	content: "\e660";
 }
 .icon-Directory_Domain:before {
@@ -935,7 +977,7 @@ a.highlight-link:hover {
 .icon-clear_center1:before {
 	content: "\e669";
 }
-.icon-camera:before {
+.icon-photo_organizer:before {
 	content: "\e66a";
 }
 .icon-Base_Subscription:before {
@@ -961,6 +1003,12 @@ a.highlight-link:hover {
 }
 .icon-Access_Control:before {
 	content: "\e672";
+}
+.icon-samba :before {
+	content: "\e617";
+}
+.icon-web-access_control :before {
+	content: "\e617";
 }
 
 

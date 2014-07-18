@@ -85,33 +85,121 @@ function theme_clearos_progress_bar(value, options)
     ';
 }
 
-function theme_related_app(type, app)
+function theme_app(type, list)
 {
-    box_class = 'box-primary';
+    for (index = 0 ; index < list.length; index++) {
+        app = list[index];
 
-    if (type == 'complimentary')
         box_class = 'box-primary';
-    else if (type == 'other_by_devel')
-        box_class = 'box-warning';
-    return '\
-        <div class="box ' + box_class + ' marketplace-related-app" id="box-' + app.basename + '">\
-            <div class="box-header">\
-                <h3 class="box-title">' + app.name + '</h3>\
-            </div>\
-            <div class="box-body">\
-                <div class="marketplace-app-info">\
-                    <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
-                    <div class="marketplace-app-info-icon"><i class="icon-' + app.basename + '"></i></div>\
-                    <div class="marketplace-app-info-description">\
-                    ' + app.description.substr(0,200).replace(/\\n/g, '</p><p>') + ' \
+
+        // TODO - type 
+        html = '\
+            <div class="box ' + box_class + ' marketplace-app" id="box-' + app.basename + '">\
+                <div class="box-header">\
+                    <h3 class="box-title">' + app.name + '</h3>\
+                </div>\
+                ' + (app.installed ? '<span class="marketplace-installed">' + lang_installed.toUpperCase() + '</span>' : '') + '\
+                <div class="box-body">\
+                    <div class="marketplace-app-info">\
+                        <div class="marketplace-app-lhs">\
+                            <div class="marketplace-app-info-icon">\
+                                <div class="box box-solid bg-navy">\
+                                    <div class="theme-app-logo box-body sm">\
+                                        <i class="icon-' + app.basename + '"></i>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div style="clear: both;"></div>\
+                            <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
+                        </div>\
+                        <div class="marketplace-app-rhs">\
+                            <div class="marketplace-app-info-description">\
+                                <p>' + app.description.replace(/(\r\n|\n|\r)/g, '</p><p>') + '</p>\
+                            </div>\
+                        </div>\
                     </div>\
+                    <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '">' + lang_marketplace_learn_more + '</a></div>\
+                </div>\
+                <div class="box-footer">\
+                    <div style="float: right;">' +
+                    (app.installed
+                        ? '<div class="btn-group">' +
+                        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm">' + lang_configure + '</a>' +
+                        '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm">' + lang_uninstall + '</a>' +
+                        '</div>'
+                        : '<input type="submit" name="install" value="' + lang_select_for_install + '" class="btn btn-primary btn-sm" />'
+                    ) + '\
+                    </div>\
+                    <div style="clear: both;">\
                 </div>\
             </div>\
-            <div class="box-footer">\
-                <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '">' + lang_marketplace_learn_more + '</a></div>\
+        ';
+        $('#marketplace-app-container').append(html);
+    }
+    $('#marketplace-app-container').append(
+        '<div style="clear: both;"></div>\
+        <script type="text/javascript">\
+           $(".marketplace-app-info-description").dotdotdot({\
+                ellipsis: "..."\
+            });\
+        </script>'
+    );
+}
+
+function theme_related_app(type, list)
+{
+    for (index = 0 ; index < list.length; index++) {
+        app = list[index];
+        box_class = 'box-primary';
+
+        if (type == 'complimentary')
+            box_class = 'box-primary';
+        else if (type == 'other_by_devel')
+            box_class = 'box-warning';
+        html = '\
+            <div class="box ' + box_class + ' marketplace-related-app" id="box-' + app.basename + '">\
+                <div class="box-header">\
+                    <h3 class="box-title">' + app.name + '</h3>\
+                </div>\
+                <div class="box-body">\
+                    <div class="marketplace-app-info">\
+                        <div class="marketplace-app-lhs">\
+                            <div class="marketplace-app-info-icon">\
+                                <div class="box box-solid bg-navy">\
+                                    <div class="theme-app-logo box-body sm">\
+                                        <i class="icon-' + app.basename + '"></i>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div style="clear: both;"></div>\
+                            <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
+                        </div>\
+                        <div class="marketplace-app-rhs">\
+                            <div class="marketplace-app-info-description">\
+                                <p>' + app.description.replace(/(\r\n|\n|\r)/g, '</p><p>') + '</p>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+                <div style="clear: both;"></div>\
+                <div class="box-footer">\
+                    <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '">' + lang_marketplace_learn_more + '</a></div>\
+                </div>\
             </div>\
-        </div>\
-    ';
+        ';
+        $('#app_' + type).append(html);
+    }
+    // Make sure only to call this 'dotdotdot' once
+    if (type == 'other_by_devel') {
+        $('#app_' + type).append(
+            '<div style="clear: both;"></div>\
+            <script type="text/javascript">\
+               $(".marketplace-app-info-description").dotdotdot({\
+                   ellipsis: "..."\
+                });\
+            </script>\
+        ');
+    }
 }
 
 function theme_clearos_is_authenticated()
