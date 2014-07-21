@@ -67,7 +67,7 @@
 
 function theme_anchor($url, $text, $importance, $class, $options)
 {
-    $importance_class = ($importance === 'high') ? 'btn-primary' : 'btn-link';
+    $importance_class = ($importance === 'high') ? 'btn-primary' : ($importance === 'low' ? 'btn-secondary' : 'btn-link');
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     if (!isset($options['no_escape_html']) || $options['no_escape_html'] == FALSE)

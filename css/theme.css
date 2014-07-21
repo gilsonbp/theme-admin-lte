@@ -214,6 +214,9 @@ body > .header .logo {
 .marketplace-app-info-rating {
   width: 90%;
 }
+.marketplace-app-info-price {
+  width: 90%;
+}
 
 .marketplace-app-info-more {
   text-align: right;
@@ -259,6 +262,15 @@ body > .header .logo {
   height: 32px;
   line-height: 32px;
 }
+.marketplace-selected {
+  float: right;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.marketplace-selected i {
+  color: green;
+  font-size: 1.6em;
+}
 
 .marketplace-app-lhs {
   float: left;
@@ -267,7 +279,7 @@ body > .header .logo {
 }
 .marketplace-app-rhs {
   float: left;
-  width: 80%;
+  width: 380px; /* Don't change to percent...borks dotdotdot plugin */
 }
 
 .cos7-text-good-status {
@@ -496,10 +508,6 @@ body > .header .logo {
 }
 .marketplace-category-hover {
   background-color: #e6e6e6;
-}
-.marketplace-selected {
-  background-color: #62799A !important;
-  color: #e6e6e6;
 }
 .marketplace-hover {
     -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';

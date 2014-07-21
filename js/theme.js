@@ -96,7 +96,8 @@ function theme_app(type, list)
         html = '\
             <div class="box ' + box_class + ' marketplace-app" id="box-' + app.basename + '">\
                 <div class="box-header">\
-                    <h3 class="box-title">' + app.name + '</h3>\
+                    <h3 class="box-title" stye="float: left;">' + app.name + '</h3>\
+                    <div id="active-select-' + app.basename + '" class="theme-hidden marketplace-selected"><i class="fa fa-check-square-o"></i></div>\
                 </div>\
                 ' + (app.installed ? '<span class="marketplace-installed">' + lang_installed.toUpperCase() + '</span>' : '') + '\
                 <div class="box-body">\
@@ -111,6 +112,7 @@ function theme_app(type, list)
                             </div>\
                             <div style="clear: both;"></div>\
                             <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
+                            <div class="marketplace-app-info-price">' + theme_price(UNIT, app.pricing) + '</div>\
                         </div>\
                         <div class="marketplace-app-rhs">\
                             <div class="marketplace-app-info-description">\
@@ -127,7 +129,8 @@ function theme_app(type, list)
                         '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm">' + lang_configure + '</a>' +
                         '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm">' + lang_uninstall + '</a>' +
                         '</div>'
-                        : '<input type="submit" name="install" value="' + lang_select_for_install + '" class="btn btn-primary btn-sm" />'
+                        : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" />' +
+                        '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'
                     ) + '\
                     </div>\
                     <div style="clear: both;">\
@@ -136,14 +139,14 @@ function theme_app(type, list)
         ';
         $('#marketplace-app-container').append(html);
     }
-    $('#marketplace-app-container').append(
-        '<div style="clear: both;"></div>\
+    $('#marketplace-app-container').append('\
+        <div style="clear: both;"></div>\
         <script type="text/javascript">\
-           $(".marketplace-app-info-description").dotdotdot({\
+            $(".marketplace-app-info-description").dotdotdot({\
                 ellipsis: "..."\
             });\
-        </script>'
-    );
+        </script>\
+    ');
 }
 
 function theme_related_app(type, list)
@@ -171,7 +174,6 @@ function theme_related_app(type, list)
                                     </div>\
                                 </div>\
                             </div>\
-                            <div style="clear: both;"></div>\
                             <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
                         </div>\
                         <div class="marketplace-app-rhs">\
@@ -179,9 +181,9 @@ function theme_related_app(type, list)
                                 <p>' + app.description.replace(/(\r\n|\n|\r)/g, '</p><p>') + '</p>\
                             </div>\
                         </div>\
+                        <div style="clear: both;"></div>\
                     </div>\
                 </div>\
-                <div style="clear: both;"></div>\
                 <div class="box-footer">\
                     <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '">' + lang_marketplace_learn_more + '</a></div>\
                 </div>\
@@ -191,11 +193,10 @@ function theme_related_app(type, list)
     }
     // Make sure only to call this 'dotdotdot' once
     if (type == 'other_by_devel') {
-        $('#app_' + type).append(
-            '<div style="clear: both;"></div>\
+        $('#app_' + type).append('\
             <script type="text/javascript">\
-               $(".marketplace-app-info-description").dotdotdot({\
-                   ellipsis: "..."\
+                $(".marketplace-app-info-description").dotdotdot({\
+                    ellipsis: "..."\
                 });\
             </script>\
         ');
@@ -431,6 +432,12 @@ function theme_star_rating(stars) {
     return html;
 }
 
+function theme_price(UNIT, price) {
+    var html = price.unit_price > 0 ? price.currency + price.unit_price + ' ' + UNIT[price.unit] : lang_marketplace_free;
+
+    return html;
+}
+
 function get_marketplace_data(basename) {
 
     // Let's see if we have a connection to the Internet
@@ -613,6 +620,16 @@ function c_row(field, value) {
                 '<div class=\'col-lg-6\'>' + value + '</div>' +
            '</div>'
     ;
+}
+
+function marketplace_select_app(id) {
+    $('#' + id).val(lang_marketplace_remove);
+    $('#active-select-' + id).removeClass("theme-hidden");
+}
+
+function marketplace_unselect_app(id) {
+    $('#' + id).val(lang_marketplace_select_for_install);
+    $('#active-select-' + id).addClass("theme-hidden");
 }
 
 function get_support_policy(json) {

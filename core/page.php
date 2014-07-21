@@ -1063,6 +1063,10 @@ function _get_breadcrumb_links($links)
             $icon = 'fa fa-gear';
         else if ($type == 'delete')
             $icon = 'fa fa-trash-o';
+        else if ($type == 'checkout')
+            $icon = 'fa fa-shopping-cart';
+        else if ($type == 'marketplace')
+            $icon = 'fa fa-th-list';
 
         $link_html .= "<a href='" . $link['url'] . "'" . (isset($link['class']) ? " class='" . $link['class'] . "'" : "") . ">" .
             "<icon class='$icon' title='" . $link['tag'] . "'></i></a>";
