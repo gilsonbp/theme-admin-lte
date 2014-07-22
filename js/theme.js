@@ -97,7 +97,7 @@ function theme_app(type, list)
             <div class="box ' + box_class + ' marketplace-app" id="box-' + app.basename + '">\
                 <div class="box-header">\
                     <h3 class="box-title" stye="float: left;">' + app.name + '</h3>\
-                    <div id="active-select-' + app.basename + '" class="theme-hidden marketplace-selected"><i class="fa fa-check-square-o"></i></div>\
+                    <div id="active-select-' + app.basename + '" class="' + (app.incart ? '' : 'theme-hidden ') + 'marketplace-selected"><i class="fa fa-check-square-o"></i></div>\
                 </div>\
                 ' + (app.installed ? '<span class="marketplace-installed">' + lang_installed.toUpperCase() + '</span>' : '') + '\
                 <div class="box-body">\

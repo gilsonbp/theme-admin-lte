@@ -2446,22 +2446,11 @@ function theme_marketplace_filter($name, $values, $selected = 'all', $options)
 {
     $class = (isset($options['class'])) ? " " . $options['class'] : "";
     
-    //$html = "<select class='filter_event$class' name='filter_$name' id='filter_$name'>";
-    //foreach ($values as $key => $readable)
-    //    $html .= "<option value='$name'" . ($key == $selected ? ' selected' : '') . ">" . $readable . "</option>";
-    //$html .= "</select>";
-
-    $html = "<div class='btn-group'>
-        <button type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle' data-toggle='dropdown'>" .
-            $values[$selected] . "<span class='caret'></span>
-        </button>
-        <ul class='dropdown-menu' role='menu'>
-    ";
-
+    $html =  "<div class='btn-group'>";
+    $html .= "    <select id='filter_$name' name='filter_$name' class='marketplace-filter filter-event btn btn-default btn-sm btn-flat'>";
     foreach ($values as $key => $readable)
-        $html .= "<li><a href='$key'>$readable</a>";
-
-    $html .= "  </ul>";
+        $html .= "        <option value='$key'" . ($selected === $key ? ' SELECTED' : '') . ">$readable</option>\n";
+    $html .= "    </select>";
     $html .= "</div>";
     return $html;
 }

@@ -271,6 +271,9 @@ body > .header .logo {
   color: green;
   font-size: 1.6em;
 }
+.marketplace-filter {
+  min-width: 100px;
+}
 
 .marketplace-app-lhs {
   float: left;
