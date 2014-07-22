@@ -1064,7 +1064,7 @@ function _get_breadcrumb_links($links)
         else if ($type == 'delete')
             $icon = 'fa fa-trash-o';
         else if ($type == 'checkout')
-            $icon = 'fa fa-shopping-cart';
+            $icon = 'fa fa-cloud-download';
         else if ($type == 'marketplace')
             $icon = 'fa fa-th-list';
 

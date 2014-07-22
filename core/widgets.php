@@ -1531,9 +1531,7 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     // Empty table
     if (isset($options['empty_table_message'])) 
         $empty_table = "
-            \"oLanguage\": {
-                \"sEmptyTable\": \"" . $options['empty_table_message'] . "\"
-            },
+            \"sEmptyTable\": \"" . $options['empty_table_message'] . "\"
         ";
     else
         $empty_table = '';
@@ -1655,92 +1653,51 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     <div class='cos7-box-tools'>$add_html</div>
   </div>
   <div class='box-body'>
-        <table class='table table-striped $size_class' id='$dom_id'>
-            <thead>
-              <tr>$header_html</tr>
-            </thead>
-            <tbody>
-              $item_html
-            </tbody>
-        </table>
-    </div>
+    <table class='table table-striped $size_class' id='$dom_id'>
+      <thead>
+        <tr>$header_html</tr>
+      </thead>
+      <tbody>
+        $item_html
+      </tbody>
+    </table>
+  </div>
 </div>
 <script type='text/javascript'>
-    jQuery(document).ready(function() {
-        table_" . $dom_id_var . " = $('#" . $dom_id_selector . "').dataTable({
-            \"aoColumnDefs\": [
-                { $sorting_cols },
-                { \"bVisible\": $first_column_visible, \"aTargets\": [ 0 ] }
-            ],
-            \"oLanguage\": {
-                \"sLengthMenu\": \"Show _MENU_ Rows\",
-                \"sSearch\": \"\",
-                \"oPaginate\": {
-                    \"sPrevious\": \"\",
-                    \"sNext\": \"\"
-                }
+  function get_table_$dom_id_var() {
+    return $('#" . $dom_id_selector . "').dataTable({
+        'aoColumnDefs': [
+            { $sorting_cols },
+            { 'bVisible': $first_column_visible, 'aTargets': [ 0 ] }
+        ],
+        'oLanguage': {
+            'sLengthMenu': 'Show _MENU_ Rows',
+            'sSearch': '',
+            'oPaginate': {
+                'sPrevious': '',
+                'sNext': ''
             },
             " . $empty_table . "
-            \"bJQueryUI\": true,
-            \"bInfo\": false,
-            \"iDisplayLength\": $default_rows,
-            \"aLengthMenu\": [$row_options],
-            \"bPaginate\": " . ($paginate ? 'true' : 'false') . ",
-            \"bFilter\": " . ($filter ? 'true' : 'false') . ",
-            \"bSort\": " . ($sort ? 'true' : 'false') . ",
-            " . $sorting_type .
+        },
+        'bRetrieve': true,
+        'iDisplayLength': $default_rows,
+        'aLengthMenu': [$row_options],
+        'bPaginate': " . ($paginate ? 'true' : 'false') . ",
+        'bInfo': " . ($paginate ? 'true' : 'false') . ",
+        'bFilter': " . ($filter ? 'true' : 'false') . ",
+        'bSort': " . ($sort ? 'true' : 'false') . ",
+        " . $sorting_type .
             (isset($col_widths) ? "\"bAutoWidth\": false," : "") .
             $col_widths . "
             $group_javascript
             \"aaSorting\": [ $first_column_fixed_sort ]
-        });
-        " . (isset($options['row-enable-disable']) ? "
-            $('#$dom_id tr').each(function() {
-                $(this).find('th:eq(0)').attr('width', '12px'); 
-            });
-        " : "") . "
-        $('#" . $dom_id_selector . "_wrapper .dataTables_filter input').addClass('form-control input-sm').attr('placeholder', 'Search');
-        // modify table search input
-        $('#" . $dom_id_selector . "_wrapper .dataTables_length select').addClass('m-wrap small');
-        // modify table per page dropdown
-        $('#" . $dom_id_selector . "_column_toggler input[type=\"checkbox\"]').change(function () {
-            /* Get the DataTables object again - this is not a recreation, just a get of the object */
-            var iCol = parseInt($(this).attr('data-column'));
-            var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-            oTable.fnSetColumnVis(iCol, (bVis ? false : true));
-        });
-
     });
+  }
+  $(document).ready(function() {
+    get_table_$dom_id_var();
+  });
 </script>
     ";
-/*
-	var table_" . $dom_id_var . " = $('#" . $dom_id_selector . "').dataTable({
-		\"aoColumnDefs\": [
-			{ $sorting_cols },
-			{ \"bVisible\": $first_column_visible, \"aTargets\": [ 0 ] }
-		],
-        " . $empty_table . "
-		\"bJQueryUI\": true,
-        \"bInfo\": false,
-        \"iDisplayLength\": $default_rows,
-        \"aLengthMenu\": [$row_options],
-		\"bPaginate\": " . ($paginate ? 'true' : 'false') . ",
-		\"bFilter\": " . ($filter ? 'true' : 'false') . ",
-		\"bSort\": " . ($sort ? 'true' : 'false') . ",
-        " . $sorting_type .
-        (isset($col_widths) ? "\"bAutoWidth\": false," : "") .
-        $col_widths . "
-		\"sPaginationType\": \"full_numbers\",
-		$group_javascript
-		\"aaSorting\": [ $first_column_fixed_sort ]
-    });
-    " . (isset($options['row-enable-disable']) ? "
-        $('#$dom_id tr').each(function() {
-            $(this).find('th:eq(0)').attr('width', '12px'); 
-            $(this).find('td:eq(0)').css('padding', '0px'); 
-        });
-    " : "") . "
-*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2458,22 +2415,23 @@ function theme_marketplace_filter($name, $values, $selected = 'all', $options)
 /**
  * Get marketplace search.
  *
- * @param string $placeholder placeholder
+ * @param string $search_string search string
  *
  * @return string HTML
  */
 
-function theme_marketplace_search($placeholder)
+function theme_marketplace_search($search_string = NULL)
 {
+    // No form here...goes with filter options
     $html = "
-        <form action='#' class='text-right'>
-            <div class='input-group'>                                                            
-                <input type='text' class='form-control input-sm' placeholder='$placeholder'>
-                <div class='input-group-btn'>
-                    <button type='submit' name='q' class='btn btn-sm btn-primary'><i class='fa fa-search'></i></button>
-                </div>
-            </div>                                                     
-        </form>
+        <div class='input-group'>                                                            
+            <input type='text' name='search' id='search'" .
+            ($search_string != NULL ? " value='$search_string'" : "") . " class='form-control input-sm'" .
+            ($search_string == NULL ? " placeholder='" . lang('base_search') . "'" : "") . ">
+            <div class='input-group-btn'>
+                <button type='submit' name='q' class='btn btn-sm btn-primary'><i class='fa fa-search'></i></button>
+            </div>
+        </div>                                                     
     ";
     return $html;
 }
