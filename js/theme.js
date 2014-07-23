@@ -133,9 +133,10 @@ function theme_app(type, list)
                         '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'
                     ) + '\
                     </div>\
-                    <div style="clear: both;">\
+                    <div style="clear: both;"></div>\
                 </div>\
             </div>\
+            ' + (index % 2 ? '<div style="clear: both;"></div>' : '') + '\
         ';
         $('#marketplace-app-container').append(html);
     }

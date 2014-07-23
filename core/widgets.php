@@ -2145,6 +2145,32 @@ function theme_inline_help_box($data)
     return $html;
 }
 
+/**
+ * Displays a pagination widget.
+ *
+ */
+
+function theme_paginate($pages = NULL, $active = NULL, $options = NULL)
+{
+    $id = isset($options['id']) ? $options['id'] : 'paginate';
+    $classes = isset($options['classes']) ? $options['classes'] : '';
+
+    $html = "<li class='prev" . (($pages == NULL || count($pages) == 1) ? " disabled" : "") . "'><a href='$url'> ← </a></li>\n";
+
+    foreach ($pages as $number => $url)
+        $html .= "<li" . ($number == $active ? " class='active'" : "") . "><a href='$url'>← </a></li>\n";
+
+    $html .= "<li class='next" . (($pages == NULL || count($pages) == 1) ? " disabled" : "") . "'><a href='$url'> →  </a></li>\n";
+        
+    return "
+        <div id='$id' class='dataTables_paginate paging_bootstrap$classes'>
+            <ul class='pagination'>
+                $html
+            </ul>
+        </div>
+    ";
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // A P P  S U M M A R Y  B O X
 ///////////////////////////////////////////////////////////////////////////////
