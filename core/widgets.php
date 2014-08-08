@@ -74,6 +74,7 @@ function theme_anchor($url, $text, $importance, $class, $options)
         $text = htmlspecialchars($text, ENT_QUOTES);
     $target = isset($options['target']) ? " target='" . $options['target'] . "'" : ''; 
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
+    $class .= isset($options['class']) ? ' ' . $options['class'] : '';
 
     if (isset($options['state']) && ($options['state'] === FALSE))
         return  "<input disabled type='submit' name='' $id value='$text' class=' $class $importance_class' $tabindex />\n";
@@ -124,7 +125,7 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
  *
  * @return HTML for anchor
  */
-function theme_modal_confirm($title, $message, $confirm, $form_id = NULL, $id = NULL)
+function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NULL, $id = NULL)
 {
 
     if ($id == NULL)
@@ -159,7 +160,7 @@ function theme_modal_confirm($title, $message, $confirm, $form_id = NULL, $id = 
             </div>
             <script type='text/javascript'>
                 $(document).ready(function() {
-                    $('#confirm-action').click(function(e) {
+                    $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
                         e.preventDefault();
                         $('#" . $id . "-wrapper').modal({backdrop: 'static'});
                     });
@@ -178,6 +179,67 @@ function theme_modal_confirm($title, $message, $confirm, $form_id = NULL, $id = 
                         " . $js_lines . "
                     });
                     " : "")) . "
+                });
+            </script>
+    ";
+}
+
+/**
+ * Modal input form.
+ *
+ * @param string $title    title
+ * @param string $message  message
+ * @param array  $trigger  trigger
+ * @param string $input_id DOM ID of element to update
+ * @param string $id       DOM ID
+ *
+ * @return HTML for anchor
+ */
+function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL)
+{
+
+    if ($id == NULL)
+        $id = 'modal-input-' . rand(0,50);
+
+    $buttons = array(
+        theme_form_submit('submit', lang('base_submit'), 'high', NULL, array('id' => 'modal-input-submit')),
+        anchor_cancel('#', 'low', array('id' => 'modal-input-close'))
+    );
+
+    $js_lines = "";
+    echo "
+            <div id='" . $id . "-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
+              <div class='modal-dialog'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                    <h4>$title</h4>
+                  </div>
+                  <div class='modal-body'>
+                    <p>$message</p>
+                    <div style='text-align: center;'><input type='text' name='mi-$input_id' id='mi-$input_id' value='' class='form-control'></div>
+                  </div>
+                  <div class='modal-footer'>
+                    " . _theme_button_set($buttons) . "
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script type='text/javascript'>
+                $(document).ready(function() {
+                    $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
+                        e.preventDefault();
+                        $('#" . $id . "-wrapper').modal({backdrop: 'static'});
+                    });
+                    $('#modal-input-close').click(function(e) {
+                        e.preventDefault();
+                        $('#" . $id . "-wrapper').modal('hide');
+                    });
+                    $('#modal-input-submit').click(function(e) {
+                        e.preventDefault();
+                        $('#" . $input_id . "').val($('#mi-" . $input_id . "').val());
+                        $('#" . $id . "-wrapper').modal('hide');
+                    });
                 });
             </script>
     ";
@@ -314,7 +376,8 @@ function theme_field_button_set($buttons, $options = array())
 
 function _theme_button_set($buttons, $options, $type)
 {
-    $id = isset($options['id']) ? ' id=' . $options['id'] : '';
+    $id = isset($options['id']) ? " id='" . $options['id'] . "'" : "";
+    $class = isset($options['class']) ? " " . $options['class'] : "";
 
     $button_html = '';
 
@@ -345,12 +408,12 @@ function _theme_button_set($buttons, $options, $type)
         return "
             <div class='form-group'>
                 <div class='col-sm-5'></div>
-                <div class='col-sm-7 btn-group'$id>$button_html</div>
+                <div class='col-sm-7 btn-group$class'$id>$button_html</div>
             </div>
         ";
     } else {
         return "
-            <div class='btn-group'$id>$button_html</div>
+            <div class='btn-group$class'$id>$button_html</div>
         ";
     }
 }
@@ -388,11 +451,9 @@ function theme_field_view($label, $text, $name = NULL, $value = NULL, $input_id 
         $value = '';
 
     if (is_bool($text)) {
+        // TODO FIXME
         if ($text)
-            $text = "<label>
-                        <div class='icheckbox_flat-red checked' aria-checked='true' aria-disabled='true' style='position: relative;'><input type='checkbox' class='flat-red' checked='' style='position: absolute; opacity: 0;'><ins class='iCheck-helper' style='position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);'></ins></div>
-                    </label>
-            ";
+            $text = "<label><i class='fa fa-check-circle'></i></label>";
         else
             $text = '-';
     }
@@ -418,7 +479,7 @@ function theme_field_view($label, $text, $name = NULL, $value = NULL, $input_id 
         return "
             <div id='$field_id_html' class='form-group theme-fieldview" . $hide_field . "'>
                 <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-                <div class='col-sm-7 theme-field-right'><span class='form-control' style='border: none; box-shadow: none; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html</div>
+                <div class='col-sm-7 theme-field-right'><span class='form-control' style='border: none; box-shadow: none; padding-left: 0px; padding-top: 7px;' id='$text_id_html'>$text</span>$input_html</div>
             </div>
         ";
     }
@@ -512,7 +573,8 @@ function _theme_field_input_password($name, $value, $label, $error, $input_id, $
         <div id='$field_id_html' class='form-group theme-field-$type" . $hide_field . "'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
             <div class='col-sm-7 theme-field-right" . $div_class . "'>
-                <div class='input-group'><input type='$type' name='$name' value='$value' id='$input_id' style='$style' class='form-control'> $error_html
+                <div" . ((isset($options['color-picker']) && $options['color-picker']) ? " class='input-group' " : "") . ">
+                    <input type='$type' name='$name' value='$value' id='$input_id' style='$style' class='form-control'> $error_html
                 " . ((isset($options['color-picker']) && $options['color-picker']) ? "
                     <div class='input-group-addon'>
                         <i></i>
@@ -732,7 +794,7 @@ function theme_field_checkbox($name, $value, $label, $error, $input_id, $options
     return "
         <div id='$field_id_html' class='form-group theme-field-checkboxes'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='checkbox-inline theme-field-right check'>  <input type='checkbox' name='$name' id='$input_id' class='form-control square-grey' $select_html></div>
+            <div class='col-sm-7 theme-field-right'><input type='checkbox' name='$name' id='$input_id' class='form-control' $select_html></div>
         </div>
     ";
 }
@@ -785,32 +847,40 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
  * Supported options:
  * - id 
  *
- * @param array  $radios  list of radios in HTML format
- * @param array  $options options
+ * @param string $label    label
+ * @param array  $radios   list of radios in HTML format
+ * @param string $input_id input ID
+ * @param array  $options  options
  *
  * @return string HTML for field radio set
  */
 
-function theme_field_radio_set($title, $radios, $options = array())
+function theme_field_radio_set($label, $radios, $input_id, $options = array())
 {
-    $output = '';
+    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
+    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
+    $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
+    $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
+
+    $radio_text = '';
     $count = 0;
 
     if ($options['orientation'] == 'horizontal') 
-        $output .= "<tr><td colspan='2'><table border='0' cellpadding='0' cellspacing='0' style='width: 75%' align='center'><tr>";
+        $radio_text .= "";
 
     foreach ($radios as $radio) {
-        $output .= $radio;
-        $count++;
-
-        if (($options['orientation'] == 'horizontal') && ($count < count($radios)))
-            $output .= "<td width='100'>&nbsp;</td>";
+        $radio_text .= $radio;
     }
 
     if ($options['orientation'] == 'horizontal') 
-        $output .= '</tr></table><td></tr>';
+        $radio_text .= '';
 
-    return $output;
+    return "
+        <div id='$field_id_html' class='form-group theme-field-radio-set" . $hide_field . "'>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right theme-field-radio-set'>$radio_text$error_html</div>
+        </div>
+    ";
 }
 
 /**
@@ -841,19 +911,18 @@ function theme_field_radio_set_item($name, $group, $label, $checked, $error, $in
     $orientation = (isset($options['orientation'])) ? $options['orientation'] : 'vertical';
 
     $disabled = (isset($options['disabled']) && $options['disabled']) ? " disabled='disabled'" : "";
-    $input = "<input tabindex='50' type='radio' name='$group' id='$input_id' value='$name' $select_html $disabled>";
+    $input = "<input type='radio' name='$group' id='$input_id' value='$name' $select_html $disabled>";
 
     if ($orientation == 'horizontal') {
         return "
-            <td nowrap align='right'>$image<label for='$input_id' id='$label_id_html'>$label</label></td>
-            <td>$input</td>
+            <div id='$field_id_html' style='float: left;'>$image<label for='$input_id' id='$label_id_html'>$label</label>$input</div>
         ";
     } else {
         return "
-            <tr id='$field_id_html'>
-                <td>$input<label for='$input_id' id='$label_id_html'>$label</label>$label_help</td>
-                <td>$image</td>
-            </tr>
+            <div id='$field_id_html'>
+                $input<span for='$input_id' id='$label_id_html'>$label</span>$label_help
+                $image
+            </div>
         ";
     }
 }
@@ -933,7 +1002,7 @@ function theme_field_info($id, $label, $text, $options = NULL)
     return "
         <div id='$field_id_html' class='form-group theme-field-info" . $hide_field . "'>
             <label class='col-sm-5 control-label' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right'><div class='form-control' style='border: none;'>$text</div></div>
+            <div class='col-sm-7 theme-field-right'><div class='form-control' style='border: none; padding-left: 0px;'>$text</div></div>
         </div>
     ";
 } 
@@ -959,7 +1028,7 @@ function theme_box_open($title, $options)
     $id_html = (isset($options['id'])) ? $options['id'] : 'options_' . rand(0, 1000);
     $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
     return "
-        <div class='box box-solid$classes' id='$id_html'>
+        <div class='box $classes' id='$id_html'>
             " . ($title != NULL ? "
             <div class='box-header'>
                 <h3 class='box-title' id='" . $id_html . "_title'>$title</h3>
@@ -1051,9 +1120,19 @@ function theme_form_banner($html, $options)
 
 function theme_form_footer($options)
 {
+    $loading = '';
+    if (isset($options['loading']))
+        $loading = "
+            <div class='" . $options['loading'] . " overlay'></div>
+            <div class='" . $options['loading'] . " theme-form-loading'>" .
+                theme_loading('1.8em', lang('base_loading') . '...', array('icon-below' => TRUE)) . "
+            </div>
+        ";
+ 
     return "
                 </div>
                 <div class='box-footer'></div>
+                $loading
             </div>
     ";
 }
@@ -1290,18 +1369,18 @@ function theme_loading($size, $text = '', $options = NULL)
         $center = "theme-center-text";
     if (isset($options['class']))
         $classes = $options['class'];
-    if ($size === 'normal') {
-        $size = 'fa-lg';
-    } else if (preg_match('/\d+em$/', $size)) {
+    if (preg_match('/\d+em$/', $size)) {
+        $font_size = "style='font-size: $size;'";
+    } else if (preg_match('/\d+px$/', $size)) {
         $font_size = "style='font-size: $size;'";
     }
 
     if (isset($options['icon-below']))
-        return "<div $id class='theme-loading-wrapper $center $classes'><div>$text</div><div $font_size><i class='fa fa-spinner fa-spin $size'></i></div></div>\n";
+        return "<div $id class='theme-loading-wrapper $center $classes'><div $font_size>$text</div><div $font_size><i class='fa fa-spinner fa-spin'></i></div></div>\n";
     elseif (isset($options['icon-above']))
-        return "<div $id class='theme-loading-wrapper $center $classes'><i class='fa fa-spinner fa-spin $size'></i><div>$text</div></div>\n";
+        return "<div $id class='theme-loading-wrapper $center $classes'><i class='fa fa-spinner fa-spin'></i><div>$text</div></div>\n";
     else
-        return "<div $id class='theme-loading-wrapper $classes'><i class='fa fa-spinner fa-spin'></i><span style='padding-left: 5px;'>$text</span></div>\n";
+        return "<div $id class='theme-loading-wrapper $classes'><i class='fa fa-spinner fa-spin' $font_size></i><span style='padding-left: 5px;' $font_size>$text</span></div>\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1650,7 +1729,7 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
 <div class='box'>
   <div class='box-header'>
     <h3 class='box-title'>$title</h3>
-    <div class='cos7-box-tools'>$add_html</div>
+    <div class='theme-box-tools'>$add_html</div>
   </div>
   <div class='box-body'>
     <table class='table table-striped $size_class' id='$dom_id'>
@@ -2150,25 +2229,33 @@ function theme_inline_help_box($data)
  *
  */
 
-function theme_paginate($pages = NULL, $active = NULL, $options = NULL)
+function theme_paginate($url, $pages = 0, $active = 0, $max = 5, $options = NULL)
 {
-    $id = isset($options['id']) ? $options['id'] : 'paginate';
-    $classes = isset($options['classes']) ? $options['classes'] : '';
+    $options['id'] = isset($options['id']) ? $options['id'] : 'paginate';
 
-    $html = "<li class='prev" . (($pages == NULL || count($pages) == 1) ? " disabled" : "") . "'><a href='$url'> ← </a></li>\n";
+    $offset = 0;
 
-    foreach ($pages as $number => $url)
-        $html .= "<li" . ($number == $active ? " class='active'" : "") . "><a href='$url'>← </a></li>\n";
+    if ($active > (int) ($max / 2))
+        $offset = $active - $pages / ($max * 2);
 
-    $html .= "<li class='next" . (($pages == NULL || count($pages) == 1) ? " disabled" : "") . "'><a href='$url'> →  </a></li>\n";
-        
-    return "
-        <div id='$id' class='dataTables_paginate paging_bootstrap$classes'>
-            <ul class='pagination'>
-                $html
-            </ul>
-        </div>
-    ";
+    $offset = round($offset, 0, PHP_ROUND_HALF_DOWN);
+    if ($active > $offset + $max)
+        $offset = $pages - $max + 1;
+    else if ($pages <= $active + $max / 2)
+        $offset = $pages - $max + 1;
+
+    if ($pages < $max)
+        $max = $pages;
+
+    $buttons = array();
+    $buttons[] = anchor_custom($url . '/' . ($active > 0 ? $active - 1 : 0), ' ← ', 'high', array('id' => 'paginate_prev'));
+
+    for ($index = $offset; $index < $max + $offset; $index++)
+        $buttons[] = anchor_custom($url . '/' . $index, $index, 'low', ($index == $active ? array('id' => "paginate_$index", 'class' => 'theme-paginate-active') : array('id' => "paginate_$index")));
+
+    $buttons[] = anchor_custom($url . '/' . ($pages > $active ? $active + 1 : $pages), ' → ', 'high', array('id' => 'paginate_next'));
+
+    return theme_button_set($buttons, $options);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2374,7 +2461,18 @@ function theme_app_logo($basename, $options = NULL)
     $size = (isset($options['size'])) ? " " . $options['size'] : "";
     $color = (isset($options['color'])) ? " " . $options['color'] : "";
     
+//    return file_get_contents('/tmp/test.svg');
+    return "
+        <div class='theme-app-logo-container box bg-navy'>
+            <div class='theme-app-logo box-body'>
+                <img" . $id . " class='theme-app-logo" . $class . "' src='" . clearos_app_htdocs($basename) . "/" . $basename . ".svg' alt='" . $alt . "'>
+            </div>
+        </div>
+    ";
+    //PNG
     //return "<img" . $id . " class='theme-app-logo" . $class . "' src='" . clearos_app_htdocs($basename) . "/" . $basename . "_50x50.png' alt='" . $alt . "'>"; 
+    //FONT
+    /*
     return "
         <div class='theme-app-logo-container box box-solid bg-navy'>
             <div class='theme-app-logo box-body'>
@@ -2382,6 +2480,7 @@ function theme_app_logo($basename, $options = NULL)
             </div>
         </div>
     ";
+    */
 }
 
 /**

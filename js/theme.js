@@ -85,6 +85,35 @@ function theme_clearos_progress_bar(value, options)
     ';
 }
 
+function theme_clearos_set_progress_bar(id, value, options)
+{
+    $('#' + id).css('width', value + '%').attr('aria-valuenow', value);
+}
+
+function theme_paginate(url, total, active)
+{
+    var html = '';
+    var offset = 0;
+    var max = 5;
+    if (active > (max / 2))
+        offset = Math.floor(active - Math.floor(total / (max / 2)));
+    if (active > offset + max)
+        offset = total - max + 1;
+    else if (total <= active + max / 2)
+        offset = total - max + 1;
+
+    if (offset < 0)
+        offset = 0;
+
+    if (total < max)
+        max = total;
+
+    for (i = offset; i < max + offset; i++) { 
+        html += '<a href="' + url + '/' + i + '" class="btn ' + (i == active ? 'btn-primary' : 'btn-secondary') + ' btn-sm">' + i + '</a>';
+    }
+    return html;
+}
+
 function theme_app(type, list)
 {
     for (index = 0 ; index < list.length; index++) {

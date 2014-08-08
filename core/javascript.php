@@ -46,8 +46,8 @@ function theme_page_javascript($custom_settings)
     // FIXME: review all of these
     return "
 
-<script type='text/javascript' src='$theme_url/js/jquery.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery.cookie.js'></script>
+<script type='text/javascript' src='$theme_url/js/jquery.base64.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery-ui-1.10.4.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/lightbox.min.js'></script>
@@ -85,6 +85,7 @@ function theme_page_javascript($custom_settings)
 
 <!-- Custom Javascript -->
 <script type='text/javascript' src='$theme_url/js/theme.js?v=$version'></script>
+
 
 ";
 }
