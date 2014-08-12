@@ -194,6 +194,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   padding-top: 4px;
   padding-bottom: 4px;
 }
+.theme-infobox-anchor {
+  padding-top: 15px;
+  text-align: center;
+}
 .theme-field-radio-set input[type=radio] {
   margin-right: 6px;
 }

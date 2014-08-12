@@ -122,10 +122,11 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
  * @param mixed  $confirm confirmation URL or array containing JS
  * @param string $form_id form ID
  * @param string $id      DOM ID
+ * @param array  $options    options
  *
  * @return HTML for anchor
  */
-function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NULL, $id = NULL)
+function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NULL, $id = NULL, $options = NULL)
 {
 
     if ($id == NULL)
@@ -160,10 +161,11 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
             </div>
             <script type='text/javascript'>
                 $(document).ready(function() {
+                    " . ($trigger == NULL ? "" : "
                     $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
                         e.preventDefault();
                         $('#" . $id . "-wrapper').modal({backdrop: 'static'});
-                    });
+                    }); ") . "
                     $('#modal-close').click(function(e) {
                         e.preventDefault();
                         $('#" . $id . "-wrapper').modal('hide');
@@ -192,10 +194,11 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
  * @param array  $trigger  trigger
  * @param string $input_id DOM ID of element to update
  * @param string $id       DOM ID
+ * @param array  $options    options
  *
  * @return HTML for anchor
  */
-function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL)
+function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL, $options)
 {
 
     if ($id == NULL)
@@ -237,9 +240,15 @@ function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL)
                     });
                     $('#modal-input-submit').click(function(e) {
                         e.preventDefault();
-                        $('#" . $input_id . "').val($('#mi-" . $input_id . "').val());
-                        $('#" . $id . "-wrapper').modal('hide');
+                        if ($('#mi-" . $input_id . "').val() != '') {
+                            $('#" . $input_id . "').val($('#mi-" . $input_id . "').val());
+                            $('#" . $id . "-wrapper').modal('hide');
+                            " . (isset($options['callback']) ? $options['callback'] : "") . "
+                        }
                     });
+                    $('#" . $id . "-wrapper').on('shown.bs.modal', function () {
+                        $('#mi-" . $input_id . "').focus();
+                    })
                 });
             </script>
     ";
@@ -2050,6 +2059,26 @@ function theme_infobox($type, $title, $message, $options = NULL)
     ";
 }
 
+/**
+ * Displays a standard infobox with a page redirect anchor.
+ *
+ * Infobox types:
+ *
+ * @param string $title    title
+ * @param string $message  message
+ * @param string $url      url
+ * @param string $url_text link text
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_infobox_and_redirect($title, $message, $url, $link_text, $options = NULL)
+{
+    $message .= "<div class='theme-infobox-anchor'>" . theme_anchor($url, $link_text, 'high', '') . "</div>";
+    return theme_infobox('info', $title, $message, $options);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // C O N F I R M  A C T I O N  B O X
 ///////////////////////////////////////////////////////////////////////////////
@@ -2616,8 +2645,13 @@ function theme_marketplace_review($basename, $pseudonum)
                 <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
                 <h2>" . lang('marketplace_write_a_review') . "</h2>
               </div>\n
-              <div class='modal-body'>
-                " . theme_row_open() .
+              <div class='modal-body'>" .
+                form_open('marketplace/view/' . $basename, 'id=app-review-form') .
+                theme_row_open() .
+                theme_column_open(3) . lang('marketplace_app') . theme_column_close() .
+                theme_column_open(9) . "<span id='review-app-name'></span>" . theme_column_close() .
+                theme_row_close() .
+                theme_row_open() .
                 theme_column_open(3) . lang('marketplace_rating') . theme_column_close() .
                 theme_column_open(9) . "
                     <i class='app-rating-action theme-star fa fa-star' id='star1'></i>
@@ -2643,7 +2677,8 @@ function theme_marketplace_review($basename, $pseudonum)
                 theme_row_close() .
                 theme_row_open() . "
                 <div id='review-message-bar' class='theme-errmsg-separator'></div>" .
-                theme_row_close() . "
+                theme_row_close() .
+                form_close() . "
               </div>
               <div class='modal-footer'>
                  " . _theme_button_set($buttons) . "
@@ -2657,9 +2692,8 @@ function theme_marketplace_review($basename, $pseudonum)
                     e.preventDefault();
                     $('#review-form').modal('hide');
                 });
-                $('#modal-confirm').click(function() {
-                    $('#review-form').modal('hide');
-                    $('#$form_id').submit();
+                $('#submit_review').click(function() {
+                    submit_review();
                 });
                 $('.app-rating-action').on('click', function() {
                     rating = this.id.substr(4,5);
@@ -2674,7 +2708,7 @@ function theme_marketplace_review($basename, $pseudonum)
             });
 
         </script>" .
-        theme_modal_confirm(lang('base_warning'), lang('marketplace_confirm_review_replace'), array("submit_review(true);"), NULL, 'confirm-review-replace')
+        theme_modal_confirm(lang('base_warning'), lang('marketplace_confirm_review_replace'), array("submit_review(true);"), NULL, NULL, 'confirm-review-replace')
     ;
 }
 
