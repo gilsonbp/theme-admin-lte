@@ -2489,21 +2489,34 @@ function theme_app_logo($basename, $options = NULL)
     $alt = (isset($options['alt'])) ? " " . $options['alt'] : "";
     $size = (isset($options['size'])) ? " " . $options['size'] : "";
     $color = (isset($options['color'])) ? " " . $options['color'] : "";
+    $filename = clearos_theme_path('AdminLTE') . '/img/placeholder.svg';
+    $placeholder = '';
+    if (file_exists(clearos_app_base($basename) . "htdocs/" . $basename . ".svg"))
+        $filename = clearos_app_base($basename) . "htdocs/" . $basename . ".svg";
     
 //    return file_get_contents('/tmp/test.svg');
     return "
-        <div class='theme-app-logo-container box bg-navy'>
+        <div class='theme-app-logo-container box'>
+            <div class='theme-app-logo box-body$placeholder'>
+                " . file_get_contents($filename) . "
+            </div>
+        </div>
+    ";
+    /*
+    return "
+        <div class='theme-app-logo-container box'>
             <div class='theme-app-logo box-body'>
                 <img" . $id . " class='theme-app-logo" . $class . "' src='" . clearos_app_htdocs($basename) . "/" . $basename . ".svg' alt='" . $alt . "'>
             </div>
         </div>
     ";
+    */
     //PNG
     //return "<img" . $id . " class='theme-app-logo" . $class . "' src='" . clearos_app_htdocs($basename) . "/" . $basename . "_50x50.png' alt='" . $alt . "'>"; 
     //FONT
     /*
     return "
-        <div class='theme-app-logo-container box box-solid bg-navy'>
+        <div class='theme-app-logo-container box box-solid'>
             <div class='theme-app-logo box-body'>
                 <i class='icon-$basename'></i>
             </div>
