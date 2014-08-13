@@ -119,6 +119,47 @@ function theme_paginate(url, total, active)
     return html;
 }
 
+function theme_sdn_account_setup(landing_url, username, device_id) {
+
+    return '\
+        <div id="sdn-account-setup-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"> \
+          <div class="modal-dialog"> \
+            <div class="modal-content"> \
+              <div class="modal-header"> \
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> \
+                <h4>' + lang_marketplace_sdn_account_setup + '</h4> \
+              </div> \
+              <div class="modal-body"> \
+                <div id="sdn_marketplace_setup_dialog" title="lang_marketplace_sdn_account_setup">\
+                   <p>\
+                   ' + lang_marketplace_sdn_account_setup_help_1 + '\
+                   </p>\
+                   <p>\
+                   ' + lang_marketplace_sdn_account_setup_help_2 + '\
+                   </p>\
+                </div>\
+              </div>\
+              <div class="modal-footer">\
+                <div class="btn-group">\
+                  <a href="' + landing_url + '?username=' + username + '&device_id=' + device_id + '" target="_blank" class="btn btn-sm btn-primary theme-anchor-edit">' + lang_marketplace_setup_payment_on_clear + '</a>\
+                  <a href="#" id="account-setup-cancel" class="btn btn-sm btn-link theme-anchor-cancel">' + lang_cancel + '</a>\
+                </div>\
+              </div>\
+            </div>\
+          </div>\
+        </div>\
+        <script type="text/javascript">\
+            $("#account-setup-cancel").click(function (e) {\
+                e.preventDefault();\
+                $("#sdn-account-setup-dialog").modal("hide");\
+            });\
+            $("#sdn-account-setup-dialog").on("hidden.bs.modal", function () {\
+                window.location = "/app/marketplace";\
+            });\
+        </script>\
+    ';
+}
+
 function theme_app(type, list)
 {
     for (index = 0 ; index < list.length; index++) {
@@ -266,11 +307,6 @@ function theme_clearos_is_authenticated()
             data_payload += '&email=' + $('#sdn_email').val();
         }
     }
-
-    // Translations
-    //-------------
-
-    lang_warning = '<?php echo lang("base_warning"); ?>';
 
     $.ajax({
         type: 'POST',

@@ -887,7 +887,7 @@ function theme_field_radio_set($label, $radios, $input_id, $options = array())
     return "
         <div id='$field_id_html' class='form-group theme-field-radio-set" . $hide_field . "'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right theme-field-radio-set'>$radio_text$error_html</div>
+            <div class='col-sm-7 theme-field-right theme-field-radio-set'><span class='form-control' style='border: none; box-shadow: none; padding-left: 0px; padding-top: 4px' id='$input_id'></span>$radio_text$error_html</div>
         </div>
     ";
 }
@@ -2595,7 +2595,8 @@ function theme_marketplace_search($search_string = NULL)
             <input type='text' name='search' id='search'" .
             ($search_string != NULL ? " value='$search_string'" : "") . " class='form-control input-sm'" .
             ($search_string == NULL ? " placeholder='" . lang('base_search') . "'" : "") . ">
-            <div class='input-group-btn'>
+            <div class='input-group-btn'>" .
+                ($search_string != NULL ? "<button type='submit' name='search_cancel' value='1' class='btn btn-sm'><i class='fa fa-times'></i></button>" : "") . "
                 <button type='submit' name='q' class='btn btn-sm btn-primary'><i class='fa fa-search'></i></button>
             </div>
         </div>                                                     
