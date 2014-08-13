@@ -75,11 +75,12 @@ function theme_anchor($url, $text, $importance, $class, $options)
     $target = isset($options['target']) ? " target='" . $options['target'] . "'" : ''; 
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
     $class .= isset($options['class']) ? ' ' . $options['class'] : '';
+    $hidden = isset($options['hide']) ? ' theme-hidden' : '';
 
     if (isset($options['state']) && ($options['state'] === FALSE))
-        return  "<input disabled type='submit' name='' $id value='$text' class=' $class $importance_class' $tabindex />\n";
+        return  "<input disabled type='submit' name='' $id value='$text' class=' $class $importance_class $hidden' $tabindex />\n";
     else
-        return "<a href='$url'$id class='btn btn-sm $importance_class $class'$target$tabindex>$text</a>";
+        return "<a href='$url'$id class='btn btn-sm $importance_class $class $hidden'$target$tabindex>$text</a>";
 }
 
 function theme_anchor_dialog($url, $text, $importance, $class, $options)
@@ -294,8 +295,9 @@ function theme_form_submit($name, $text, $importance, $class, $options)
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     $text = htmlspecialchars($text, ENT_QUOTES);
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
+    $hidden = isset($options['hide']) ? ' theme-hidden' : '';
 
-    return "<input type='submit' name='$name'$id value='$text' class='btn btn-primary btn-sm $class $importance_class$tabindex' />\n";
+    return "<input type='submit' name='$name'$id value='$text' class='btn btn-primary btn-sm $class $hidden $importance_class$tabindex' />\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -393,25 +395,8 @@ function _theme_button_set($buttons, $options, $type)
     $button_total = count($buttons);
     $count = 0;
 
-    foreach ($buttons as $button) {
-        $implant_first = '';
-        $implant_middle = '';
-        $implant_last = '';
-        $count++;
-
-        if ($count === 1)
-            $implant_first = 'theme-button-set-first ';
-
-        if ($count === $button_total)
-            $implant_last = 'theme-button-set-last ';
-
-        if (($count !== 1) && ($count !== $button_total))
-            $implant_middle = 'theme-button-set-middle ';
-
-        // KLUDGE: implant button set order
-        $button = preg_replace("/class='/", "class='$implant_first$implant_middle$implant_last", $button);
-        $button_html .= "\n" . trim($button);
-    }
+    foreach ($buttons as $button)
+        $button_html .= $button . "\n";
 
     if ($type === 'field') {
         return "

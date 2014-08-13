@@ -281,6 +281,11 @@ body > .header .logo {
   width: 100%;
   min-height: 80px;
 }
+.marketplace-indiv-button-set {
+  padding-top: 10px;
+  text-align: center;
+  width: 100%;
+}
 .marketplace-app {
   width: 48%;
   margin: 10px;

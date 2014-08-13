@@ -481,20 +481,44 @@ function theme_clearos_on_page_ready(my_location)
 }
 
 function theme_rating_review(basename, id, title, comment, rating, pseudonym, timestamp, agree, disagree) {
-    return '' +
-        '<div class=\'theme-review\'>' +
-        '  <div>' +
-        '    <div class=\'theme-review-reviewer\'>' + pseudonym + '</div>' +
-        '    <div class=\'theme-review-rating\'>' + theme_star_rating(rating) + '</div>' +
-        '  </div>' +
-        '  <div style=\'clear: both;\'</div>' +
-        '  <div>' +
-        '    <div class=\'theme-review-title\'><span class=\'theme-review-title-highlight\'>' + title + '</span>' + (comment != null ? comment.substr(title.length) : '') + '</div>' +
-        '    <div class=\'theme-review-mod agree\'><a href=\'#\' id=\'' + basename + '-' + id + '-up\' class=\'btn btn-sm btn-primary review-action\'><span id=\'agree_' + id + '\'>' + agree + '</span> <i class=\'fa fa-thumbs-up\'></i></a></div>' +
-        '    <div class=\'theme-review-mod disagree\'><a href=\'#\' id=\'' + basename + '-' + id + '-dn\' class=\'btn btn-sm btn-primary review-action\'><span id=\'disagree_' + id + '\'>' + disagree + '</span> <i class=\'fa fa-thumbs-down\'></i></a></div>' +
-        '  </div>' +
-        '</div>'
-    ;
+    return '\
+        <div class="theme-review">\
+          <div>\
+            <div class="theme-review-reviewer">' + pseudonym + '</div>\
+            <div class="theme-review-rating">' + theme_star_rating(rating) + '</div>\
+          </div>\
+          <div style="clear: both;"</div>\
+          <div>\
+            <div class="theme-review-title">\
+                <span class="theme-review-title-highlight">' + title + '</span>' + (comment != null ? comment.substr(title.length) : '') + '\
+            </div>\
+            <div class="theme-review-mod agree">\
+                <a href="#" id="' + basename + '-' + id + '-up" class="btn btn-sm btn-primary review-action">\
+                    <span id="agree_' + id + '">' + agree + '</span> <i class="fa fa-thumbs-up"></i>\
+                </a>\
+            </div>\
+            <div class="theme-review-mod disagree">\
+                <a href="#" id="' + basename + '-' + id + '-dn" class="btn btn-sm btn-primary review-action">\
+                    <span id="disagree_' + id + '">' + disagree + '</span> <i class="fa fa-thumbs-down"></i>\
+                </a>\
+            </div>\
+          </div>\
+        </div>\
+        <div style="clear: both;"></div>\
+    ';
+}
+
+function theme_screenshots(basename, screenshots) {
+    var html = '';
+    // Themers...do not change domID of img tag...used to fetch PNG from static.clearsdn.com.
+    for (i = 0 ; i < screenshots.length; i++) {
+        html += '\
+            <a href="/cache/' + screenshots[i].filename + '" data-lightbox="ss-set" data-title="' + screenshots[i].caption + '">\
+                <img id="ss-' + basename + '_' + screenshots[i].index + '" data-index="' + screenshots[i].index +'" src="/clearos/themes/AdminLTE/img/placeholder.png" class="theme-screenshot-img">\
+            </a>\
+        ';
+    }
+    return html;
 }
 
 function theme_star_rating(stars) {
