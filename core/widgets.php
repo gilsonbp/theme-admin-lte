@@ -116,6 +116,49 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
 }
 
 /**
+ * Modal info.
+ *
+ * @param string $id      DOM id
+ * @param string $title   title
+ * @param string $message message
+ * @param array  $options options
+ *
+ * @return HTML for anchor
+ */
+function theme_modal_info($id, $title, $message, $options = NULL)
+{
+
+    $buttons = array(
+        anchor_ok('#', 'high', array('id' => 'modal-close'))
+    );
+
+    echo "
+            <div id='$id' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
+              <div class='modal-dialog'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                    <h4 id='$id-title'>$title</h4>
+                  </div>
+                  <div class='modal-body'>
+                    <div id='$id-message'>$message</div>
+                  </div>
+                  <div class='modal-footer'>
+                    " . _theme_button_set($buttons) . "
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script type='text/javascript'>
+              $('#modal-close').click(function(e) {
+                  e.preventDefault();
+                  $('#$id').modal('hide');
+              });
+            </script>
+    ";
+}
+
+/**
  * Modal confirmation form.
  *
  * @param string $title   title
@@ -290,14 +333,14 @@ function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL, $o
 
 function theme_form_submit($name, $text, $importance, $class, $options)
 {
-    $importance_class = ($importance === 'high') ? 'theme-form-important' : 'theme-form-unimportant';
+    $importance_class = ($importance === 'high') ? 'btn-primary' : 'btn-secondary';
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     $text = htmlspecialchars($text, ENT_QUOTES);
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
     $hidden = isset($options['hide']) ? ' theme-hidden' : '';
 
-    return "<input type='submit' name='$name'$id value='$text' class='btn btn-primary btn-sm $class $hidden $importance_class$tabindex' />\n";
+    return "<input type='submit' name='$name'$id value='$text' class='btn btn-sm $class $hidden $importance_class$tabindex' />\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -841,6 +884,38 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
  * Supported options:
  * - id 
  *
+ * @param array  $radios   list of radios in HTML format
+ * @param array  $options  options
+ *
+ * @return string HTML for field radio set
+ */
+
+function theme_radio_set($container_id, $radios, $options = array())
+{
+    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
+    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
+    $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
+    $orientation = (isset($options['vertical'])) ? 'btn-group-vertical' : '';
+
+    $radio_text = '';
+
+    foreach ($radios as $radio) {
+        $radio_text .= $radio;
+    }
+
+    return "
+        <div id='$container_id' class='btn-group $orientation $hide_field' data-toggle='buttons'>
+            $radio_text
+        </div>
+    ";
+}
+
+/**
+ * Display radio sets.
+ *
+ * Supported options:
+ * - id 
+ *
  * @param string $label    label
  * @param array  $radios   list of radios in HTML format
  * @param string $input_id input ID
@@ -857,7 +932,6 @@ function theme_field_radio_set($label, $radios, $input_id, $options = array())
     $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
 
     $radio_text = '';
-    $count = 0;
 
     if ($options['orientation'] == 'horizontal') 
         $radio_text .= "";
@@ -889,7 +963,41 @@ function theme_field_radio_set($label, $radios, $input_id, $options = array())
  *
  */
 
+function theme_radio_set_item($name, $group, $label, $checked, $input_id, $options)
+{
+    return _theme_radio_set_item($name, $group, $label, $checked, NULL, $input_id, $options, 'normal');
+}
+
+/**
+ * Return radio set items.
+ *
+ * @param string $name      name of text input element
+ * @param string $group     button group
+ * @param string $label     label for text input field
+ * @param string $checked   checked flag
+ * @param string $read_only read only flag
+ * @param array  $options   options
+ *
+ */
+
 function theme_field_radio_set_item($name, $group, $label, $checked, $error, $input_id, $options)
+{
+    return _theme_radio_set_item($name, $group, $label, $checked, $error, $input_id, $options, 'field');
+}
+
+/**
+ * Return radio set items.
+ *
+ * @param string $name      name of text input element
+ * @param string $group     button group
+ * @param string $label     label for text input field
+ * @param string $checked   checked flag
+ * @param string $read_only read only flag
+ * @param array  $options   options
+ *
+ */
+
+function _theme_radio_set_item($name, $group, $label, $checked, $error, $input_id, $options, $type)
 {
     // TODO: this is only used in the install wizard right now and is incomplete
     $input_id_html = " id='" . $input_id . "'";
@@ -897,27 +1005,33 @@ function theme_field_radio_set_item($name, $group, $label, $checked, $error, $in
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
     $select_html = ($checked) ? ' checked' : '';
+    $class = (isset($options['class'])) ? ' ' . $options['class'] : '';
 
     $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
     $image = ($options['image']) ? "<img src='" . $options['image'] . "' alt='' style='margin: 5px'><br>" : '';
     $label_help = ($options['label_help']) ? $options['label_help'] : '';
-    $orientation = (isset($options['orientation'])) ? $options['orientation'] : 'vertical';
 
     $disabled = (isset($options['disabled']) && $options['disabled']) ? " disabled='disabled'" : "";
     $input = "<input type='radio' name='$group' id='$input_id' value='$name' $select_html $disabled>";
 
     if ($orientation == 'horizontal') {
-        return "
-            <div id='$field_id_html' style='float: left;'>$image<label for='$input_id' id='$label_id_html'>$label</label>$input</div>
-        ";
+        if ($type == 'field')
+            return "
+                <div id='$field_id_html' style='float: left;'>$image<label for='$input_id' id='$label_id_html'>$label</label>$input</div>
+            ";
+        else
+            return "<label  class='btn btn-default$class' id='$label_id_html'>$input$label</label>";
     } else {
-        return "
-            <div id='$field_id_html'>
-                $input<span for='$input_id' id='$label_id_html'>$label</span>$label_help
-                $image
-            </div>
-        ";
+        if ($type == 'field')
+            return "
+                <div id='$field_id_html'>
+                    $input<span for='$input_id' id='$label_id_html'>$label</span>$label_help
+                    $image
+                </div>
+            ";
+        else
+            return "<label class='btn btn-default$class' id='$label_id_html'>$input$label</label>";
     }
 }
 
@@ -1021,14 +1135,30 @@ function theme_box_open($title, $options)
 {
     $id_html = (isset($options['id'])) ? $options['id'] : 'options_' . rand(0, 1000);
     $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
+    $anchors = (isset($options['anchors'])) ? $options['anchors'] : '';
     return "
         <div class='box $classes' id='$id_html'>
             " . ($title != NULL ? "
             <div class='box-header'>
-                <h3 class='box-title' id='" . $id_html . "_title'>$title</h3>
+                <h3 class='box-title' id='" . $id_html . "_title'>$title</h3><div style='float: right; padding-top: 10px; margin-right: 10px;'>$anchors</div>
             </div>
             " : "") . "
             <div class='box-body'>
+    ";
+}
+
+/**
+ * Box footer.
+ *
+ * @param string $content content
+ *
+ * @return string HTML
+ */
+
+function theme_box_footer($id = NULL, $content = '')
+{
+    return "
+        <div class='box-footer' id='$id'>$content</div>
     ";
 }
 

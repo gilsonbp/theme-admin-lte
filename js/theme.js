@@ -710,8 +710,14 @@ function get_marketplace_data(basename) {
     });
 }
 
+function theme_clearos_loading(options) {
+    var classes = '';
+    if (options.classes != undefined)
+        classes = options.classes;
+    return '<i class=\'fa fa-spinner fa-spin ' + classes + '\'></i>';
+}
+
 function c_row(field, value) {
-    // TODO style should be in CSS
     return '<div class=\'row\'>' +
                 '<div class=\'col-lg-6\'>' + field + '</div>' +
                 '<div class=\'col-lg-6\'>' + value + '</div>' +

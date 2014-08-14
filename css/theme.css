@@ -198,6 +198,10 @@ body > .header .logo {
   color: #555555;
   z-index: 1020;
 }
+.theme-button-change {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .theme-field-radio-set div {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -385,10 +389,23 @@ body > .header .logo {
   float: left;
   width: 380px; /* Don't change to percent...borks dotdotdot plugin */
 }
+#marketplace-novice-options {
+  text-align: center;
+}
+#marketplace-novice-description {
+  padding-bottom: 15px;
+}
+#marketplace-novice-description-more {
+  padding-bottom: 10px;
+  padding-right: 80px;
+  text-align: right;
+}
+
 /* Overrides annoying overlap of buttons in group */
 #marketplace_tools_container .btn-group .btn + .btn {
   margin-left: 0px;
 }
+
 
 /* ================= */
 /* D A S H B O A R D
