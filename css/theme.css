@@ -247,11 +247,22 @@ body > .header .logo {
 .theme-support-16 {
   color: #000000;
 }
+#theme_app_sidebar div.row {
+  line-height: 2.2;
+}
+#theme_app_sidebar div.theme-field {
+  text-align: right;
+  font-weight: bold;
+}
 
 /* ===================== */
 /* M A R K E T P L A C E */
 /* ===================== */
 
+.marketplace-links {
+  padding-top: 15px;
+  text-align: center;
+}
 .marketplace-app-info-container .box-header .box-title {
   max-height: 14px;
 }

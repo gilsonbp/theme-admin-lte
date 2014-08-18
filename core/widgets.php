@@ -132,7 +132,7 @@ function theme_modal_info($id, $title, $message, $options = NULL)
         anchor_ok('#', 'high', array('id' => 'modal-close'))
     );
 
-    echo "
+    return "
             <div id='$id' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
@@ -186,7 +186,7 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
         foreach ($confirm as $line)
             $js_lines .= $line . "\n";
     }
-    echo "
+    return "
             <div id='" . $id . "-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
@@ -204,28 +204,26 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
               </div>
             </div>
             <script type='text/javascript'>
-                $(document).ready(function() {
-                    " . ($trigger == NULL ? "" : "
-                    $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
-                        e.preventDefault();
-                        $('#" . $id . "-wrapper').modal({backdrop: 'static'});
-                    }); ") . "
-                    $('#modal-close').click(function(e) {
-                        e.preventDefault();
-                        $('#" . $id . "-wrapper').modal('hide');
-                    });
-                    " . ($form_id != NULL ? "
-                    $('#$id').click(function() {
-                        $('#" . $id . "-wrapper').modal('hide');
-                        $('#$form_id').submit();
-                    });
-                    " : (is_array($confirm) ? "
-                    $('#$id').click(function() {
-                        $('#" . $id . "-wrapper').modal('hide');
-                        " . $js_lines . "
-                    });
-                    " : "")) . "
+                " . ($trigger == NULL ? "" : "
+                $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
+                    e.preventDefault();
+                    $('#" . $id . "-wrapper').modal({backdrop: 'static'});
+                }); ") . "
+                $('#modal-close').click(function(e) {
+                    e.preventDefault();
+                    $('#" . $id . "-wrapper').modal('hide');
                 });
+                " . ($form_id != NULL ? "
+                $('#$id').click(function() {
+                    $('#" . $id . "-wrapper').modal('hide');
+                    $('#$form_id').submit();
+                });
+                " : (is_array($confirm) ? "
+                $('#$id').click(function() {
+                    $('#" . $id . "-wrapper').modal('hide');
+                    " . $js_lines . "
+                });
+                " : "")) . "
             </script>
     ";
 }
@@ -254,7 +252,7 @@ function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL, $o
     );
 
     $js_lines = "";
-    echo "
+    return "
             <div id='" . $id . "-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
@@ -1259,135 +1257,6 @@ function theme_form_footer($options)
                 $loading
             </div>
     ";
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// S I D B A R  W I D G E T
-///////////////////////////////////////////////////////////////////////////////
-
-/**
- * Sidebar header.
- *
- * Supported options:
- * - id 
- *
- * @param string $title form title
- * @param array  $options options
- *
- * @return string HTML
- */
-
-function theme_sidebar_header($title, $options)
-{
-    $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
-    $status_id_html = (isset($options['id'])) ? " id='status_" . $options['id'] . "'" : '';
-
-    if (isset($options['id'])) {
-        return "<table border='0' cellpadding='0' cellspacing='0' class='theme-form-wrapper'$id_html>
-            <tr class='theme-form-header'>
-                <td><span class='theme-form-header-heading'>$title</span></td>
-                <td align='right'><span class='theme-form-header-status' $status_id_html>&nbsp;</span></td>
-            </tr>
-        ";
-    } else {
-        return "<table border='0' cellpadding='0' cellspacing='0' class='theme-form-wrapper'$id_html>
-            <tr class='theme-form-header'>
-                <td colspan='2'><span class='theme-form-header-heading'>$title</span></td>
-            </tr>
-        ";
-    }
-}
-
-/**
- * Sidebar banner.
- *
- * Supported options:
- * - id 
- *
- * @param string $html    html payload
- * @param array  $options options
- *
- * @return string HTML
- */
-
-function theme_sidebar_banner($html, $options)
-{
-    $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
- 
-    return "
-        <tr class='theme-form-header'$id_html>
-            <td colspan='2' class='theme-form-banner'>$html</td>
-        </tr>
-    ";
-}
-
-/**
- * Sidebar key value.
- *
- * Supported options:
- * - id 
- * - value_id
- *
- * @param string $value   value
- * @param string $label   label
- * @param string $base_id base ID
- * @param array  $options options
- *
- * @return string HTML
- */
-
-function theme_sidebar_value($value, $label, $base_id, $options)
-{
-    if (empty($base_id))
-        $base_id = 'clearos_sidebar_' . mt_rand();
-
-    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $base_id . '_field';
-    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $base_id . '_label';
-    $text_id_html = (isset($options['text_id'])) ? $options['text_id'] : $base_id . '_text';
-    $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
-    $input_html = "<input type='hidden' name='$base_id' value='$value' id='$base_id'>";
- 
-    return "
-        <tr id='$field_id_html' class='theme-fieldview" . $hide_field . "'>
-            <td class='theme-field-left'><label for='$base_id' id='$label_id_html'>$label</label></td>
-            <td class='theme-field-right'><span id='$text_id_html'>$value</span>$input_html</td>
-        </tr>
-    ";
-}
-
-/**
- * Sidebar text.
- *
- * Supported options:
- * - id 
- *
- * @param string $html    html payload
- * @param array  $options options
- *
- * @return string HTML
- */
-
-function theme_sidebar_text($html, $options)
-{
-    $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
-    $align = (isset($options['align'])) ? " align='" . $options['align'] . "'" : '';
- 
-    return "
-        <tr$id_html>
-            <td colspan='2'$align>$html</td>
-        </tr>
-    ";
-}
-
-/**
- * Sidebar footer.
- *
- * @return string HTML
- */
-
-function theme_sidebar_footer()
-{
-    return "</table>";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2442,37 +2311,40 @@ function theme_summary_box($data)
         ";
     }
 
-    // TODO: move this out of the theme
-    // TODO: remove sidebar unless it's directly related to this widget.
-    // TODO: translate
-    if ($data['show_marketplace']) {
-        $marketplace =  "
-            <div class='marketplace-linkback'>" .
-            anchor_custom('/app/marketplace/view/' . $data['basename'], 'App Details') . "
-            </div>
-            <div id='sidebar-recommended-apps'></div>
-        ";
-    } else {
-        $marketplace = '';
-    }
-
     $html = theme_dialogbox_info("
         <div class='box-header'><h3 class='box-title'>" . $data['name'] . "</h3></div>
-        <div class='box-body' id='sidebar_summary_table'>
+        <div class='box-body' id='theme_app_sidebar'>
             <div class='row'>
-                <div class='col-lg-6'>" . lang('base_vendor') . "</div>
+                <div class='col-lg-6 theme-field'>" . lang('base_vendor') . "</div>
                 <div class='col-lg-6'>" . $data['vendor'] . "</div>
             </div>
             <div class='row'>
-                <div class='col-lg-6'>" . lang('base_version') . "</div>
+                <div class='col-lg-6 theme-field'>" . lang('base_version') . "</div>
                 <div class='col-lg-6'>" . $data['version'] . '-' . $data['release'] . "</div>
             </div>
+            <div id='sidebar_daemon_status' class='row theme-hidden'>
+                <div class='col-lg-6 theme-field'>" . lang('base_status') . "</div>
+                <div class='col-lg-6' id='clearos_daemon_status'>" . theme_loading('small') . "</div>
+            </div>
+            <div id='sidebar_daemon_action' class='row theme-hidden'>
+                <div class='col-lg-6 theme-field'>" . lang('base_action') . "</div>
+                <div class='col-lg-6' id='sidebar_daemon_action_controls'>" . anchor_custom('#', '---', 'high', array('id' => 'clearos_daemon_action')) . "</div>
+            </div>
             <div id='sidebar_additional_info_row' class='row theme-hidden'>
-                <div class='col-lg-6' valign='top'>" . lang('base_additional_info') . "</div>
+                <div class='col-lg-6 theme-field' valign='top'>" . lang('base_additional_info') . "</div>
                 <div class='col-lg-6' id='sidebar_additional_info'>" . theme_loading('small') . "</div>
-            </div>" .
-        //$tooltip TODO
-        $marketplace . "
+            </div>
+            <div class='marketplace-links'>" .
+                theme_button_set(
+                    array(
+                        anchor_custom('/app/marketplace/view/' . $data['basename'], lang('base_details')),
+                        anchor_custom('/app/marketplace/view/' . $data['basename'], lang('base_uninstall')),
+                        anchor_custom('#', lang('base_rate_app'), 'high', array('id' => 'app-' . $data['basename'], 'class' => 'sidebar-review-app'))
+                    )
+                ) . "
+            </div>
+            " . theme_marketplace_review($data['basename'], $data['sdn_username']) . "
+            " . (isset($data['show_recommended_apps']) ? "<div id='sidebar-recommended-apps'></div>" : "") . "
         </div>
         <div class='box-footer'></div>"
     );
@@ -2761,6 +2633,7 @@ function theme_marketplace_developer_field($id, $field, $options = NULL)
 
 function theme_marketplace_review($basename, $pseudonum)
 {
+    clearos_load_language('marketplace');
     $buttons = array(
         anchor_custom("#", lang('marketplace_submit_review'), 'high', array('id' => 'submit_review')),
         anchor_cancel('#', 'low', array('id' => 'cancel_review'))
