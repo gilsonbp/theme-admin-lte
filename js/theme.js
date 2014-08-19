@@ -160,8 +160,14 @@ function theme_sdn_account_setup(landing_url, username, device_id) {
     ';
 }
 
-function theme_app(type, list)
+function theme_app(type, list, options)
 {
+    disable_buttons = '';
+    learn_more_target = '';
+    if (options.mode == 'feature') {
+        disable_buttons = ' disabled';
+        learn_more_target = ' target="_blank"';
+    }
     for (index = 0 ; index < list.length; index++) {
         app = list[index];
 
@@ -197,14 +203,14 @@ function theme_app(type, list)
                             </div>\
                         </div>\
                     </div>\
-                    <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '">' + lang_marketplace_learn_more + '</a></div>\
+                    <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '"' + learn_more_target + '>' + lang_marketplace_learn_more + '</a></div>\
                 </div>\
                 <div class="box-footer">\
                     <div style="float: right;">' +
                     (app.installed
                         ? '<div class="btn-group">' +
-                        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm">' + lang_configure + '</a>' +
-                        '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm">' + lang_uninstall + '</a>' +
+                        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm' + disable_buttons + '">' + lang_configure + '</a>' +
+                        '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm' + disable_buttons + '">' + lang_uninstall + '</a>' +
                         '</div>'
                         : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" />' +
                         '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'

@@ -331,6 +331,7 @@ body > .header .logo {
 
 .marketplace-app-info-more {
   text-align: right;
+  clear: both;
 }
 
 .marketplace-app-info-description {

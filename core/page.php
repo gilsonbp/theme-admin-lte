@@ -1069,6 +1069,8 @@ function _get_breadcrumb_links($links)
             $icon = 'fa fa-th-list';
         else if ($type == 'wizard')
             $icon = 'fa fa-magic';
+        else if ($type == 'cancel')
+            $icon = 'fa fa-ban';
         else if ($type == 'qsf')
             $icon = 'fa fa-file-code-o';
 
