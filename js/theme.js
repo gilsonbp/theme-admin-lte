@@ -164,10 +164,11 @@ function theme_app(type, list, options)
 {
     disable_buttons = '';
     learn_more_target = '';
-    if (options.mode == 'feature') {
+    if (options.mode == 'feature' || options.mode == 'qsf') {
         disable_buttons = ' disabled';
         learn_more_target = ' target="_blank"';
     }
+
     for (index = 0 ; index < list.length; index++) {
         app = list[index];
 
@@ -212,7 +213,7 @@ function theme_app(type, list, options)
                         '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm' + disable_buttons + '">' + lang_configure + '</a>' +
                         '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm' + disable_buttons + '">' + lang_uninstall + '</a>' +
                         '</div>'
-                        : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" />' +
+                        : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" data-appname="' + app.name + '"/>' +
                         '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'
                     ) + '\
                     </div>\
@@ -221,8 +222,12 @@ function theme_app(type, list, options)
             </div>\
             ' + (index % 2 ? '<div style="clear: both;"></div>' : '') + '\
         ';
-        $('#marketplace-app-container').append(html);
+        if (options.optional_apps)
+            $('#optional-apps').append(html);
+        else
+            $('#marketplace-app-container').append(html);
     }
+
     $('#marketplace-app-container').append('\
         <div style="clear: both;"></div>\
         <script type="text/javascript">\
@@ -318,6 +323,7 @@ function theme_clearos_is_authenticated()
         type: 'POST',
         dataType: 'json',
         data: data_payload,
+        async: false,
         url: '/app/marketplace/ajax/is_authenticated',
         success: function(data) {
             if (data.code == 0 && data.authorized) {
@@ -326,20 +332,26 @@ function theme_clearos_is_authenticated()
                 // Only case where authorized is true.
                 $('#sdn-login-dialog').modal('hide');
                 // If we're logged in and there is a 'check_sdn_edit' function defined on page, check to see if we need to get settings
+                // TODO How to do a variable callback function name
+                clearos_display_review_form(my_location.app_name);
                 if (window.check_sdn_edit)
                     check_sdn_edit();
                 if (auth_options.action_type == 'login' && auth_options.reload_after_auth)
                     window.location.reload();
+                return true;
             } else if (data.code == 0 && !data.authorized) {
 
                 // Open dialog
                 $('#sdn-login-dialog').modal({show: true, backdrop: 'static'});
                 // If user closes modal box, redirect to non-edit mode
                 $('#sdn-login-dialog').on('hidden.bs.modal', function() {
-                    if (!my_location.default_controller)
+                    if (auth_options.no_redirect_on_cancel)
+                        return false;
+                    else if (auth_options.use_full_path_on_redirect)
+                        window.location = my_location.fullpath;
+                    else if (!my_location.default_controller && auth_options.use_full_path_on_redirect)
                         return;
-// TODO TODO - Need workaround.cannot enable code below...set flag? 
-//                    window.location = '/app/' + my_location.basename;
+                    window.location = '/app/' + my_location.basename;
                 });
 
                 // If email was submitted...reset was a success...
@@ -429,7 +441,7 @@ function theme_clearos_on_page_ready(my_location)
               <div class="modal-footer"> \
                 <div class="btn-group"> \
                   <a href="#" id="sdn_login_action" class="btn btn-sm btn-primary theme-anchor-edit">' + lang_login + '</a> \
-                  <a href="/app/' + my_location.basename + '" class="btn btn-sm btn-link theme-anchor-cancel">' + lang_cancel + '</a> \
+                  <a id="sdn_login_cancel" href="#" class="btn btn-sm btn-link theme-anchor-cancel">' + lang_cancel + '</a> \
                 </div> \
               </div> \
             </div> \
@@ -444,6 +456,10 @@ function theme_clearos_on_page_ready(my_location)
         if ($('#sdn_lost_password_group').is(':visible'))
             auth_options.action_type = 'lost_password';
         theme_clearos_is_authenticated();
+    });
+
+    $('#sdn_login_cancel').on('click', function (e) {
+        $('#sdn-login-dialog').modal('hide');
     });
 
     $('#sdn_forgot_password').click(function (e) {
@@ -468,22 +484,6 @@ function theme_clearos_on_page_ready(my_location)
             theme_clearos_is_authenticated();
         }
     });
-/*
-
-
-    $('#theme-banner-my-account-nav').click(function (e) {
-        e.preventDefault();
-        if (!$('#theme-banner-my-account-container').is(':visible')) {
-            $('#theme-banner-my-account-container').show('slide', {direction: 'right'}, 500);
-        } else {
-            $('#theme-banner-my-account-container').hide('slide', {direction: 'right'}, 500);
-        }
-    });
-
-    $('#theme-banner-my-account-container').mouseleave(function (e) {
-        setTimeout(function() {$('#theme-banner-my-account-container').hide('slide', {direction: 'right'}, 500)}, 1000);
-    });
-*/
 }
 
 function theme_rating_review(basename, id, title, comment, rating, pseudonym, timestamp, agree, disagree) {

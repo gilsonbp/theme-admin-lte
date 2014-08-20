@@ -417,6 +417,10 @@ body > .header .logo {
 #marketplace_tools_container .btn-group .btn + .btn {
   margin-left: 0px;
 }
+#marketplace_filter_container .btn-group .btn {
+  margin-left: -1px;
+  margin-right: -1px;
+}
 
 
 /* ================= */
