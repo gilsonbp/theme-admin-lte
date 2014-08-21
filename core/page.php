@@ -34,6 +34,15 @@
 
 function theme_page($page)
 {
+    if ($_SERVER['SERVER_PORT'] == 1501 && !preg_match('/.*hide_devel$/', $_SERVER['REQUEST_URI'])) {
+        if (!preg_match('/^\/usr\/clearos/', __FILE__))
+            $page['devel_alerts']['theme'] = TRUE;
+    }
+    if ($page['devel_app_source'] != 'Live')
+        $page['devel_alerts']['app'] = TRUE;
+    if ($page['devel_framework_source'] != 'Live')
+        $page['devel_alerts']['framework'] = TRUE;
+
     if ($page['type'] == MY_Page::TYPE_CONFIGURATION)
         return _configuration_page($page);
     else if ($page['type'] == MY_Page::TYPE_WIDE_CONFIGURATION)
@@ -383,7 +392,7 @@ function _get_main_content($page)
                 <section class='content-header'>
                     " . _get_content_header() . "
                     <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
-                    <div style='clear: both;'>
+                    <div style='clear: both;'></div>
                 </section>
                 <section class='content'>
                     <div class='col-lg-12 theme-content'>
@@ -399,7 +408,7 @@ function _get_main_content($page)
                 <section class='content-header'>
                     " . _get_content_header() . "
                     <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
-                    <div style='clear: both;'>
+                    <div style='clear: both;'></div>
                 </section>
                 <section class='content'>
                     <div class='col-lg-8 theme-content'>
@@ -446,10 +455,63 @@ function _get_header($page, $menus = array())
             }
         }
     }
+
+    if (isset($page['devel_alerts']) && count($page['devel_alerts']) > 0) {
+        $alert_text = "
+                        <ul class='dropdown-menu'>
+                            <li class='header'>You have " . count($page['devel_alerts']) . " notification" . (count($page['devel_alerts']) >  1 ? "s" : "") . "</li>
+        ";
+        if (isset($page['devel_alerts']['framework']))
+            $alert_text .= "
+                <li>
+                    <div>
+                        <ul class='menu'>
+                            <li>
+                                <a href='#'><i class='fa fa-gears warning'></i>Framework is in development mode</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            ";
+        if (isset($page['devel_alerts']['app']))
+            $alert_text .= "
+                <li>
+                    <div>
+                        <ul class='menu'>
+                            <li>
+                                <a href='#'><i class='fa fa-cubes warning'></i>This app is using development code</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            ";
+        if (isset($page['devel_alerts']['theme']))
+            $alert_text .= "
+                <li>
+                    <div>
+                        <ul class='menu'>
+                            <li>
+                                <a href='#'><i class='fa fa-image warning'></i>Theme is in development mode</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            ";
+        $alert_text .= "</ul>";
+        $devel_alerts = "
+                <li class='dropdown notifications-menu'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+                        <i class='fa fa-warning'></i>
+                        <span class='label label-warning'>" . count($page['devel_alerts']) . "</span>
+                    </a>
+                    $alert_text
+                </li>
+        ";
+    }
     return "
             <header class='header'>
-                <a class='logo' href='/app/dashboard'>
-                    <i style='font-size: 48px; color: rgba(255, 255, 255, 0.85);' class='icon-ClearOS'></i>
+                <a href='/app/dashboard' class='logo'>
+                    ClearOS
                 </a>
                 <nav class='navbar navbar-static-top' role='navigation'>
                     <a href='#' class='navbar-btn sidebar-toggle' data-toggle='offcanvas' role='button'>
@@ -460,194 +522,7 @@ function _get_header($page, $menus = array())
                     </a>
                     <div class='navbar-right'>
                         <ul class='nav navbar-nav'>
-                            <!-- Messages: style can be found in dropdown.less-->
-                            <li class='dropdown messages-menu'>
-                                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-                                    <i class='fa fa-envelope'></i>
-                                    <span class='label label-success'>4</span>
-                                </a>
-                                <ul class='dropdown-menu'>
-                                    <li class='header'>You have 4 messages</li>
-                                    <li>
-                                        <!-- inner menu: contains the actual data -->
-                                        <div class='slimScrollDiv' style='position: relative; overflow: hidden; width: auto; height: 200px;'><ul class='menu' style='overflow: hidden; width: 100%; height: 200px;'>
-                                            <li><!-- start message -->
-                                                <a href='#'>
-                                                    <div class='pull-left'>
-                                                        <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='User Image'>
-                                                    </div>
-                                                    <h4>
-                                                        Support Team
-                                                        <small><i class='fa fa-clock-o'></i> 5 mins</small>
-                                                    </h4>
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li><!-- end message -->
-                                            <li>
-                                                <a href='#'>
-                                                    <div class='pull-left'>
-                                                        <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='user image'>
-                                                    </div>
-                                                    <h4>
-                                                        AdminLTE Design Team
-                                                        <small><i class='fa fa-clock-o'></i> 2 hours</small>
-                                                    </h4>
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href='#'>
-                                                    <div class='pull-left'>
-                                                        <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='user image'>
-                                                    </div>
-                                                    <h4>
-                                                        Developers
-                                                        <small><i class='fa fa-clock-o'></i> Today</small>
-                                                    </h4>
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href='#'>
-                                                    <div class='pull-left'>
-                                                        <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='user image'>
-                                                    </div>
-                                                    <h4>
-                                                        Sales Department
-                                                        <small><i class='fa fa-clock-o'></i> Yesterday</small>
-                                                    </h4>
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href='#'>
-                                                    <div class='pull-left'>
-                                                        <img src='/approot/base/htdocs/photo.jpg' class='img-circle' alt='user image'>
-                                                    </div>
-                                                    <h4>
-                                                        Reviewers
-                                                        <small><i class='fa fa-clock-o'></i> 2 days</small>
-                                                    </h4>
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li>
-                                        </ul><div class='slimScrollBar' style='background-color: rgb(0, 0, 0); width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; z-index: 99; right: 1px; background-position: initial initial; background-repeat: initial initial;'></div><div class='slimScrollRail' style='width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; background-color: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px; background-position: initial initial; background-repeat: initial initial;'></div></div>
-                                    </li>
-                                    <li class='footer'><a href='#'>See All Messages</a></li>
-                                </ul>
-                            </li>
-                            <!-- Notifications: style can be found in dropdown.less -->
-                            <li class='dropdown notifications-menu'>
-                                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-                                    <i class='fa fa-warning'></i>
-                                    <span class='label label-warning'>10</span>
-                                </a>
-                                <ul class='dropdown-menu'>
-                                    <li class='header'>You have 10 notifications</li>
-                                    <li>
-                                        <!-- inner menu: contains the actual data -->
-                                        <div class='slimScrollDiv' style='position: relative; overflow: hidden; width: auto; height: 200px;'><ul class='menu' style='overflow: hidden; width: 100%; height: 200px;'>
-                                            <li>
-                                                <a href='#'>
-                                                    <i class='ion ion-ios7-people info'></i> 5 new members joined today
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href='#'>
-                                                    <i class='fa fa-warning danger'></i> Very long description here that may not fit into the page and may cause design problems
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href='#'>
-                                                    <i class='fa fa-users warning'></i> 5 new members joined
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href='#'>
-                                                    <i class='ion ion-ios7-cart success'></i> 25 sales made
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href='#'>
-                                                    <i class='ion ion-ios7-person danger'></i> You changed your username
-                                                </a>
-                                            </li>
-                                        </ul><div class='slimScrollBar' style='background-color: rgb(0, 0, 0); width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; z-index: 99; right: 1px; background-position: initial initial; background-repeat: initial initial;'></div><div class='slimScrollRail' style='width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; background-color: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px; background-position: initial initial; background-repeat: initial initial;'></div></div>
-                                    </li>
-                                    <li class='footer'><a href='#'>View all</a></li>
-                                </ul>
-                            </li>
-                            <!-- Tasks: style can be found in dropdown.less -->
-                            <li class='dropdown tasks-menu'>
-                                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-                                    <i class='fa fa-tasks'></i>
-                                    <span class='label label-danger'>9</span>
-                                </a>
-                                <ul class='dropdown-menu'>
-                                    <li class='header'>You have 9 tasks</li>
-                                    <li>
-                                        <!-- inner menu: contains the actual data -->
-                                        <div class='slimScrollDiv' style='position: relative; overflow: hidden; width: auto; height: 200px;'><ul class='menu' style='overflow: hidden; width: 100%; height: 200px;'>
-                                            <li><!-- Task item -->
-                                                <a href='#'>
-                                                    <h3>
-                                                        Design some buttons
-                                                        <small class='pull-right'>20%</small>
-                                                    </h3>
-                                                    <div class='progress xs'>
-                                                        <div class='progress-bar progress-bar-aqua' style='width: 20%' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'>
-                                                            <span class='sr-only'>20% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li><!-- end task item -->
-                                            <li><!-- Task item -->
-                                                <a href='#'>
-                                                    <h3>
-                                                        Create a nice theme
-                                                        <small class='pull-right'>40%</small>
-                                                    </h3>
-                                                    <div class='progress xs'>
-                                                        <div class='progress-bar progress-bar-green' style='width: 40%' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'>
-                                                            <span class='sr-only'>40% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li><!-- end task item -->
-                                            <li><!-- Task item -->
-                                                <a href='#'>
-                                                    <h3>
-                                                        Some task I need to do
-                                                        <small class='pull-right'>60%</small>
-                                                    </h3>
-                                                    <div class='progress xs'>
-                                                        <div class='progress-bar progress-bar-red' style='width: 60%' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'>
-                                                            <span class='sr-only'>60% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li><!-- end task item -->
-                                            <li><!-- Task item -->
-                                                <a href='#'>
-                                                    <h3>
-                                                        Make beautiful transitions
-                                                        <small class='pull-right'>80%</small>
-                                                    </h3>
-                                                    <div class='progress xs'>
-                                                        <div class='progress-bar progress-bar-yellow' style='width: 80%' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'>
-                                                            <span class='sr-only'>80% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li><!-- end task item -->
-                                        </ul><div class='slimScrollBar' style='background-color: rgb(0, 0, 0); width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; z-index: 99; right: 1px; background-position: initial initial; background-repeat: initial initial;'></div><div class='slimScrollRail' style='width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; background-color: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px; background-position: initial initial; background-repeat: initial initial;'></div></div>
-                                    </li>
-                                    <li class='footer'>
-                                        <a href='#'>View all tasks</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            $devel_alerts
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class='dropdown user user-menu'>
                                 <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
@@ -871,8 +746,6 @@ function _get_left_menu_1($page)
     // Close out open HTML tags
     //-------------------------
 
-    $main_apps .= "\t\t\t\t\t\t</ul>\n";
-    $main_apps .= "\t\t\t\t\t</li>\n";
     $main_apps .= "\t\t\t\t</ul>\n";
     $main_apps .= "\t\t\t</li>\n";
 

@@ -254,6 +254,12 @@ body > .header .logo {
   text-align: right;
   font-weight: bold;
 }
+.theme-stopped-daemon, .theme-dead-daemon{
+  color: red;
+}
+.theme-daemon-start-stop-status {
+  margin-right: 5px;
+}
 
 /* ===================== */
 /* M A R K E T P L A C E */

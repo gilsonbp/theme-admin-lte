@@ -1422,6 +1422,9 @@ function theme_action_table($title, $anchors, $items, $options = NULL)
     // Action table
     //-------------
 
+    $dom_id_var = preg_replace('/\./', '_', $dom_id);
+    $dom_id_selector = preg_replace('/\./', '\\\\\\.', $dom_id);
+
     return "
 
 <div class='box'>
@@ -1444,7 +1447,8 @@ function theme_action_table($title, $anchors, $items, $options = NULL)
   </div>
 </div>
 <script type='text/javascript'>
-	var table_" . $dom_id . " = $('#" . $dom_id . "').dataTable({
+  function get_table_$dom_id_var() {
+    return $('#" . $dom_id_selector . "').dataTable({
 		\"bJQueryUI\": true,
         \"bInfo\": false,
 		\"bPaginate\": false,
@@ -1452,6 +1456,7 @@ function theme_action_table($title, $anchors, $items, $options = NULL)
 		\"bSort\": false,
 		\"sPaginationType\": \"full_numbers\"
     });
+  }
 </script>
     ";
 }
@@ -2261,12 +2266,23 @@ function theme_paginate($url, $pages = 0, $active = 0, $max = 5, $options = NULL
         $max = $pages;
 
     $buttons = array();
-    $buttons[] = anchor_custom($url . '/' . ($active > 0 ? $active - 1 : 0), ' ← ', 'high', array('id' => 'paginate_prev'));
+    $buttons[] = anchor_custom(
+        $url . '/' . ($active > 0 ? $active - 1 : 0),
+        "<i class='fa fa-arrow-left'></i>", 'high',
+        array('id' => 'paginate_prev', 'no_escape_html' => TRUE)
+    );
 
     for ($index = $offset; $index < $max + $offset; $index++)
-        $buttons[] = anchor_custom($url . '/' . $index, $index, 'low', ($index == $active ? array('id' => "paginate_$index", 'class' => 'theme-paginate-active') : array('id' => "paginate_$index")));
+        $buttons[] = anchor_custom(
+                        $url . '/' . $index, $index, 'low',
+                        ($index == $active ? array('id' => "paginate_$index", 'class' => 'theme-paginate-active') : array('id' => "paginate_$index"))
+                    );
 
-    $buttons[] = anchor_custom($url . '/' . ($pages > $active ? $active + 1 : $pages), ' → ', 'high', array('id' => 'paginate_next'));
+    $buttons[] = anchor_custom(
+        $url . '/' . ($pages > $active ? $active + 1 : $pages),
+        "<i class='fa fa-arrow-right'></i>", 'high',
+        array('id' => 'paginate_next', "no_escape_html" => TRUE)
+    );
 
     return theme_button_set($buttons, $options);
 }
@@ -2661,23 +2677,24 @@ function theme_marketplace_review($basename, $pseudonum)
                     <i class='app-rating-action theme-star fa fa-star' id='star3'></i>
                     <i class='app-rating-action theme-star fa fa-star' id='star4'></i>
                     <i class='app-rating-action theme-star fa fa-star' id='star5'></i>
-                    <input type='hidden' name='rating' id='rating' value='0' />" .
+                    <input type='hidden' name='rating' id='review-rating' value='0' />" .
                 theme_column_close() .
                 theme_row_close() .
                 theme_row_open() .
                 theme_column_open(3) . lang('marketplace_comment') . theme_column_close() .
                 theme_column_open(9) . "
-                    <textarea id='comment' class='marketplace-comment-box'></textarea>
+                    <textarea id='review-comment' class='marketplace-comment-box'></textarea>
                     <div id='char-remaining' class='theme-smaller-text'>1000 " . lang('marketplace_remaining') . "</div>" . 
                 theme_column_close() .
                 theme_row_close() .
                 theme_row_open() .
                 theme_column_open(3) . lang('marketplace_submitted_by') . theme_column_close() .
                 theme_column_open(9) . "
-                    <input type='text' class='theme-full-width' id='pseudonym' name='pseudonym' value='$pseudonym' />" .
+                    <input type='text' class='theme-full-width' id='review-pseudonym' name='review-pseudonym' value='$pseudonym' />" .
                 theme_column_close() .
                 theme_row_close() .
                 theme_row_open() . "
+                <input type='hidden' name='review-basename' id='review-basename' value='$basename' />
                 <div id='review-message-bar' class='theme-errmsg-separator'></div>" .
                 theme_row_close() .
                 form_close() . "
@@ -2689,26 +2706,28 @@ function theme_marketplace_review($basename, $pseudonum)
           </div>
         </div>
         <script type='text/javascript'>
-            $(document).ready(function() {
-                $('#cancel_review').click(function(e) {
-                    e.preventDefault();
-                    $('#review-form').modal('hide');
-                });
-                $('#submit_review').click(function() {
-                    submit_review();
-                });
-                $('.app-rating-action').on('click', function() {
-                    rating = this.id.substr(4,5);
-                    for (var starindex = 1; starindex <= 5; starindex++) {
-                        if (rating >= starindex)
-                            $('#star' + starindex).addClass('on');
-                        else
-                            $('#star' + starindex).removeClass('on');
-                    }
-                    $('#rating').val(rating);
-                });
+            $('#review-comment').keyup(function() {
+                var charLength = $(this).val().length;
+                $('#char-remaining').html(1000 - charLength + ' " . lang('marketplace_remaining') . "');
             });
 
+            $('#cancel_review').click(function(e) {
+                e.preventDefault();
+                $('#review-form').modal('hide');
+            });
+            $('#submit_review').click(function() {
+                submit_review();
+            });
+            $('.app-rating-action').on('click', function() {
+                rating = this.id.substr(4,5);
+                for (var starindex = 1; starindex <= 5; starindex++) {
+                    if (rating >= starindex)
+                        $('#star' + starindex).addClass('on');
+                    else
+                        $('#star' + starindex).removeClass('on');
+                }
+                $('#rating').val(rating);
+            });
         </script>" .
         theme_modal_confirm(lang('base_warning'), lang('marketplace_confirm_review_replace'), array("submit_review(true);"), NULL, NULL, 'confirm-review-replace')
     ;
