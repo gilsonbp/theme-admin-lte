@@ -26,11 +26,14 @@ $(document).ready(function() {
     });
 */
 
+function theme_clearos_dialog_close(obj)
+{
+    obj.close();
+}
+
 function theme_clearos_dialog_box(id, title, message, options)
 {
-    // TODO window.location should be replaced with native API calls
-    // http://nakupanda.github.io/bootstrap3-dialog/
-    BootstrapDialog.show({
+    var modal_dialog = new BootstrapDialog({
         type: BootstrapDialog.TYPE_WARNING,
         title: title,
         buttons: [{
@@ -46,6 +49,8 @@ function theme_clearos_dialog_box(id, title, message, options)
         }],
         message: message
     });
+    modal_dialog.open();
+    return modal_dialog;
 }
 
 function theme_clearos_info_box(type, title, message, options)
@@ -345,7 +350,7 @@ function theme_clearos_on_page_ready(my_location)
 
         if ($('#sdn_lost_password_group').is(':visible'))
             auth_options.action_type = 'lost_password';
-        theme_clearos_is_authenticated();
+        clearos_is_authenticated();
     });
 
     $('#sdn_login_cancel').on('click', function (e) {
@@ -364,14 +369,14 @@ function theme_clearos_on_page_ready(my_location)
     $('input#sdn_password').keyup(function(event) {
         if (event.keyCode == 13) {
             auth_options.action_type = 'login';
-            theme_clearos_is_authenticated();
+            clearos_is_authenticated();
         }
     });
 
     $('input#sdn_email').keyup(function(event) {
         if (event.keyCode == 13) {
             auth_options.action_type = 'lost_password';
-            theme_clearos_is_authenticated();
+            clearos_is_authenticated();
         }
     });
 }
@@ -608,9 +613,20 @@ function get_marketplace_data(basename) {
 
 function theme_clearos_loading(options) {
     var classes = '';
-    if (options != undefined && options.classes)
-        classes = options.classes;
-    return '<i class=\'fa fa-spinner fa-spin ' + classes + '\'></i>';
+    var text = '';
+    var center_begin = '';
+    var center_end = '';
+    if (options != undefined) {
+        if (options.classes)
+            classes = options.classes;
+        if (options.text)
+            text = '<span style=\'margin-left: 5px;\'>' + options.text + '</span>';
+        if (options.center) {
+            center_begin = '<div style=\'width: 100%; text-align: center;\'>';
+            center_end = '</div>';
+        }
+    }
+    return center_begin + '<i class=\'fa fa-spinner fa-spin ' + classes + '\'></i>' + text + center_end;
 }
 
 function c_row(field, value) {

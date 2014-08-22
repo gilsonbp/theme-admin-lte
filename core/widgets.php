@@ -944,7 +944,7 @@ function theme_field_radio_set($label, $radios, $input_id, $options = array())
     return "
         <div id='$field_id_html' class='form-group theme-field-radio-set" . $hide_field . "'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right theme-field-radio-set'><span class='form-control' style='border: none; box-shadow: none; padding-left: 0px; padding-top: 4px' id='$input_id'></span>$radio_text$error_html</div>
+            <div class='col-sm-7 theme-field-right theme-field-radio-set'>$radio_text$error_html</div>
         </div>
     ";
 }
@@ -2354,7 +2354,7 @@ function theme_summary_box($data)
                 theme_button_set(
                     array(
                         anchor_custom('/app/marketplace/view/' . $data['basename'], lang('base_details')),
-                        anchor_custom('/app/marketplace/view/' . $data['basename'], lang('base_uninstall')),
+                        anchor_custom('/app/marketplace/uninstall/' . $data['basename'], lang('base_uninstall')),
                         anchor_custom('#', lang('base_rate_app'), 'high', array('id' => 'app-' . $data['basename'], 'class' => 'sidebar-review-app'))
                     )
                 ) . "
