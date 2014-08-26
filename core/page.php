@@ -537,7 +537,7 @@ function _get_header($page, $menus = array())
                                 <ul class='dropdown-menu'>
                                     <!-- User image -->
                                     <li class='user-header bg-light-blue'>
-                                        <img src='https://www.gravatar.com/avatar/f37b423116a79be036352dae9f58acfc' class='img-circle' alt='User Image'>
+                                        <img src='https://www.gravatar.com/avatar/' class='img-circle' alt='User Image'>
                                         <p>
                                             " . $page['username'] . "
                                             <small>Member since Nov. 2012</small>
