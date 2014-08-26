@@ -514,12 +514,17 @@ function _get_header($page, $menus = array())
                     ClearOS
                 </a>
                 <nav class='navbar navbar-static-top' role='navigation'>
-                    <a href='#' class='navbar-btn sidebar-toggle' data-toggle='offcanvas' role='button'>
+                    <a href='#' class='navbar-btn sidebar-toggle visible-xs visible-sm' data-toggle='offcanvas' role='button'>
                         <span class='sr-only'>Toggle navigation</span>
                         <span class='icon-bar'></span>
                         <span class='icon-bar'></span>
                         <span class='icon-bar'></span>
                     </a>
+                    <div class='theme-top-navbar'>
+                        <a href='/app/dashboard'><div class='theme-dashboard'>" . lang('base_dashboard') . "</div></a>
+                        <a href='#'><div class='theme-support'>" . lang('base_support') . "</div></a>
+                        <a href='/app/marketplace'><div class='theme-marketplace'>" . lang('base_marketplace') . "</div></a>
+                    </div>
                     <div class='navbar-right'>
                         <ul class='nav navbar-nav'>
                             $devel_alerts
@@ -557,7 +562,7 @@ function _get_header($page, $menus = array())
                     </div>
                 </nav>
             </header>
-";
+    ";
 }
 
 /**
@@ -568,53 +573,8 @@ function _get_header($page, $menus = array())
 
 function _get_content_header()
 {
-    return "
-        <div class='row'>
-            <div class='col-lg-6 col-xs-6'></div>
-            <div class='col-lg-2 col-xs-6'>
-                <!-- small box -->
-                <div class='small-box theme-bg-green'>
-                    <div class='inner'>
-                        <p>Dashboard</p>
-                    </div>
-                    <div class='icon'>
-                        <i style='font-size: 35px;' class='fa fa-dashboard'></i>
-                    </div>
-                    <a href='/app/dashboard' class='small-box-footer'>
-                        Go <i class='fa fa-arrow-circle-right'></i>
-                    </a>
-                </div>
-            </div><!-- ./col -->
-            <div class='col-lg-2 col-xs-6'>
-                <!-- small box -->
-                <div class='small-box theme-bg-blue'>
-                    <div class='inner'>
-                        <p>Support</p>
-                    </div>
-                    <div class='icon'>
-                        <i style='font-size: 35px; color: rgba(0, 0, 0, 0.25);' class='icon-ClearCenterLogo'></i>
-                    </div>
-                    <a href='#' class='small-box-footer'>
-                        More info <i class='fa fa-arrow-circle-right'></i>
-                    </a>
-                </div>
-            </div><!-- ./col -->
-            <div class='col-lg-2 col-xs-6'>
-                <!-- small box -->
-                <div class='small-box theme-bg-orange'>
-                    <div class='inner'>
-                        <p>Marketplace</p>
-                    </div>
-                    <div class='icon'>
-                        <i style='font-size: 40px;' class='ion ion-bag'></i>
-                    </div>
-                    <a href='/app/marketplace' class='small-box-footer'>
-                        Search <i class='fa fa-arrow-circle-right'></i>
-                    </a>
-                </div>
-            </div><!-- ./col -->
-        </div>
-    ";
+    // TODO
+    return "";
 }
 
 /**
@@ -710,21 +670,13 @@ function _get_left_menu_1($page)
             // Close out subcategory and category
             $main_apps .= "\t\t\t\t\t</ul>\n";
             $main_apps .= "\t\t\t\t</li>\n";
-   //         $main_apps .= "\t\t\t</ul>\n";
-//            $main_apps .= "\t\t</div>\n";
         } else if ($new_subcategory) {
             $main_apps .= "\t\t\t\t\t</ul>\n";
             $main_apps .= "\t\t\t\t</li>\n";
         }
 
-        if ($page_meta['category'] != $current_category) {
+        if ($page_meta['category'] != $current_category)
             $current_category = $page_meta['category'];
-            //$main_apps .= "\t\t<li class='treeview"  . ($current_category == $page['current_category'] ? " active" : "") . "'>\n";
-//            $main_apps .= "\t\t\t<a href='#'><i class='fa fa-laptop'></i>\n";
-//            $main_apps .= "\t\t\t\t<span class='title'> " . $page_meta['category'] . " </span>" . ($page_meta['category'] == $current_category ? "<span class='selected'></span>" : "") . "<i class='icon-arrow'></i>\n";
- //           $main_apps .= "\t\t\t</a>\n";
-//            $main_apps .= "\t\t\t<ul class='treeview-menu'>\n";
-        }
         
         // Subcategory transition
         //-----------------------

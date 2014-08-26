@@ -48,6 +48,26 @@ body > .header .logo {
 
 /* Overrides End */
 
+.theme-top-navbar {
+  float: left;
+  width: 80%;
+  height: 50px;
+}
+.theme-top-navbar div {
+  float: left;
+  width: 33%;
+  text-align: center;
+  padding-top: 15px;
+  height: 50px;
+  text-transform: uppercase;
+}
+.theme-top-navbar a, .theme-top-navbar a:visited {
+  color: #ffffff;
+}
+.theme-top-navbar div:hover {
+  background-color: #357ca5;
+}
+
 #action-selected {
   font-weight: bold;
   font-style: italic;
