@@ -792,7 +792,7 @@ function theme_field_toggle_enable_disable($name, $selected, $label, $error, $va
     return "
         <div id='$field_id_html' class='form-group theme-field-toggle'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $selected, $input_id_html) . " $error_html </div>
+            <div class='col-sm-7 theme-field-right'>" . form_dropdown($name, $values, $selected, "class='form-control theme-dropdown$add_classes'$input_id_html") . " $error_html </div>
         </div>
     ";
 }
