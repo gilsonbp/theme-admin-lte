@@ -1114,6 +1114,44 @@ function theme_field_info($id, $label, $text, $options = NULL)
 } 
 
 ///////////////////////////////////////////////////////////////////////////////
+// Form open
+///////////////////////////////////////////////////////////////////////////////
+
+function theme_login_form($redirect, $languages, $lang, $errmsg, $options = NULL)
+{
+    // We use Bootstrap row/column grids here to make responsive layout possible
+    echo row_open();
+    echo column_open(3, NULL, NULL, array('class' => 'visible-lg'));
+    echo column_close();
+    echo column_open(6, NULL, NULL, array('class' => ''));
+    echo form_open('base/session/login/' . $redirect);
+    echo form_header(lang('base_login'), array('id' => 'theme-login-form-header'));
+
+    echo field_input('clearos_username', '', lang('base_username'));
+    echo field_password('clearos_password', '', lang('base_password'));
+
+    if (count($languages) > 1)
+        echo field_dropdown('code', $languages, $code, lang('base_language'));
+
+    if (isset($options) && $options['ip_extras'])
+        echo field_view('', "<span style='color: #666666'>" . $options['ip_extras'] . "</span>");
+
+
+    echo theme_field_button_set(
+        array(form_submit_custom('submit', lang('base_login'), 'high'))
+    );
+
+    if ($errmsg)
+        echo infobox_critical(lang('base_error'), $errmsg);
+    echo form_footer(array('id' => 'theme-login-form-footer'));
+    echo form_close();
+    echo column_close();
+    echo column_open(3, NULL, NULL, array('class' => 'visible-lg'));
+    echo column_close();
+    echo row_close();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // G E N E R I C  B O X
 ///////////////////////////////////////////////////////////////////////////////
 
