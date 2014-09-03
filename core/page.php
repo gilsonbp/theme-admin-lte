@@ -338,7 +338,91 @@ function _exception_page($page)
 
 function _wizard_page($page)
 {
-    echo "todo - wizard";
+    $layout = 
+        _get_header($page) .
+        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
+        _get_wizard_menu($page) .
+        _get_main_content($page) .
+        "</div>" .
+        _get_footer($page)
+    ;
+
+    return $layout;
+    //$menus = _get_left_menu($page['wizard_menu']);
+
+    // Add a sidebar on normal pages.  Some pages need the full width.
+ //   $content = _get_message() . $page['app_view'];
+//    $nav = _get_wizard_navigation($page['wizard_navigation']);
+/*
+    $intro = '';
+    $sidebar = '';
+
+    if ($page['page_wizard_intro']) {
+        $intro = "
+            <div id='theme-help-box-container'>
+                <div class='theme-help-box'>
+                " . $page['page_wizard_intro'] . "
+                </div>
+            </div>
+        ";
+    }
+
+    if ($page['page_inline_help']) {
+        $sidebar = "
+            <div id='theme-sidebar-container'>
+                <div class='theme-sidebar-top'>
+                " . $page['page_inline_help'] . "
+                </div>
+                <div>
+                " . $page['page_report'] . "
+                </div>
+            </div>
+        ";
+    }
+
+    // Use a wide "intro" layout for pages without a sidebar.
+    // Add a sidebar div if a sidebar exists.
+
+    $content = $intro . $content;
+
+    if ($sidebar)
+        $content = "<div id='theme-content-left'>$content</div>";
+
+    return "
+<!-- Body -->
+<body>
+
+<!-- Page Container -->
+<div id='theme-page-container'>
+    " .
+    _get_header($page) .
+    "
+    <!-- Main Content Container -->
+    <div id='theme-main-content-container'>
+        <div class='theme-main-content-top'>
+            <div class='theme-content-border-top'></div>
+            <div class='theme-content-border-left'></div>
+            <div class='theme-content-border-right'></div>
+        </div>
+        <div class='theme-core-content'>
+            " .
+                _get_left_menu($menusnav) .
+            "
+            <!-- Content -->
+            <div id='theme-content-container'>
+                $sidebar
+                $content
+            </div>
+        </div>
+        " .
+        _get_footer($page) .
+        "
+    </div>
+</div>
+</body>
+</html>
+";
+*/
 }
 
 /**
@@ -386,15 +470,14 @@ function _get_message()
 
 function _get_main_content($page)
 {
-    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION || $page['type'] == MY_Page::TYPE_SPOTLIGHT)
+    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION || $page['type'] == MY_Page::TYPE_SPOTLIGHT || $page['type'] == MY_Page::TYPE_WIZARD)
         return "
             <aside class='right-side'>
-                <section class='content-header'>
+                <section class='content-header clearfix'>
                     " . _get_content_header() . "
                     <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
-                    <div style='clear: both;'></div>
                 </section>
-                <section class='content'>
+                <section class='content clearfix'>
                     <div class='col-lg-12 theme-content'>
                 " . _get_message() . "
                 " . $page['app_view'] . "
@@ -405,12 +488,11 @@ function _get_main_content($page)
     else 
         return "
             <aside class='right-side'>
-                <section class='content-header'>
+                <section class='content-header clearfix'>
                     " . _get_content_header() . "
                     <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
-                    <div style='clear: both;'></div>
                 </section>
-                <section class='content'>
+                <section class='content clearfix'>
                     <div class='col-lg-8 theme-content'>
                 " . _get_message() . "
                 " . $page['app_view'] . "
@@ -595,6 +677,83 @@ function _get_footer($page)
       </section>
     </div>
     ";
+}
+
+/**
+ * Returns wizard left panel menu
+ * 
+ * @param array $page page data
+ *
+ * @return string menu HTML output
+ */
+
+function _get_wizard_menu($page)
+{
+/*
+echo "<PRE style='align: left;'>";
+print_r($page['wizard_menu']);
+echo "</PRE>";
+return;
+*/
+    $menu_data = $page['wizard_menu'];
+    $current_subcategory = NULL;
+
+    foreach ($menu_data as $step_no => $menu) {
+        // Determine sub-category icon to use
+        if ($menu['subcategory'] == lang('base_network'))
+            $sub_class = 'fa fa-fire';
+        else if ($menu['subcategory'] == lang('base_registration'))
+            $sub_class = 'fa fa-pencil';
+        else if ($menu['subcategory'] == lang('base_configuration'))
+            $sub_class = 'fa fa-gear';
+        else if ($menu['subcategory'] == lang('base_marketplace'))
+            $sub_class = 'fa fa-cloud-download';
+        else if ($menu['subcategory'] == lang('base_finish'))
+            $sub_class = 'fa fa-tasks';
+        else
+            $sub_class = 'fa fa-angle-double-right';
+
+        $disabled = ''; 
+        if ($step_no > $page['wizard_current'])
+            $disabled = 'theme-link-disabled'; 
+        $active = ''; 
+        if ($step_no == $page['wizard_current'])
+            $active = 'active'; 
+
+        if ($current_subcategory == NULL) {
+            $current_subcategory = $menu['subcategory'];
+            $steps .= "<li class='treeview" . ($step_no <= $page['wizard_current'] ? " active" : "") . "'>\n";
+            $steps .= "\t<a href='#'><i class='$sub_class'></i><span>" . $menu['subcategory'] . "</span></a>\n";
+            $steps .= "\t<ul class='treeview-menu'>\n";
+            $steps .= "\t\t<li class='$disabled $active'><a href='" . ($disabled != '' ? '#' : $menu['nav']) . "'>" . $menu['title'] . "</a></li>\n";
+        } else if ($current_subcategory == $menu['subcategory']) {
+            $steps .= "\t\t<li class='$disabled $active'><a href='#'>" . $menu['title'] . "</a></li>\n";
+        } else if ($current_subcategory != $menu['subcategory']) {
+            $current_subcategory = $menu['subcategory'];
+            $steps .= "\t</ul>\n";
+            $steps .= "</li>\n";
+            $steps .= "<li class='treeview" . ($step_no <= $page['wizard_current'] ? " active" : "") . "'>\n";
+            $steps .= "\t<a href='#'><i class='$sub_class'></i><span>" . $menu['subcategory'] . "</span></a>\n";
+            $steps .= "\t<ul class='treeview-menu'>\n";
+            $steps .= "\t\t<li class='$disabled $active'><a href='" . ($disabled != '' ? '#' : $menu['nav']) . "'>" . $menu['title'] . "</a></li>\n";
+        }
+    }
+
+    // Close out open HTML tags
+    //-------------------------
+
+    $steps .= "\t\t</ul>\n";
+    $steps .= "</li>\n";
+
+    return "
+<aside class='left-side sidebar-offcanvas'>
+    <section class='sidebar'>
+        <ul class='sidebar-menu'>
+            $steps
+        </ul>
+    </section>
+</aside>
+";
 }
 
 /**
@@ -880,9 +1039,27 @@ function _get_left_menu_2($page)
 function _get_breadcrumb_links($links)
 {
     $link_html;
+    $button_grp = '';
 
     // Use buttons, images/icons or font
     foreach ($links as $type => $link) {
+        $text_right = (isset($link['display_tag']) && $link['display_tag']) ? "<span style='padding: 5px'>" . $link['tag'] . "</span>" : '';
+        $text_left = '';
+        if (isset($link['tag_position']) && $link['tag_position'] == 'left') {
+            $text_left = $text_right;
+            $text_right = '';
+        }
+        $button_class = '';
+        if (isset($link['button']) && $link['button']) {
+            $button_grp = 'btn-group';
+            if ($link['button'] === 'high')
+                $button_class = 'btn btn-primary';
+            else if ($link['button'] === 'low')
+                $button_class = 'btn btn-secondary';
+            else
+                $button_class = 'btn';
+        }
+
         $icon = 'fa fa-question';
         if ($type == 'settings')
             $icon = 'fa fa-gear';
@@ -898,10 +1075,14 @@ function _get_breadcrumb_links($links)
             $icon = 'fa fa-ban';
         else if ($type == 'qsf')
             $icon = 'fa fa-file-code-o';
+        else if ($type == 'wizard_next')
+            $icon = 'fa fa-arrow-circle-right';
+        else if ($type == 'wizard_previous')
+            $icon = 'fa fa-arrow-circle-left';
 
-        $link_html .= "<a href='" . $link['url'] . "'" . (isset($link['class']) ? " class='" . $link['class'] . "'" : "") . ">" .
-            "<icon class='$icon' title='" . $link['tag'] . "'></i></a>";
+        $link_html .= "<a href='" . $link['url'] . "' class='$button_class " . (isset($link['class']) ? $link['class'] : "") . "'>
+            $text_left<icon class='$icon' title='" . $link['tag'] . "'></i>$text_right</a>";
         
     }
-    return "<span class='theme-breadcrumb-links'>" . $link_html . "</span>";
+    return "<span class='theme-breadcrumb-links $button_grp'>" . $link_html . "</span>";
 };

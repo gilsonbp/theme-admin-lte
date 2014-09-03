@@ -281,6 +281,14 @@ body > .header .logo {
   margin-right: 5px;
 }
 
+.theme-link-disabled {
+  cursor: not-allowed; 
+}
+ 
+.theme-link-disabled > a {
+  pointer-events: none;
+}
+
 /* ===================== */
 /* M A R K E T P L A C E */
 /* ===================== */
