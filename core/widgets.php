@@ -882,27 +882,32 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
  * Supported options:
  * - id 
  *
- * @param array  $radios   list of radios in HTML format
- * @param array  $options  options
+ * @param sting  $container_id container DOM ID
+ * @param array  $radios       list of radios in HTML format
+ * @param string $input_id     input ID
+ * @param array  $options      options
  *
  * @return string HTML for field radio set
  */
 
-function theme_radio_set($container_id, $radios, $options = array())
+function theme_radio_set($container_id, $radios, $input_id, $options = array())
 {
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
-    $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
-    $orientation = (isset($options['vertical'])) ? 'btn-group-vertical' : '';
+    if (isset($options['hide_field']))
+        $classes[] = 'theme-hidden';
+    if (isset($options['vertical']))
+        $classes[] = 'btn-group-vertical';
+    if (isset($options['buttons']))
+        $classes[] = 'btn-group';
 
     $radio_text = '';
 
-    foreach ($radios as $radio) {
+    foreach ($radios as $radio)
         $radio_text .= $radio;
-    }
 
     return "
-        <div id='$container_id' class='btn-group $orientation $hide_field' data-toggle='buttons'>
+        <div id='$container_id' class='" . implode(' ', $classes) . "' " . (empty($buttons_class) ? "" : "data-toggle='buttons'") . ">
             $radio_text
         </div>
     ";
@@ -997,39 +1002,50 @@ function theme_field_radio_set_item($name, $group, $label, $checked, $error, $in
 
 function _theme_radio_set_item($name, $group, $label, $checked, $error, $input_id, $options, $type)
 {
-    // TODO: this is only used in the install wizard right now and is incomplete
     $input_id_html = " id='" . $input_id . "'";
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
     $select_html = ($checked) ? ' checked' : '';
     $class = (isset($options['class'])) ? ' ' . $options['class'] : '';
+    $buttons_class = (isset($options['buttons'])) ? 'btn btn-default' : '';
 
     $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
-    $image = ($options['image']) ? "<img src='" . $options['image'] . "' alt='' style='margin: 5px'><br>" : '';
+    $image = ($options['image']) ? "<img src='" . $options['image'] . "' alt='' style='margin: 5px'>" : '';
     $label_help = ($options['label_help']) ? $options['label_help'] : '';
 
     $disabled = (isset($options['disabled']) && $options['disabled']) ? " disabled='disabled'" : "";
     $input = "<input type='radio' name='$group' id='$input_id' value='$name' $select_html $disabled>";
 
     if ($orientation == 'horizontal') {
-        if ($type == 'field')
+        if ($type == 'field') {
             return "
                 <div id='$field_id_html' style='float: left;'>$image<label for='$input_id' id='$label_id_html'>$label</label>$input</div>
             ";
-        else
-            return "<label  class='btn btn-default$class' id='$label_id_html'>$input$label</label>";
+        } else {
+            return "<label class='$buttons_class $class' id='$label_id_html'>$input$label</label>";
+        }
     } else {
-        if ($type == 'field')
+        if ($type == 'field') {
             return "
                 <div id='$field_id_html'>
                     $input<span for='$input_id' id='$label_id_html'>$label</span>$label_help
                     $image
                 </div>
             ";
-        else
-            return "<label class='btn btn-default$class' id='$label_id_html'>$input$label</label>";
+        } else {
+            if (isset($image)) {
+                $html = theme_row_open() .
+                    theme_column_open(7) . "<label class='$buttons_class $class' id='$label_id_html'>$input$label</label>$label_help" . theme_column_close() .
+                    theme_column_open(5) . $image . theme_column_close() .
+                    theme_row_close()
+                ;
+                return $html;
+            } else {
+                return "<label class='$buttons_class $class' id='$label_id_html'>$input$label</label>";
+            }
+        }
     }
 }
 
