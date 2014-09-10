@@ -67,20 +67,26 @@
 
 function theme_anchor($url, $text, $importance, $class, $options)
 {
-    $importance_class = ($importance === 'high') ? 'btn-primary' : ($importance === 'low' ? 'btn-secondary' : 'btn-link');
+    $importance = ($importance === 'high') ? 'btn-primary' : ($importance === 'low' ? 'btn-secondary' : 'btn-link');
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     if (!isset($options['no_escape_html']) || $options['no_escape_html'] == FALSE)
         $text = htmlspecialchars($text, ENT_QUOTES);
+    $class = explode(' ', $class);
     $target = isset($options['target']) ? " target='" . $options['target'] . "'" : ''; 
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
-    $class .= isset($options['class']) ? ' ' . $options['class'] : '';
-    $hidden = isset($options['hide']) ? ' theme-hidden' : '';
+    if (isset($options['class']))
+        $class = array_merge($class, implode(' ', $options['class']));
+    if (isset($options['hide']))
+        $class[] = 'theme-hidden';
+    if (isset($options['disabled']))
+        $class[] = 'disabled';
+    $class[] = $importance;
 
     if (isset($options['state']) && ($options['state'] === FALSE))
-        return  "<input disabled type='submit' name='' $id value='$text' class=' $class $importance_class $hidden' $tabindex />\n";
+        return  "<input disabled type='submit' name='' $id value='$text' class='" . implode(' ' , $class) . "' $tabindex />\n";
     else
-        return "<a href='$url'$id class='btn btn-sm $importance_class $class $hidden'$target$tabindex>$text</a>";
+        return "<a href='$url'$id class='btn btn-sm " . implode(' ', $class) . "'$target$tabindex>$text</a>";
 }
 
 function theme_anchor_dialog($url, $text, $importance, $class, $options)
@@ -131,6 +137,9 @@ function theme_modal_info($id, $title, $message, $options = NULL)
     $buttons = array(
         anchor_ok('#', 'high', array('id' => 'modal-close'))
     );
+    $on_close = '';
+    if (isset($options['redirect_on_close']))
+        $on_close = "window.location = '" . $options['redirect_on_close'] . "';"; 
 
     return "
             <div id='$id' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
@@ -153,6 +162,7 @@ function theme_modal_info($id, $title, $message, $options = NULL)
               $('#modal-close').click(function(e) {
                   e.preventDefault();
                   $('#$id').modal('hide');
+                  $on_close
               });
             </script>
     ";

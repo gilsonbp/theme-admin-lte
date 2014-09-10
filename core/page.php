@@ -1016,6 +1016,9 @@ function _get_breadcrumb_links($links)
             else
                 $button_class = 'btn';
         }
+        $id = 'bcrumb-' . rand(0 , 100);
+        if (isset($link['id']))
+            $id = $link['id'];
 
         $icon = 'fa fa-question';
         if ($type == 'settings')
@@ -1037,7 +1040,7 @@ function _get_breadcrumb_links($links)
         else if ($type == 'wizard_previous')
             $icon = 'fa fa-arrow-circle-left';
 
-        $link_html .= "<a href='" . $link['url'] . "' class='$button_class " . (isset($link['class']) ? $link['class'] : "") . "'>
+        $link_html .= "<a href='" . $link['url'] . "' id='$id' class='$button_class " . (isset($link['class']) ? $link['class'] : "") . "'>
             $text_left<icon class='$icon' title='" . $link['tag'] . "'></i>$text_right</a>";
         
     }
