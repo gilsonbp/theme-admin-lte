@@ -1037,7 +1037,11 @@ function _theme_radio_set_item($name, $group, $label, $checked, $error, $input_i
         } else {
             if (isset($image)) {
                 $html = theme_row_open() .
-                    theme_column_open(7) . "<label class='$buttons_class $class' id='$label_id_html'>$input$label</label>$label_help" . theme_column_close() .
+                    theme_column_open(7) .
+                    "<div class='theme-radioset'>
+                    $input<label class='$buttons_class $class' id='$label_id_html'>$label</label><p>$label_help</p>
+                    </div>" .
+                    theme_column_close() .
                     theme_column_open(5) . $image . theme_column_close() .
                     theme_row_close()
                 ;
@@ -1314,6 +1318,135 @@ function theme_form_footer($options)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// S I D B A R  W I D G E T
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Sidebar header.
+ *
+ * Supported options:
+ * - id 
+ *
+ * @param string $title form title
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_sidebar_header($title, $options)
+{
+    $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
+    $status_id_html = (isset($options['id'])) ? " id='status_" . $options['id'] . "'" : '';
+
+    if (isset($options['id'])) {
+        return "<table border='0' cellpadding='0' cellspacing='0' class='theme-form-wrapper'$id_html>
+            <tr class='theme-form-header'>
+                <td><span class='theme-form-header-heading'>$title</span></td>
+                <td align='right'><span class='theme-form-header-status' $status_id_html>&nbsp;</span></td>
+            </tr>
+        ";
+    } else {
+        return "<table border='0' cellpadding='0' cellspacing='0' class='theme-form-wrapper'$id_html>
+            <tr class='theme-form-header'>
+                <td colspan='2'><span class='theme-form-header-heading'>$title</span></td>
+            </tr>
+        ";
+    }
+}
+
+/**
+ * Sidebar banner.
+ *
+ * Supported options:
+ * - id 
+ *
+ * @param string $html    html payload
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_sidebar_banner($html, $options)
+{
+    $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
+ 
+    return "
+        <tr class='theme-form-header'$id_html>
+            <td colspan='2' class='theme-form-banner'>$html</td>
+        </tr>
+    ";
+}
+
+/**
+ * Sidebar key value.
+ *
+ * Supported options:
+ * - id 
+ * - value_id
+ *
+ * @param string $value   value
+ * @param string $label   label
+ * @param string $base_id base ID
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_sidebar_value($value, $label, $base_id, $options)
+{
+    if (empty($base_id))
+        $base_id = 'clearos_sidebar_' . mt_rand();
+
+    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $base_id . '_field';
+    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $base_id . '_label';
+    $text_id_html = (isset($options['text_id'])) ? $options['text_id'] : $base_id . '_text';
+    $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
+    $input_html = "<input type='hidden' name='$base_id' value='$value' id='$base_id'>";
+ 
+    return "
+        <tr id='$field_id_html' class='theme-fieldview" . $hide_field . "'>
+            <td class='theme-field-left'><label for='$base_id' id='$label_id_html'>$label</label></td>
+            <td class='theme-field-right'><span id='$text_id_html'>$value</span>$input_html</td>
+        </tr>
+    ";
+}
+
+/**
+ * Sidebar text.
+ *
+ * Supported options:
+ * - id 
+ *
+ * @param string $html    html payload
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_sidebar_text($html, $options)
+{
+    $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
+    $align = (isset($options['align'])) ? " align='" . $options['align'] . "'" : '';
+ 
+    return "
+        <tr$id_html>
+            <td colspan='2'$align>$html</td>
+        </tr>
+    ";
+}
+
+/**
+ * Sidebar footer.
+ *
+ * @return string HTML
+ */
+
+function theme_sidebar_footer()
+{
+    return "</table>";
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // C H A R T  W I D G E T
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -1423,11 +1556,11 @@ function theme_loading($size, $text = '', $options = NULL)
     }
 
     if (isset($options['icon-below']))
-        return "<div $id class='theme-loading-wrapper $center $classes'><div $font_size>$text</div><div $font_size><i class='fa fa-spinner fa-spin'></i></div></div>\n";
+        return "<div $id class='theme-loading-wrapper $center $classes'><div $font_size>$text</div><div $font_size><i class='fa fa-spinner fa-spin'></i></div></div>";
     elseif (isset($options['icon-above']))
-        return "<div $id class='theme-loading-wrapper $center $classes'><i class='fa fa-spinner fa-spin'></i><div>$text</div></div>\n";
+        return "<div $id class='theme-loading-wrapper $center $classes'><i class='fa fa-spinner fa-spin'></i><div>$text</div></div>";
     else
-        return "<div $id class='theme-loading-wrapper $classes'><i class='fa fa-spinner fa-spin' $font_size></i><span style='padding-left: 5px;' $font_size>$text</span></div>\n";
+        return "<div $id class='theme-loading-wrapper $classes'><i class='fa fa-spinner fa-spin' $font_size></i><span style='padding-left: 5px;' $font_size>$text</span></div>";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2167,11 +2300,6 @@ function theme_confirm_delete($title, $confirm_uri, $cancel_uri, $items, $messag
 
 function theme_wizard_intro_box($data, $options)
 {
-    // TODO: bad hack.  Move to CSS if this is what we roll with.
-    // TODO: fix the CSS classes (stealing help-box stuff)
-    // TODO: sorry, div layout was causing grief.
-    $font = " style='font-size: 13px'";
-
     $action = '';
     if (isset($options['action']))
         $action = anchor_custom(
@@ -2180,16 +2308,14 @@ function theme_wizard_intro_box($data, $options)
             $options['action']['priority'], 
             $options['action']['js'] 
         );
+    if (file_exists(clearos_app_base($data['basename']) . "htdocs/" . $data['basename'] . '.svg'))
+        $img = clearos_app_base($data['basename']) . "htdocs/" . $data['basename'] . '.svg';
+    else
+        $img = clearos_theme_path('AdminLTE') . '/img/icon_missing.svg';
     return theme_dialogbox_info("
-        <div class='theme-help-box-breadcrumb'>" . $data['wizard_name'] . "</div><div style='float: right; margin-right: 15px;'>" . $action . "</div>
-        <div class='theme-help-box-content'>
-            <table border='0' cellpadding='0' cellspacing='0'>
-                <tr>
-                    <td><div class='theme-wizard-intro-icon'><img src='" . $data['icon_path'] . "' alt=''></div></td>
-                    <td valign='top'><p class='theme-wizard-intro-description'$font>" . $data['wizard_description'] . "</p></td>
-                </tr>
-            </table>
-        </div>
+        <div class='theme-wizard-intro-title'>" . $data['wizard_name'] . "</div><div style='float: right; margin-right: 15px;'>" . $action . "</div>
+        <div class='theme-wizard-intro-icon-container'><div class='theme-wizard-intro-icon'>" . file_get_contents($img) . "</div></div>
+        <div class='theme-wizard-intro-description clearfix'>" . $data['wizard_description'] . "</div>
     ");
 }
 

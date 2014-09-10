@@ -338,91 +338,52 @@ function _exception_page($page)
 
 function _wizard_page($page)
 {
-    $layout = 
-        _get_header($page) .
-        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
-        _get_wizard_menu($page) .
-        _get_main_content($page) .
-        "</div>" .
-        _get_footer($page)
-    ;
+    $layout = _get_header($page);
+    $layout .= "<div class='wrapper row-offcanvas row-offcanvas-left'>";
+    $layout .= _get_wizard_menu($page);
+    $layout .= "
+            <aside class='right-side'>
+                <section class='content-header clearfix'>
+                    " . _get_content_header() . "
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
+                </section>
+    ";
+    $layout .= "<section class='content clearfix'>";
+    // For Wizard pages with help boxes, split page up into 8/4 col
+    if ($page['page_inline_help'])
+        $layout .= "<div class='col-lg-8 theme-content'>";
+    else
+        $layout .= "<div class='col-lg-12 theme-content'>";
+
+    // Add intro, as req'd
+    if ($page['page_wizard_intro']) {
+        $layout .= theme_box_open($page['page_wizard_name']);
+        $layout .= $page['page_wizard_intro'];
+        $layout .= theme_box_close();
+    }
+
+    // Messages and page view
+    $layout .= _get_message() . $page['app_view'];
+
+    // Add inline help
+    if ($page['page_inline_help']) {
+        // Close of 8 column main view
+        $layout .= "</div>";
+        $layout .= "<div class='col-lg-4 theme-inline-help'>";
+        $layout .= $page['page_inline_help'];
+        $layout .= "</div>";
+    } else {
+        $layout .= "</div>";
+    }
+    // Close out section
+    $layout .= "
+                </section>
+            </aside>
+    ";
+    $layout .= "</div>";
+    $layout .= _get_footer($page);
 
     return $layout;
-    //$menus = _get_left_menu($page['wizard_menu']);
-
-    // Add a sidebar on normal pages.  Some pages need the full width.
- //   $content = _get_message() . $page['app_view'];
-//    $nav = _get_wizard_navigation($page['wizard_navigation']);
-/*
-    $intro = '';
-    $sidebar = '';
-
-    if ($page['page_wizard_intro']) {
-        $intro = "
-            <div id='theme-help-box-container'>
-                <div class='theme-help-box'>
-                " . $page['page_wizard_intro'] . "
-                </div>
-            </div>
-        ";
-    }
-
-    if ($page['page_inline_help']) {
-        $sidebar = "
-            <div id='theme-sidebar-container'>
-                <div class='theme-sidebar-top'>
-                " . $page['page_inline_help'] . "
-                </div>
-                <div>
-                " . $page['page_report'] . "
-                </div>
-            </div>
-        ";
-    }
-
-    // Use a wide "intro" layout for pages without a sidebar.
-    // Add a sidebar div if a sidebar exists.
-
-    $content = $intro . $content;
-
-    if ($sidebar)
-        $content = "<div id='theme-content-left'>$content</div>";
-
-    return "
-<!-- Body -->
-<body>
-
-<!-- Page Container -->
-<div id='theme-page-container'>
-    " .
-    _get_header($page) .
-    "
-    <!-- Main Content Container -->
-    <div id='theme-main-content-container'>
-        <div class='theme-main-content-top'>
-            <div class='theme-content-border-top'></div>
-            <div class='theme-content-border-left'></div>
-            <div class='theme-content-border-right'></div>
-        </div>
-        <div class='theme-core-content'>
-            " .
-                _get_left_menu($menusnav) .
-            "
-            <!-- Content -->
-            <div id='theme-content-container'>
-                $sidebar
-                $content
-            </div>
-        </div>
-        " .
-        _get_footer($page) .
-        "
-    </div>
-</div>
-</body>
-</html>
-";
-*/
 }
 
 /**
@@ -691,12 +652,6 @@ function _get_footer($page)
 
 function _get_wizard_menu($page)
 {
-/*
-echo "<PRE style='align: left;'>";
-print_r($page['wizard_menu']);
-echo "</PRE>";
-return;
-*/
     $menu_data = $page['wizard_menu'];
     $current_subcategory = NULL;
 
@@ -729,7 +684,7 @@ return;
             $steps .= "\t<ul class='treeview-menu'>\n";
             $steps .= "\t\t<li class='$disabled $active'><a href='" . ($disabled != '' ? '#' : $menu['nav']) . "'>" . $menu['title'] . "</a></li>\n";
         } else if ($current_subcategory == $menu['subcategory']) {
-            $steps .= "\t\t<li class='$disabled $active'><a href='#'>" . $menu['title'] . "</a></li>\n";
+            $steps .= "\t\t<li class='$disabled $active'><a href='" . ($disabled != '' ? '#' : $menu['nav']) . "'>" . $menu['title'] . "</a></li>\n";
         } else if ($current_subcategory != $menu['subcategory']) {
             $current_subcategory = $menu['subcategory'];
             $steps .= "\t</ul>\n";
