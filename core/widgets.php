@@ -137,6 +137,14 @@ function theme_modal_info($id, $title, $message, $options = NULL)
     $buttons = array(
         anchor_ok('#', 'high', array('id' => 'modal-close'))
     );
+    $type = 'info'; 
+    $icon = 'fa-info';
+    if (isset($options['type'])) {
+        if ($options['type'] = 'warning') {
+            $type = ' warning'; 
+            $icon = 'fa-exclamation-triangle'; 
+        }
+    }
     $on_close = '';
     if (isset($options['redirect_on_close']))
         $on_close = "window.location = '" . $options['redirect_on_close'] . "';"; 
@@ -147,7 +155,7 @@ function theme_modal_info($id, $title, $message, $options = NULL)
                 <div class='modal-content'>
                   <div class='modal-header'>
                     <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                    <h4 id='$id-title'>$title</h4>
+                    <div class='theme-modal-info$type'><i class='fa $icon'></i></div><h4 id='$id-title'>$title</h4>
                   </div>
                   <div class='modal-body'>
                     <div id='$id-message'>$message</div>

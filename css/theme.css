@@ -80,6 +80,19 @@ body > .header .logo {
   margin-bottom: 10px;
   font-weight: bold;
 }
+.theme-modal-info {
+  float: left;
+  width: 60px;
+  font-size: 3em;
+  margin-top: -8px;
+  color: #333;
+}
+.theme-modal-info.info {
+  color: #3c8dbc;
+}
+.theme-modal-info.warning {
+  color: #F90;
+}
 .theme-summary-table-action {float: right; padding: 10px 10px 0px 0px}
 
 .theme-navbar-category {
