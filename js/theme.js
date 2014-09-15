@@ -639,6 +639,7 @@ function theme_clearos_loading(options) {
     var text = '';
     var center_begin = '';
     var center_end = '';
+    var form_control = '';
     if (options != undefined) {
         if (options.id)
             id = options.id;
@@ -646,11 +647,13 @@ function theme_clearos_loading(options) {
             classes = options.classes;
         if (options.text)
             text = '<span style=\'margin-left: 5px;\'>' + options.text + '</span>';
+        if (options.form_control)
+            form_control = 'class=\'form-control\'';
         if (options.center) {
-            center_begin = '<div class=\'theme-loading-widget\' ' + (id != null ? 'id="' + id + '"' : '') + ' style=\'width: 100%; text-align: center;\'>';
+            center_begin = '<div ' + (id != null ? 'id="' + id + '"' : '') + ' style=\'width: 100%; text-align: center;\'>';
             center_end = '</div>';
         } else {
-            center_begin = '<span class=\'theme-loading-widget\' ' + (id != null ? 'id="' + id + '"' : '') + '>';
+            center_begin = '<span ' + form_control + ' ' + ' ' + (id != null ? 'id="' + id + '"' : '') + '>';
             center_end = '</span>';
         }
     }

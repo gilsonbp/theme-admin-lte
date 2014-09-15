@@ -236,9 +236,6 @@ body > .header .logo {
   color: #555555;
   z-index: 1020;
 }
-.theme-form-container .theme-loading-widget {
-  line-height: 34px;
-}
 .theme-button-change {
   padding-left: 10px;
   padding-right: 10px;
