@@ -621,7 +621,7 @@ function _theme_field_input_password($name, $value, $label, $error, $input_id, $
     if (isset($options['width']))
         $style .= 'width: ' . $options['width'] . '; ';
 
-    $error_html = (empty($error)) ? "" : "<br/><span class='theme-validation-error' id='$error_id_html'>$error</span>";
+    $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
     $div_class = '';
     if (isset($options['color-picker']) && $options['color-picker'])
@@ -724,7 +724,7 @@ function theme_field_dropdown($name, $value, $label, $error, $values, $input_id,
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
     $add_classes = (isset($options['class'])) ? $add_classes = ' ' . implode(' ', $options['class']) : '';
 
-    $error_html = (empty($error)) ? "" : "<br><span class='theme-validation-error' id='$error_id_html'>$error</span>";
+    $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
     if (isset($options['no-field']))
         return form_dropdown($name, $values, $value, "class='form-control theme-dropdown$add_classes'$input_id_html") . " $error_html";
@@ -884,7 +884,7 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $hide_field = (isset($options['hide_field'])) ? ' theme-hidden' : '';
 
-    $error_html = (empty($error)) ? "" : "<br/><span class='theme-validation-error' id='$error_id_html'>$error</span>";
+    $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
     return "
         <div id='$field_id_html' class='form-group theme-field-textarea" . $hide_field . "'>

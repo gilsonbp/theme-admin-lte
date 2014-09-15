@@ -355,6 +355,11 @@ body > .header .logo {
   pointer-events: none;
 }
 
+.theme-validation-error {
+  color: red;
+  font-size: 11px;
+}
+
 /* ===================== */
 /* M A R K E T P L A C E */
 /* ===================== */
