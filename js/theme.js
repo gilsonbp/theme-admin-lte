@@ -624,18 +624,24 @@ function get_marketplace_data(basename) {
 }
 
 function theme_clearos_loading(options) {
+    var id = null;
     var classes = '';
     var text = '';
     var center_begin = '';
     var center_end = '';
     if (options != undefined) {
+        if (options.id)
+            id = options.id;
         if (options.classes)
             classes = options.classes;
         if (options.text)
             text = '<span style=\'margin-left: 5px;\'>' + options.text + '</span>';
         if (options.center) {
-            center_begin = '<div style=\'width: 100%; text-align: center;\'>';
+            center_begin = '<div ' + (id != null ? 'id="' + id + '"' : '') + ' style=\'width: 100%; text-align: center;\'>';
             center_end = '</div>';
+        } else {
+            center_begin = '<span ' + (id != null ? 'id="' + id + '"' : '') + '>';
+            center_end = '</span>';
         }
     }
     return center_begin + '<i class=\'fa fa-spinner fa-spin ' + classes + '\'></i>' + text + center_end;

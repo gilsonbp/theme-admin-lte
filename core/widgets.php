@@ -2232,6 +2232,9 @@ function theme_infobox($type, $title, $message, $options = NULL)
     } else if ($type === 'warning') {
         $class = 'alert-warning';
         $iconclass = 'fa fa-exclamation-triangle';
+    } else if ($type === 'info') {
+        $class = 'alert-info';
+        $iconclass = 'fa fa-info';
     } else {
         $class = 'alert-success';
         $iconclass = 'fa fa-check-circle';
