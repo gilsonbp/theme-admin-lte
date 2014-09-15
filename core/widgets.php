@@ -134,14 +134,16 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
 function theme_modal_info($id, $title, $message, $options = NULL)
 {
 
+    // May have more than one modal dialog...ensure close buttons have unique dom ID's
+    $close_id = 'modal-close-' . rand(0, 100);
     $buttons = array(
-        anchor_ok('#', 'high', array('id' => 'modal-close'))
+        anchor_ok('#', 'high', array('id' => $close_id))
     );
     $type = 'info'; 
-    $icon = 'fa-info';
+    $icon = 'fa-info-circle';
     if (isset($options['type'])) {
-        if ($options['type'] = 'warning') {
-            $type = ' warning'; 
+        if ($options['type'] == 'warning') {
+            $type = 'warning'; 
             $icon = 'fa-exclamation-triangle'; 
         }
     }
@@ -155,7 +157,7 @@ function theme_modal_info($id, $title, $message, $options = NULL)
                 <div class='modal-content'>
                   <div class='modal-header'>
                     <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                    <div class='theme-modal-info$type'><i class='fa $icon'></i></div><h4 id='$id-title'>$title</h4>
+                    <div class='theme-modal-info $type'><i class='fa $icon'></i></div><h4 id='$id-title'>$title</h4>
                   </div>
                   <div class='modal-body'>
                     <div id='$id-message'>$message</div>
@@ -167,7 +169,7 @@ function theme_modal_info($id, $title, $message, $options = NULL)
               </div>
             </div>
             <script type='text/javascript'>
-              $('#modal-close').click(function(e) {
+              $('#$close_id').click(function(e) {
                   e.preventDefault();
                   $('#$id').modal('hide');
                   $on_close
@@ -194,9 +196,11 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
     if ($id == NULL)
         $id = 'modal-confirm-' . rand(0,50);
 
+    // May have more than one modal dialog...ensure close buttons have unique dom ID's
+    $close_id = 'modal-close-' . rand(0, 100);
     $buttons = array(
         anchor_custom(($form_id == NULL && !is_array($confirm) ? $confirm : "#"), lang('base_confirm'), 'high', array('id' => $id)),
-        anchor_cancel('#', 'low', array('id' => 'modal-close'))
+        anchor_cancel('#', 'low', array('id' => $close_id))
     );
 
     $js_lines = "";
@@ -227,7 +231,7 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
                     e.preventDefault();
                     $('#" . $id . "-wrapper').modal({backdrop: 'static'});
                 }); ") . "
-                $('#modal-close').click(function(e) {
+                $('#$close_id').click(function(e) {
                     e.preventDefault();
                     $('#" . $id . "-wrapper').modal('hide');
                 });
@@ -2226,27 +2230,33 @@ function theme_dialog_warning($message)
 
 function theme_infobox($type, $title, $message, $options = NULL)
 {
+    $class = array(
+        'theme-infobox',
+        'alert'
+    );
     if ($type === 'critical') {
-        $class = 'alert-danger';
+        $class[] = 'alert-danger';
         $iconclass = 'fa fa-times-circle';
     } else if ($type === 'warning') {
-        $class = 'alert-warning';
+        $class[] = 'alert-warning';
         $iconclass = 'fa fa-exclamation-triangle';
     } else if ($type === 'info') {
-        $class = 'alert-info';
+        $class[] = 'alert-info';
         $iconclass = 'fa fa-info';
     } else {
-        $class = 'alert-success';
+        $class[] = 'alert-success';
         $iconclass = 'fa fa-check-circle';
     }
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
+    if (isset($options['hidden']))
+        $class[] = 'theme-hidden';
     $buttons = "";
     if (isset($options['buttons']))
         $buttons = "<div class='theme-infobox-buttons'>" . $options['buttons'] . '</div>';
 
     return "
-        <div class='theme-infobox alert $class' $id>
+        <div class='" . implode(' ', $class) . "' $id>
             <i class='$iconclass'></i>
             <div class='theme-infobox-title'>$title</div>
             <div>$message</div>

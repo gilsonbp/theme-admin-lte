@@ -393,6 +393,16 @@ function theme_clearos_on_page_ready(my_location)
     });
 }
 
+function theme_modal_infobox_open(id, options)
+{
+    $('#' + id).modal({show: true, backdrop: 'static'});
+}
+
+function theme_modal_infobox_close(id, options)
+{
+    $('#' + id).modal('hide');
+}
+
 function theme_rating_review(basename, id, title, comment, rating, pseudonym, timestamp, agree, disagree) {
     return '\
         <div class="theme-review">\
