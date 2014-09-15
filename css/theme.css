@@ -236,6 +236,9 @@ body > .header .logo {
   color: #555555;
   z-index: 1020;
 }
+.theme-form-container .theme-loading-widget {
+  line-height: 34px;
+}
 .theme-button-change {
   padding-left: 10px;
   padding-right: 10px;
@@ -359,6 +362,31 @@ body > .header .logo {
 .theme-validation-error {
   color: red;
   font-size: 11px;
+}
+.theme-inline-help-title {
+  margin-top: 5px;
+}
+.theme-inline-help > h3 {
+  font-size: 18px;
+}
+.theme-inline-help > p {
+  font-size: 13px;
+}
+
+/* ======================= */
+/* R E G I S T R A T I O N */
+/* ======================= */
+
+#registration-subscription-details > h3 {
+  font-size: 18px;
+}
+#registration-subscription-details > div {
+  font-size: 13px;
+}
+#registration-subscription-details .theme-field {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 0px;
 }
 
 /* ===================== */

@@ -647,10 +647,10 @@ function theme_clearos_loading(options) {
         if (options.text)
             text = '<span style=\'margin-left: 5px;\'>' + options.text + '</span>';
         if (options.center) {
-            center_begin = '<div ' + (id != null ? 'id="' + id + '"' : '') + ' style=\'width: 100%; text-align: center;\'>';
+            center_begin = '<div class=\'theme-loading-widget\' ' + (id != null ? 'id="' + id + '"' : '') + ' style=\'width: 100%; text-align: center;\'>';
             center_end = '</div>';
         } else {
-            center_begin = '<span ' + (id != null ? 'id="' + id + '"' : '') + '>';
+            center_begin = '<span class=\'theme-loading-widget\' ' + (id != null ? 'id="' + id + '"' : '') + '>';
             center_end = '</span>';
         }
     }

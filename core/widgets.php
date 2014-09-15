@@ -2187,7 +2187,7 @@ function theme_dialogbox_info($message)
 
     return "
         <div class='ui-widget'>
-            <div class=' theme-dialogbox-info $class'>
+            <div class='theme-dialogbox-info $class'>
                $message
             </div>
         </div>
@@ -2201,7 +2201,7 @@ function theme_dialog_warning($message)
 
     return "
         <div class='ui-widget' style='margin: 10px'>
-            <div class=' theme-dialogbox-info $class'>
+            <div class='theme-dialogbox-info $class'>
                <span class='ui-icon $iconclass' style='float: left; margin-right: .3em;'></span>$message
             </div>
         </div>
@@ -2440,14 +2440,15 @@ function theme_inline_help_box($data)
 
     $index = 0;
     foreach ($data['inline_help'] as $heading => $text) {
-        $help .= "<h3 style='color: #666666; font-size: 13px; font-weight: bold; margin-top: 15px;' id='inline-help-title-$index'>$heading</h3>";
-        $help .= "<p style='font-size: 13px;' id='inline-help-content-$index'>$text</p>";
+        $help .= "<h3 id='inline-help-title-$index'>$heading</h3>";
+        $help .= "<p id='inline-help-content-$index'>$text</p>";
         $index++;
     }
 
     $html = theme_dialogbox_info("
-        <h3 style='padding-top: 5px'>" . lang('base_help') . "</h3>
-        $help
+        <h3 class='theme-inline-help-title'>" . lang('base_help') . "</h3>
+        <div class='theme-inline-help'>$help</div>
+        <div id='inline-help-hook'></div>
     ");
 
     return $html;
