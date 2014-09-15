@@ -46,6 +46,10 @@ body > .header .logo {
     font-family: Arial;
 }
 
+#sdn_tos-message h2 {
+  font-size: 20px;
+}
+
 /* Overrides End */
 
 .theme-top-navbar {
