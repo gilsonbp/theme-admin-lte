@@ -168,7 +168,8 @@ body > .header .logo {
   width: 100%;
 }
 .theme-field-right input[type=checkbox] {
-  width: 34px
+  width: 34px;
+  height: 24px;
 }
 .theme-errmsg-separator {
   margin: 20px 20px 0px 20px;
