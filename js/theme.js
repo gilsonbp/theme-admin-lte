@@ -179,66 +179,14 @@ function theme_sdn_account_setup(landing_url, username, device_id) {
 
 function theme_app(type, list, options)
 {
-    disable_buttons = '';
-    learn_more_target = '';
-    if (options.mode == 'feature' || options.mode == 'qsf') {
-        disable_buttons = ' disabled';
-        learn_more_target = ' target="_blank"';
-    }
-
     for (index = 0 ; index < list.length; index++) {
         app = list[index];
 
-        box_class = 'box-primary';
+        if (type == 'tile')
+            html = get_app_tile(app, options);
+        else
+            html = get_app_full(app, options);
 
-        // TODO - type 
-        html = '\
-            <div class="box ' + box_class + ' marketplace-app" id="box-' + app.basename + '">\
-                <div class="box-header">\
-                    <h3 class="box-title" stye="float: left;">' + app.name + '</h3>\
-                    <div id="active-select-' + app.basename + '" class="' + (app.incart ? '' : 'theme-hidden ') + 'marketplace-selected"><i class="fa fa-check-square-o"></i></div>\
-                </div>\
-                ' + (app.installed ? '<span class="marketplace-installed">' + lang_installed.toUpperCase() + '</span>' : '') + '\
-                <div class="box-body">\
-                    <div class="marketplace-app-info">\
-                        <div class="marketplace-app-lhs">\
-                            <div class="marketplace-app-info-icon">\
-                                <div class="box box-solid">\
-                                    <div class="theme-app-logo-container">\
-                                        <div id="app-logo-' + app.basename + '" class="theme-app-logo box-body theme-placeholder">\
-                                            ' + get_placeholder("svg") + '\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                            </div>\
-                            <div style="clear: both;"></div>\
-                            <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
-                            <div class="marketplace-app-info-price">' + theme_price(UNIT, app.pricing) + '</div>\
-                        </div>\
-                        <div class="marketplace-app-rhs">\
-                            <div class="marketplace-app-info-description">\
-                                <p>' + app.description.replace(/(\r\n|\n|\r)/g, '</p><p>') + '</p>\
-                            </div>\
-                        </div>\
-                    </div>\
-                    <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '"' + learn_more_target + '>' + lang_marketplace_learn_more + '</a></div>\
-                </div>\
-                <div class="box-footer">\
-                    <div style="float: right;">' +
-                    (app.installed
-                        ? '<div class="btn-group">' +
-                        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm' + disable_buttons + '">' + lang_configure + '</a>' +
-                        '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm' + disable_buttons + '">' + lang_uninstall + '</a>' +
-                        '</div>'
-                        : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" data-appname="' + app.name + '"/>' +
-                        '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'
-                    ) + '\
-                    </div>\
-                    <div style="clear: both;"></div>\
-                </div>\
-            </div>\
-            ' + (index % 2 ? '<div style="clear: both;"></div>' : '') + '\
-        ';
         if (options.optional_apps)
             $('#optional-apps').append(html);
         else
@@ -253,6 +201,119 @@ function theme_app(type, list, options)
             });\
         </script>\
     ');
+}
+
+function get_app_full(app, options)
+{
+    disable_buttons = '';
+    learn_more_target = '';
+    if (options.wizard) {
+        disable_buttons = ' disabled';
+        learn_more_target = ' target="_blank"';
+    }
+
+    return '\
+        <div class="box box-primary marketplace-app" id="box-' + app.basename + '">\
+            <div class="box-header">\
+                <h3 class="box-title">' + app.name + '</h3>\
+                <div id="active-select-' + app.basename + '" class="' + (app.incart ? '' : 'theme-hidden ') + 'marketplace-selected"><i class="fa fa-check-square-o"></i></div>\
+            </div>\
+            ' + (app.installed ? '<span class="marketplace-installed">' + lang_installed.toUpperCase() + '</span>' : '') + '\
+            <div class="box-body">\
+                <div class="marketplace-app-info">\
+                    <div class="marketplace-app-lhs">\
+                        <div class="marketplace-app-info-icon">\
+                            <div class="box box-solid">\
+                                <div class="theme-app-logo-container">\
+                                    <div id="app-logo-' + app.basename + '" class="theme-app-logo box-body theme-placeholder">\
+                                        ' + get_placeholder("svg") + '\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div style="clear: both;"></div>\
+                        <div class="marketplace-app-info-rating">' + theme_star_rating(app.rating) + '</div>\
+                        <div class="marketplace-app-info-price">' + theme_price(UNIT, app.pricing) + '</div>\
+                    </div>\
+                    <div class="marketplace-app-rhs">\
+                        <div class="marketplace-app-info-description">\
+                            <p>' + app.description.replace(/(\r\n|\n|\r)/g, '</p><p>') + '</p>\
+                        </div>\
+                    </div>\
+                </div>\
+                <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '"' + learn_more_target + '>' + lang_marketplace_learn_more + '</a></div>\
+            </div>\
+            <div class="box-footer">\
+                <div style="float: right;">' +
+                (app.installed
+                    ? '<div class="btn-group">' +
+                    '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm' + disable_buttons + '">' + lang_configure + '</a>' +
+                    '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm' + disable_buttons + '">' + lang_uninstall + '</a>' +
+                    '</div>'
+                    : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" data-appname="' + app.name + '"/>' +
+                    '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'
+                ) + '\
+                </div>\
+                <div style="clear: both;"></div>\
+            </div>\
+        </div>\
+        ' + (index % 2 ? '<div style="clear: both;"></div>' : '') + '\
+    ';
+}
+
+function get_app_tile(app, options)
+{
+    disable_buttons = '';
+    learn_more_target = '';
+    if (options.wizard) {
+        disable_buttons = ' disabled';
+        learn_more_target = ' target="_blank"';
+        learn_more_url = app.url_redirect + '/marketplace/type/?basename=' + app.basename;
+    } else {
+        learn_more_url = '/app/marketplace/view/' + app.basename;
+    }
+
+    var buttons = '<div class="btn-group">' +
+        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-xs' + disable_buttons + '">' + lang_configure + '</a>' +
+        '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-xs' + disable_buttons + '">' + lang_uninstall + '</a>' +
+        '</div>'
+    ;
+    if (!app.installed && options.wizard)
+        buttons = '<input type="submit" name="install" value="' +
+            (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) +
+            '" id="' + app.basename + '" class="btn btn-primary btn-xs marketplace-app-event" data-appname="' +
+            app.name + '"/>'
+        ;
+    else
+        buttons = '<a href="#" class="btn btn-warning btn-xs disabled">' + lang_installed + '</a>';
+
+    return '\
+        <div class="box box-primary marketplace-app marketplace-tile" id="box-' + app.basename + '">\
+            <div class="box-body clearfix">\
+                <div class="marketplace-app-info">\
+                    <div class="marketplace-app-tile-lhs">\
+                        <div class="marketplace-app-info-icon">\
+                            <div class="theme-app-logo-container">\
+                                <div id="app-logo-' + app.basename + '" class="theme-app-logo box-body theme-placeholder">\
+                                    ' + get_placeholder("svg") + '\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <div class="marketplace-app-tile-rhs">\
+                        <div class="marketplace-app-info-price">' + theme_price(UNIT, app.pricing) + '</div>\
+                    </div>\
+                </div>\
+            </div>\
+            <h3 class="box-title">' + app.name + '</h3>\
+            <div class="box-footer">\
+                <a href="' + learn_more_url + '" class="btn btn-xs btn-secondary marketplace-learn-more" ' + learn_more_target + '><i class="fa fa-question"></i></a>\
+                <div style="float: right;">' + buttons +
+                    '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>\
+                </div>\
+            </div>\
+        </div>\
+    ';
 }
 
 function theme_related_app(type, list)

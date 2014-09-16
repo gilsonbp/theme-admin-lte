@@ -209,7 +209,7 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
             $js_lines .= $line . "\n";
     }
     return "
-            <div id='" . $id . "-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
+            <div id='" . $id . "' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
                   <div class='modal-header'>
@@ -229,20 +229,20 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
                 " . ($trigger == NULL ? "" : "
                 $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
                     e.preventDefault();
-                    $('#" . $id . "-wrapper').modal({backdrop: 'static'});
+                    $('#" . $id . "').modal({backdrop: 'static'});
                 }); ") . "
                 $('#$close_id').click(function(e) {
                     e.preventDefault();
-                    $('#" . $id . "-wrapper').modal('hide');
+                    $('#" . $id . "').modal('hide');
                 });
                 " . ($form_id != NULL ? "
                 $('#$id').click(function() {
-                    $('#" . $id . "-wrapper').modal('hide');
+                    $('#" . $id . "').modal('hide');
                     $('#$form_id').submit();
                 });
                 " : (is_array($confirm) ? "
                 $('#$id').click(function() {
-                    $('#" . $id . "-wrapper').modal('hide');
+                    $('#" . $id . "').modal('hide');
                     " . $js_lines . "
                 });
                 " : "")) . "
@@ -275,7 +275,7 @@ function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL, $o
 
     $js_lines = "";
     return "
-            <div id='" . $id . "-wrapper' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
+            <div id='" . $id . "' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true' style='z-index: 9999;'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
                   <div class='modal-header'>
@@ -296,21 +296,21 @@ function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL, $o
                 $(document).ready(function() {
                     $('" . (array_key_exists('id', $trigger) ? "#" . $trigger['id'] : "." . $trigger['class']) . "').click(function(e) {
                         e.preventDefault();
-                        $('#" . $id . "-wrapper').modal({backdrop: 'static'});
+                        $('#" . $id . "').modal({backdrop: 'static'});
                     });
                     $('#modal-input-close').click(function(e) {
                         e.preventDefault();
-                        $('#" . $id . "-wrapper').modal('hide');
+                        $('#" . $id . "').modal('hide');
                     });
                     $('#modal-input-submit').click(function(e) {
                         e.preventDefault();
                         if ($('#mi-" . $input_id . "').val() != '') {
                             $('#" . $input_id . "').val($('#mi-" . $input_id . "').val());
-                            $('#" . $id . "-wrapper').modal('hide');
+                            $('#" . $id . "').modal('hide');
                             " . (isset($options['callback']) ? $options['callback'] : "") . "
                         }
                     });
-                    $('#" . $id . "-wrapper').on('shown.bs.modal', function () {
+                    $('#" . $id . "').on('shown.bs.modal', function () {
                         $('#mi-" . $input_id . "').focus();
                     })
                 });

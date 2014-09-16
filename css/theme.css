@@ -27,6 +27,9 @@ a.highlight-link:hover {
 .btn .caret {
 	margin-left: 5px;
 }
+.btn-xs {
+  font-size: 11px;
+}
 
 /* Selector category in LHS menu */
 .btn-default.active {
@@ -121,8 +124,8 @@ body > .header .logo {
   font-size: .75em;
 }
 
-.marketplace-app-info-container .theme-app-logo-container {
-  height: 120px;
+.marketplace-tile .theme-app-logo-container {
+  height: 70px;
 }
 .theme-app-logo-container {
   height: 80px;
@@ -394,6 +397,9 @@ body > .header .logo {
   padding-top: 15px;
   text-align: center;
 }
+.marketplace-app-info-container .theme-app-logo-container {
+  height: 120px;
+}
 .marketplace-app-info-container .box-header .box-title {
   max-height: 14px;
 }
@@ -438,6 +444,18 @@ body > .header .logo {
   float: left;
   overflow: hidden;
 }
+.marketplace-tile.marketplace-app {
+  width: 150px;
+}
+.marketplace-tile.marketplace-app h3.box-title {
+  margin: 0px;
+  color: #444444;
+  font-size: 0.85em;
+  padding: 5px 5px;
+  text-align: center;
+  width: 100%;
+  min-height: 50px;
+}
 .marketplace-related-app {
   width: 48%;
   margin: 10px;
@@ -448,23 +466,35 @@ body > .header .logo {
   float: left;
   font-size: 3.5em;
   text-align: center;
-  width: 90%;
+  width: 100%;
 }
 .marketplace-app-info-icon .box {
   margin-bottom: 5px;
 }
 .marketplace-app-info-rating {
-  width: 90%;
+  width: 100%;
 }
 .marketplace-app-info-price {
-  width: 90%;
+  width: 100%;
 }
-
+.marketplace-tile .marketplace-app-info-price {
+  font-size: 11px;
+}
+.marketplace-app-tile-lhs {
+  padding-top: 10px;
+  width: 75px;
+  float; left;
+}
+.marketplace-app-tile-rhs {
+  padding: 30px 3px 0px 3px;
+  float: left;
+  width: 55px;
+  text-align: center;
+}
 .marketplace-app-info-more {
   text-align: right;
   clear: both;
 }
-
 .marketplace-app-info-description {
   max-height: 100px;
   min-height: 100px;
