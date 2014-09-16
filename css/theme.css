@@ -532,10 +532,10 @@ body > .header .logo {
   float: left;
   width: 380px; /* Don't change to percent...borks dotdotdot plugin */
 }
-#marketplace-novice-options {
+#marketplace-novice-options, #marketplace-category-options {
   text-align: center;
 }
-#marketplace-novice-description {
+#marketplace-novice-description, #marketplace-category-options {
   padding-bottom: 15px;
 }
 #marketplace-novice-description-more {
