@@ -1300,11 +1300,7 @@ function theme_form_banner($html, $options)
 {
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
  
-    return "TODO...change to div
-        <tr class='theme-form-header'$id_html>
-            <td colspan='2' class='theme-form-banner'>$html</td>
-        </tr>
-    ";
+    return "<div$id_html>$html</div>";
 }
 
 /**

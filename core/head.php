@@ -82,8 +82,8 @@ function theme_page_head($settings)
 $theme_extras
 
 <!-- FAVICONS -->
-<link rel='shortcut icon' href='$theme_url/images/favicon-$color.ico' type='image/x-icon'>
-<link rel='icon' href='$theme_url/images/favicon-$color.ico' type='image/x-icon'>
+<link rel='shortcut icon' href='$theme_url/img/favicon.ico' type='image/x-icon'>
+<link rel='icon' href='$theme_url/img/favicon.ico' type='image/x-icon'>
 
 ";
 }
