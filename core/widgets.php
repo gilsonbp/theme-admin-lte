@@ -359,8 +359,9 @@ function theme_form_submit($name, $text, $importance, $class, $options)
     $text = htmlspecialchars($text, ENT_QUOTES);
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
     $hidden = isset($options['hide']) ? ' theme-hidden' : '';
+    $disabled = (isset($options['disabled']) && $options['disabled']) ? " disabled='disabled'" : "";
 
-    return "<input type='submit' name='$name'$id value='$text' class='btn btn-sm $class $hidden $importance_class$tabindex' />\n";
+    return "<input type='submit' name='$name'$id value='$text' class='btn btn-sm $class $hidden $importance_class$tabindex' $disabled/>\n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -904,7 +905,6 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
  * Supported options:
  * - id 
  *
- * @param sting  $container_id container DOM ID
  * @param array  $radios       list of radios in HTML format
  * @param string $input_id     input ID
  * @param array  $options      options
@@ -912,10 +912,8 @@ function theme_field_textarea($name, $value, $label, $error, $input_id, $options
  * @return string HTML for field radio set
  */
 
-function theme_radio_set($container_id, $radios, $input_id, $options = array())
+function theme_radio_set($radios, $input_id, $options = array())
 {
-    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
-    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     if (isset($options['hide_field']))
         $classes[] = 'theme-hidden';
     if (isset($options['vertical']))
@@ -929,7 +927,7 @@ function theme_radio_set($container_id, $radios, $input_id, $options = array())
         $radio_text .= $radio;
 
     return "
-        <div id='$container_id' class='" . implode(' ', $classes) . "' " . (empty($buttons_class) ? "" : "data-toggle='buttons'") . ">
+        <div id='$input_id' class='" . implode(' ', $classes) . "' " . (in_array('btn-group', $classes) ? "data-toggle='buttons'" : "") . ">
             $radio_text
         </div>
     ";
@@ -1040,7 +1038,7 @@ function _theme_radio_set_item($name, $group, $label, $checked, $error, $input_i
     $disabled = (isset($options['disabled']) && $options['disabled']) ? " disabled='disabled'" : "";
     $input = "<input type='radio' name='$group' id='$input_id' value='$name' $select_html $disabled>";
 
-    if ($orientation == 'horizontal') {
+    if ($options['orientation'] == 'horizontal') {
         if ($type == 'field') {
             return "
                 <div id='$field_id_html' style='float: left;'>$image<label for='$input_id' id='$label_id_html'>$label</label>$input</div>
@@ -1302,7 +1300,7 @@ function theme_form_banner($html, $options)
 {
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
  
-    return "
+    return "TODO...change to div
         <tr class='theme-form-header'$id_html>
             <td colspan='2' class='theme-form-banner'>$html</td>
         </tr>

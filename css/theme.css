@@ -543,7 +543,6 @@ body > .header .logo {
   padding-right: 80px;
   text-align: right;
 }
-
 /* Overrides annoying overlap of buttons in group */
 #marketplace_tools_container .btn-group .btn + .btn {
   margin-left: 0px;
@@ -552,7 +551,10 @@ body > .header .logo {
   margin-left: -1px;
   margin-right: -1px;
 }
-
+#marketplace-feature-select {
+  padding-top: 20px;
+  text-align: center;
+}
 
 /* ================= */
 /* D A S H B O A R D
