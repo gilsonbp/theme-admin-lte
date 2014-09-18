@@ -918,12 +918,32 @@ function _get_left_menu_2($page)
             continue;
         }
 
+        $icon = 'fa fa-cloud';
+        if (preg_match('/.*dashboard.*/', $url))
+            $icon = 'fa fa-dashboard';
+        else if (preg_match('/.*marketplace.*/', $url))
+            $icon = 'fa fa-cloud-download';
+        else if (lang('base_category_cloud') == $page_meta['category'])
+            $icon = 'fa fa-cloud';
+        else if (lang('base_category_network') == $page_meta['category'])
+            $icon = 'fa fa-fire';
+        else if (lang('base_category_gateway') == $page_meta['category'])
+            $icon = 'fa fa-shield';
+        else if (lang('base_category_server') == $page_meta['category'])
+            $icon = 'fa fa-hdd-o';
+        else if (lang('base_category_system') == $page_meta['category'])
+            $icon = 'fa fa-gear';
+        else if (lang('base_category_reports') == $page_meta['category'])
+            $icon = 'fa fa-bar-chart-o';
+        else if (lang('base_marketplace') == $page_meta['category'])
+            $icon = 'fa fa-cloud-download';
+
         // Spotlight pages (read: Dashboard and Marketplace)
         //--------------------------------------------------
 
         if ($page_meta['category'] === lang('base_category_spotlight')) {
             $spotlights .= "\t\t<li>\n";
-            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><i class='fa fa-laptop'></i>\n";
+            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><i class='$icon'></i>\n";
             $spotlights .= "\t\t\t<span class='menu-item'> " . $page_meta['title'] . " </span>\n";
             $spotlights .= "\t\t\t</a>\n";
             $spotlights .= "\t\t</li>\n";
@@ -951,7 +971,7 @@ function _get_left_menu_2($page)
         if ($page_meta['category'] != $current_category) {
             $current_category = $page_meta['category'];
             $main_apps .= "\t\t<li class='"  . ($page_meta['category'] == $page['current_category'] ? " active" : "") . "'>\n";
-            $main_apps .= "\t\t\t<a href='#'><i class='fa fa-laptop'></i>\n";
+            $main_apps .= "\t\t\t<a href='#'><i class='$icon'></i>\n";
             $main_apps .= "\t\t\t\t<span class='menu-item'> " . $page_meta['category'] . " </span><span class='fa arrow'></span>\n";
             $main_apps .= "\t\t\t</a>\n";
             $main_apps .= "\t\t\t<ul class='nav nav-second-level'>\n";

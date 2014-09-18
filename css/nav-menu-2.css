@@ -174,7 +174,6 @@ dy.toggled-sidebar {
 @media (min-width: 768px) {
   .navbar-static-side {
     z-index: 1;
-    position: fixed;
     width: 249px;
   }
   .navbar-top-links .dropdown-messages,
