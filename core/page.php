@@ -431,6 +431,16 @@ function _get_message()
 
 function _get_main_content($page)
 {
+    if ($page['page_report']) {
+        $report = "
+            <div>
+            " . $page['page_report'] . "
+            </div>
+        ";
+    } else {
+        $report = '';
+    }
+
     if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION || $page['type'] == MY_Page::TYPE_SPOTLIGHT || $page['type'] == MY_Page::TYPE_WIZARD)
         return "
             <aside class='right-side'>
@@ -463,6 +473,7 @@ function _get_main_content($page)
                             <div class='theme-sidebar-top box'>
                             " . $page['page_summary'] . "
                             </div>
+                            $report
                         </div>" .
                         (isset($page['page_report_helper']) ? "
                         <div class='theme-sidebar-report-top'>
@@ -960,7 +971,7 @@ function _get_left_menu_2($page)
         // App page
         //---------
 
-        $main_apps .= "\t\t\t\t\t\t<li><a href='" . $url . "'>" . $page_meta['title'] . "</a></li>\n";
+        $main_apps .= "\t\t\t\t\t\t<li><a href='" . $url . "'>" . htmlspecialchars($page_meta['title']) . " </a></li>\n";
     }
 
     // Close out open HTML tags
@@ -1041,7 +1052,7 @@ function _get_breadcrumb_links($links)
             $icon = 'fa fa-arrow-circle-left';
 
         $link_html .= "<a href='" . $link['url'] . "' id='$id' class='$button_class " . (isset($link['class']) ? $link['class'] : "") . "'>
-            $text_left<icon class='$icon' title='" . $link['tag'] . "'></i>$text_right</a>";
+            $text_left<i class='$icon' title='" . $link['tag'] . "'></i>$text_right</a>";
         
     }
     return "<span class='theme-breadcrumb-links $button_grp'>" . $link_html . "</span>";

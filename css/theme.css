@@ -124,11 +124,9 @@ body > .header .logo {
   font-size: .75em;
 }
 
-.marketplace-tile .theme-app-logo-container {
-  height: 70px;
-}
 .theme-app-logo-container {
   height: 80px;
+  margin-right: 10px;
   position: relative;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -444,17 +442,28 @@ body > .header .logo {
   float: left;
   overflow: hidden;
 }
-.marketplace-tile.marketplace-app {
+.marketplace-app.marketplace-tile {
   width: 150px;
 }
-.marketplace-tile.marketplace-app h3.box-title {
-  margin: 0px;
+.marketplace-tile .theme-app-logo-container {
+  height: 70px;
+}
+.marketplace-tile-title {
   color: #444444;
-  font-size: 0.85em;
   padding: 5px 5px;
   text-align: center;
   width: 100%;
-  min-height: 50px;
+  min-height: 55px;
+}
+.marketplace-tile-title {
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+.marketplace-tile-title.theme-sm {
+  font-size: 0.80em;
+}
+.marketplace-tile-title.theme-xs {
+  font-size: 0.70em;
 }
 .marketplace-related-app {
   width: 48%;

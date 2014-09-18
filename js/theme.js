@@ -274,19 +274,24 @@ function get_app_tile(app, options)
     }
 
     var buttons = '<div class="btn-group">' +
-        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-xs' + disable_buttons + '">' + lang_configure + '</a>' +
+        '<a href="/app/' + app.basename + '" class="btn btn-primary btn-xs' + disable_buttons + '"><i class="fa fa-gears"></i></a>' +
         '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-xs' + disable_buttons + '">' + lang_uninstall + '</a>' +
         '</div>'
     ;
-    if (!app.installed && options.wizard)
+    if (!app.installed)
         buttons = '<input type="submit" name="install" value="' +
             (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) +
             '" id="' + app.basename + '" class="btn btn-primary btn-xs marketplace-app-event" data-appname="' +
             app.name + '"/>'
         ;
-    else
+    else if (options.wizard)
         buttons = '<a href="#" class="btn btn-warning btn-xs disabled">' + lang_installed + '</a>';
 
+    var font_size = '';
+    if (app.name.length > 60)
+        font_size = ' theme-xs';
+    else if (app.name.length > 45)
+        font_size = ' theme-sm';
     return '\
         <div class="box box-primary marketplace-app marketplace-tile" id="box-' + app.basename + '">\
             <div class="box-body clearfix">\
@@ -305,7 +310,7 @@ function get_app_tile(app, options)
                     </div>\
                 </div>\
             </div>\
-            <h3 class="box-title">' + app.name + '</h3>\
+            <div class="marketplace-tile-title' + font_size + '">' + app.name + '</div>\
             <div class="box-footer">\
                 <a href="' + learn_more_url + '" class="btn btn-xs btn-secondary marketplace-learn-more" ' + learn_more_target + '><i class="fa fa-question"></i></a>\
                 <div style="float: right;">' + buttons +
