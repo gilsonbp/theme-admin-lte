@@ -186,20 +186,22 @@ function theme_modal_info($id, $title, $message, $options = NULL)
  * @param mixed  $confirm confirmation URL or array containing JS
  * @param string $form_id form ID
  * @param string $id      DOM ID
- * @param array  $options    options
+ * @param array  $options options
  *
  * @return HTML for anchor
  */
 function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NULL, $id = NULL, $options = NULL)
 {
 
+    $unique = rand(0, 100);
     if ($id == NULL)
-        $id = 'modal-confirm-' . rand(0,50);
+        $id = 'modal-confirm-' . $unique;
 
-    // May have more than one modal dialog...ensure close buttons have unique dom ID's
-    $close_id = 'modal-close-' . rand(0, 100);
+    // May have more than one modal dialog...ensure confirm/close buttons have unique dom ID's
+    $confirm_id = "modal-confirm-$unique";
+    $close_id = "modal-close-$unique";
     $buttons = array(
-        anchor_custom(($form_id == NULL && !is_array($confirm) ? $confirm : "#"), lang('base_confirm'), 'high', array('id' => $id)),
+        anchor_custom(($form_id == NULL && !is_array($confirm) ? $confirm : "#"), lang('base_confirm'), 'high', array('id' => $confirm_id)),
         anchor_cancel('#', 'low', array('id' => $close_id))
     );
 
@@ -236,12 +238,12 @@ function theme_modal_confirm($title, $message, $confirm, $trigger, $form_id = NU
                     $('#" . $id . "').modal('hide');
                 });
                 " . ($form_id != NULL ? "
-                $('#$id').click(function() {
+                $('#$confirm_id').click(function() {
                     $('#" . $id . "').modal('hide');
                     $('#$form_id').submit();
                 });
                 " : (is_array($confirm) ? "
-                $('#$id').click(function() {
+                $('#$confirm_id').click(function() {
                     $('#" . $id . "').modal('hide');
                     " . $js_lines . "
                 });
