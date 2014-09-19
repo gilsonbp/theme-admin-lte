@@ -76,7 +76,7 @@ function theme_anchor($url, $text, $importance, $class, $options)
     $target = isset($options['target']) ? " target='" . $options['target'] . "'" : ''; 
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
     if (isset($options['class']))
-        $class = array_merge($class, implode(' ', $options['class']));
+        $class = array_merge($class, explode(' ', $options['class']));
     if (isset($options['hide']))
         $class[] = 'theme-hidden';
     if (isset($options['disabled']))
@@ -726,7 +726,7 @@ function theme_field_dropdown($name, $value, $label, $error, $values, $input_id,
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
-    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . implode(' ', $options['class']) : '';
+    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . explode(' ', $options['class']) : '';
 
     $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
