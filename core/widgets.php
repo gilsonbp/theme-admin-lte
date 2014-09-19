@@ -67,7 +67,7 @@
 
 function theme_anchor($url, $text, $importance, $class, $options)
 {
-    $importance = ($importance === 'high') ? 'btn-primary' : ($importance === 'low' ? 'btn-secondary' : 'btn-link');
+    $importance = ($importance === 'high' ||  $importance === 'important') ? 'btn-primary' : ($importance === 'low' ? 'btn-secondary' : 'btn-link');
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     if (!isset($options['no_escape_html']) || $options['no_escape_html'] == FALSE)
@@ -356,7 +356,7 @@ function theme_modal_input($title, $message, $trigger, $input_id, $id = NULL, $o
 
 function theme_form_submit($name, $text, $importance, $class, $options)
 {
-    $importance_class = ($importance === 'high') ? 'btn-primary' : 'btn-secondary';
+    $importance_class = ($importance === 'high' || $importance === 'important') ? 'btn-primary' : 'btn-secondary';
 
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     $text = htmlspecialchars($text, ENT_QUOTES);
