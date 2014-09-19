@@ -184,8 +184,9 @@ function theme_modal_info($id, $title, $message, $options = NULL)
  * @param string $title   title
  * @param string $message message
  * @param mixed  $confirm confirmation URL or array containing JS
- * @param string $form_id form ID
- * @param string $id      DOM ID
+ * @param array  $trigger array identifing either id or class that triggers the dialog to open (eg. array('id' => 'open_dialog'))
+ * @param string $form_id optional form ID.  If provided, confirmation will submit this form
+ * @param string $id      DOM ID of the entire dialog
  * @param array  $options options
  *
  * @return HTML for anchor
