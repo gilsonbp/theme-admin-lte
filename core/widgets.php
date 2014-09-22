@@ -1305,7 +1305,7 @@ function theme_form_banner($html, $options)
 {
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
  
-    return "<div$id_html>$html</div>";
+    return "<legend$id_html>$html</legend>";
 }
 
 /**
