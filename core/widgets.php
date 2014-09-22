@@ -1079,6 +1079,142 @@ function _theme_radio_set_item($name, $group, $label, $checked, $error, $input_i
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// F I E L D  S L I D E R S
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Display a slider as part of a form field.
+ *
+ * @param string $label   form field label
+ * @param string $id      HTML ID
+ * @param int    $value   value
+ * @param int    $min     minimum
+ * @param int    $max     maximum
+ * @param int    $step    step
+ * @param array  $options options
+ *
+ * @return string HTML output
+ */
+
+function theme_field_slider($label, $id, $value, $min, $max, $step, $options)
+{
+    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $id . '_field';
+    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $id . '_label';
+
+    return "
+        <div id='$field_id_html' class='form-group theme-field-info'>
+            <label for='$id' id='$label_id_html' class='col-sm-5 control-label'>$label</label>
+            <div class='col-sm-7 theme-field-right'>
+                <div id='$id-container' style='padding-top: 7px;'>
+                   <input type='text' id='$id' value='' class='slider form-control' data-slider-min='$min' data-slider-max='$max' data-slider-step='$step' data-slider-value='$value' data-slider-orientation='horizontal' data-slider-selection='before' data-slider-tooltip='show' data-slider-id='red'>
+                </div>
+            </div>
+        </div>
+        <script type='text/javascript'>
+          $(function() {
+            $('#$id-container input').slider();
+          });
+        </script>
+    ";
+}
+
+/**
+ * Display slider set.
+ *
+ * @param array  $sliders  list of sliders in HTML format
+ * @param string $input_id input ID
+ * @param array  $options  options
+ *
+ * @return string HTML for field slider set
+ */
+
+function theme_slider_set($sliders, $input_id, $options = array())
+{
+    $col_start = ''; 
+    $col_end = ''; 
+    if (isset($options['hide_field']))
+        $classes[] = 'theme-hidden';
+
+    if (isset($options['use_columns'])) {
+        $col_start = "<div class='col-sm-" . $options['use_columns'] . "'>"; 
+        $col_end = "</div>";
+    }
+        
+
+    $slider_text = '';
+
+    foreach ($sliders as $slider)
+        $slider_text .= $col_start . $slider . $col_end;
+
+    
+    if (isset($options['use_columns']) && count($sliders) < 12) {
+        $slider_text .= "<div class='col-sm-" . (12 - count($sliders)) . "'></div>"; 
+    }
+    return "
+        <div id='$input_id' class='form-group clearfix'>
+            $slider_text
+        </div>
+        <script type='text/javascript'>
+          $(function() {
+            $('#$input_id input').slider();
+          });
+        </script>
+    ";
+}
+
+/**
+ * Display field slider set.
+ *
+ * @param array  $sliders  list of sliders in HTML format
+ * @param string $input_id input ID
+ * @param array  $options  options
+ *
+ * @return string HTML for field slider set
+ */
+
+function theme_field_slider_set($sliders, $input_id, $options = array())
+{
+    $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
+    $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
+    $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
+
+    if (isset($options['hide_field']))
+        $classes[] = 'theme-hidden';
+
+    $slider_text = '';
+
+    foreach ($sliders as $slider)
+        $slider_text .= $slider;
+
+    return "
+        <div id='$field_id_html' class='form-group theme-field-slider-set" . $hide_field . "'>
+            <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
+            <div class='col-sm-7 theme-field-right theme-field-slider-set'>$slider_text$error_html</div>
+        </div>
+    ";
+}
+
+/**
+ * Return slider set item.
+ *
+ * @param string $input_id    input ID
+ * @param int    $value       value
+ * @param int    $min         minimum
+ * @param int    $max         maximum
+ * @param int    $step        step
+ * @param string $orientation orientation
+ * @param array  $options     options
+ *
+ */
+
+function theme_slider_set_item($input_id, $value, $min, $max, $step, $orientation, $options)
+{
+    return "
+       <input type='text' value='' class='slider form-control' data-slider-min='$min' data-slider-max='$max' data-slider-step='$step' data-slider-value='$value' data-slider-orientation='$orientation' data-slider-selection='before' data-slider-tooltip='show' data-slider-id='red'>
+    ";
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // P R O G R E S S  B A R S
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -1964,6 +2100,9 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
             },
             " . $empty_table . "
         },
+        'fnCreatedRow': function (nRow, aData, iDataIndex) {
+            $(nRow).attr('id', '" . $dom_id_var . "-row-' + iDataIndex)
+        },
         'bRetrieve': true,
         'iDisplayLength': $default_rows,
         'aLengthMenu': [$row_options],
@@ -2129,6 +2268,9 @@ $(document).ready(function() {
 			{ \"bSortable\": false, \"aTargets\": [ " . ($action_col ? "-1" : "") . " ] },
 			{ \"bVisible\": $first_column_visible, \"aTargets\": [ 0 ] }
 		],
+        'fnCreatedRow': function (nRow, aData, iDataIndex) {
+            $(nRow).attr('id', '" . $dom_id . "-row-' + iDataIndex)
+        },
 		\"bJQueryUI\": true,
 		\"bPaginate\": false,
 		\"bFilter\": false,
