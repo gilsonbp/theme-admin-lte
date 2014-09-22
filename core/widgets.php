@@ -772,13 +772,14 @@ function theme_field_multiselect_dropdown($name, $value, $label, $error, $values
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
+    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . explode(' ', $options['class']) : '';
 
     $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
     return "
-        <div id='$field_id_html' class='theme-multiselect-dropdown'>
+        <div id='$field_id_html' class='form-group theme-multiselect-dropdown'>
             <label class='col-sm-5 control-label' for='$input_id' id='$label_id_html'>$label</label>
-            <div class='col-sm-7 theme-field-right'>" . form_multiselect($name, $values, $value, $input_id_html) . " $error_html</div>
+            <div class='col-sm-7 theme-field-right'>" . form_multiselect($name, $values, $value, "class='form-control theme-dropdown$add_classes'$input_id_html") . " $error_html</div>
         </div>
     ";
 }
@@ -812,6 +813,7 @@ function theme_field_toggle_enable_disable($name, $selected, $label, $error, $va
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
+    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . explode(' ', $options['class']) : '';
 
     $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
