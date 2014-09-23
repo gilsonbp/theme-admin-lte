@@ -1996,6 +1996,10 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
         $sorting_type .= "          ],";
     }
 
+    $row_reorder = '';
+    if (isset($options['row-reorder']))
+        $row_reorder = '.rowReordering()';
+
     $col_widths = '';
     if (isset($options['col-widths'])) {
         $col_widths .= "\"aoColumns\": [\n";
@@ -2109,11 +2113,8 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
             $col_widths . "
             $group_javascript
             \"aaSorting\": [ $first_column_fixed_sort ]
-    });
+    })$row_reorder;
   }
-  $(document).ready(function() {
-    get_table_$dom_id_var();
-  });
 </script>
     ";
 }
