@@ -17,10 +17,7 @@ a.highlight-link:hover {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
-}
-
-.btn {
-	font-family: 'Arial' !important;
+  font-family: 'Arial' !important;
 }
 
 /* Override button dropdowns in Marketplace */
@@ -56,6 +53,9 @@ body > .header .logo {
 }
 .slider.slider-vertical {
   height: 120px;
+}
+.dropdown-menu >li > a {
+  font-size: 12px;
 }
 /* Overrides End */
 

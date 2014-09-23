@@ -91,6 +91,27 @@ function theme_anchor($url, $text, $importance, $class, $options)
         return "<a href='$url'$id class='btn btn-sm " . implode(' ', $class) . "'$target$tabindex>$text</a>";
 }
 
+function theme_multi_anchor($button_text, $urls, $importance, $class, $options)
+{
+    $url_text = '';
+    foreach($urls as $url => $text)
+        $url_text .= "<li><a href='$url'>$text</a></li>";
+
+    return "
+    <div class='btn-group'>
+      <button type='button' class='btn btn-sm btn-primary'>$button_text</button>
+      <button type='button' class='btn btn-sm btn-primary dropdown-toggle' data-toggle='dropdown'>
+        <span class='caret'></span>
+        <span class='sr-only'>Toggle Dropdown</span>
+      </button>
+      <ul class='dropdown-menu' role='menu'>
+        $url_text
+      </ul>
+    </div>
+";
+
+}
+
 function theme_anchor_dialog($url, $text, $importance, $class, $options)
 {
     $importance_class = ($importance === 'high') ? 'theme-anchor-important' : 'theme-anchor-unimportant';
@@ -1847,7 +1868,10 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     // Anchors
     //--------
 
-    $add_html = (empty($anchors)) ? '&nbsp; ' : button_set($anchors);
+    if (is_array($anchors))
+        $add_html = (empty($anchors)) ? '&nbsp; ' : button_set($anchors);
+    else
+        $add_html = $anchors;
 
     // Table ID (used for variable naming too)
     if (isset($options['id']))
