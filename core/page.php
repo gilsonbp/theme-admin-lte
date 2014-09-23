@@ -853,7 +853,6 @@ function _get_left_menu_1($page)
     // If we're on a spotlight page (dashboard etc.) pick one
     if (!array_filter($active_category))
         $active_category['cloud'] = ' checked';
-        
     return "
 <aside class='left-side sidebar-offcanvas'>
     <section class='sidebar'>

@@ -72,6 +72,8 @@ function theme_anchor($url, $text, $importance, $class, $options)
     $id = isset($options['id']) ? ' id=' . $options['id'] : '';
     if (!isset($options['no_escape_html']) || $options['no_escape_html'] == FALSE)
         $text = htmlspecialchars($text, ENT_QUOTES);
+    if ($class == 'theme-anchor-drag')
+        $text = "<i class='fa fa-bars'></i>";
     $class = explode(' ', $class);
     $target = isset($options['target']) ? " target='" . $options['target'] . "'" : ''; 
     $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
@@ -93,32 +95,24 @@ function theme_anchor_dialog($url, $text, $importance, $class, $options)
 {
     $importance_class = ($importance === 'high') ? 'theme-anchor-important' : 'theme-anchor-unimportant';
 
-    $id = isset($options['id']) ? ' id=' . $options['id'] : '';
-    $text = htmlspecialchars($text, ENT_QUOTES);
+    $id = 'anchor-' . rand(0,100);
+    if (isset($options['id']))
+        $id = $options['id'];
+    $title = lang('base_information');
+    if (isset($options['title']))
+        $title = $options['title'];
 
-    // TODO
-    return "";
-    return "<a href='$url'$id class='theme-anchor $class $importance_class'>$text</a>
+    $text = htmlspecialchars($text, ENT_QUOTES);
+    $buttons_class = (isset($options['buttons'])) ? 'btn btn-default' : '';
+
+    return "<a href='$url' id='$id' class='theme-anchor $class $importance_class $button_class'>$text</a>" . theme_modal_info($id . '-dialog', $title, $text) . "
         <script type='text/javascript'>
-            $(document).ready(function() {
-                $('#" . $options['id'] . "_message').dialog({
-                    autoOpen: false,
-                    resizable: false,
-                    modal: true,
-                    closeOnEscape: true,
-                    width: 400,
-                    open: function(event, ui) {
-                    },
-                    close: function(event, ui) {
-                    }
-                });
-            });
-            $('a#" . $options['id'] . "').click(function (e) {
+            $('a#$id').on('click', function (e) {
                 e.preventDefault();
-                $('#" . $options['id'] . "_message').dialog('open');
+                theme_modal_infobox_open('$id-dialog');
             });
         </script>
-";
+    ";
 }
 
 /**
@@ -2292,61 +2286,22 @@ function theme_dialogbox_confirm_delete($message, $items, $ok_anchor, $cancel_an
     $items_html = '';
 
     foreach ($items as $item)
-        $items_html = '<li>' . $item . '</li>';
+        $items_html = "<li>$item</li>\n";
 
-    return "
-        <div class='ui-widget'>
-            <div class='theme-confirmation-dialogbox ui-state-error' style='margin-top: 20px; padding: 0 .7em;'>
-                <p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span>$message</p>
-                <ul>
-                    $items_html
-                </ul>
-                <p>" . theme_button_set(array(anchor_ok($ok_anchor, 'high'), anchor_cancel($cancel_anchor, 'low'))) . "</p>
-            </div>
-        </div>
+    $items_html = "<ul>\n$items_html\n</ul>\n";
+
+    $message = "
+        <p>$message</p>
+        <div>$items_html</div>
+        <div class='text-center'>" . theme_button_set(array(anchor_ok($confirm_uri), anchor_cancel($cancel_uri))) . "</div>
     ";
+
+    return theme_infobox('warning', lang('base_confirmation_required'), $message);
 }
 
-function theme_dialogbox_confirm($message, $ok_anchor, $cancel_anchor)
+function theme_dialogbox_confirm($message, $ok_anchor, $cancel_anchor, $options)
 {
-    $class = 'ui-state-error';
-    $iconclass = 'ui-icon-alert';
-
-    return "
-        <div class='ui-widget'>
-            <div class=' theme-confirmation-dialogbox $class' style='margin-top: 20px; padding: 0 .7em;'>
-                <p><span class='ui-icon $iconclass' style='float: left; margin-right: .3em;'></span>$message</p>
-                <p>" . theme_button_set(array(anchor_ok($ok_anchor, 'high'), anchor_cancel($cancel_anchor, 'low'))) . "</p>
-            </div>
-        </div>
-    ";
-}
-
-function theme_dialogbox_info($message)
-{
-    $class = 'ui-state-highlight';
-
-    return "
-        <div class='ui-widget'>
-            <div class='theme-dialogbox-info $class'>
-               $message
-            </div>
-        </div>
-    ";
-}
-
-function theme_dialog_warning($message)
-{
-    $class = 'ui-state-error';
-    $iconclass = 'ui-icon-alert';
-
-    return "
-        <div class='ui-widget' style='margin: 10px'>
-            <div class='theme-dialogbox-info $class'>
-               <span class='ui-icon $iconclass' style='float: left; margin-right: .3em;'></span>$message
-            </div>
-        </div>
-    ";
+    return theme_confirm(lang('base_confirmation_required'), $ok_anchor, $cancel_anchor, $message, $options);
 }
 
 
@@ -2394,7 +2349,7 @@ function theme_infobox($type, $title, $message, $options = NULL)
         $class[] = 'theme-hidden';
     $buttons = "";
     if (isset($options['buttons']))
-        $buttons = "<div class='theme-infobox-buttons'>" . $options['buttons'] . '</div>';
+        $buttons = "<div class='text-center'><div class='btn-group theme-infobox-buttons'>" . implode($options['buttons']) . '</div></div>';
 
     return "
         <div class='" . implode(' ', $class) . "' $id>
@@ -2431,14 +2386,14 @@ function theme_infobox_and_redirect($title, $message, $url, $link_text, $options
 // C O N F I R M  A C T I O N  B O X
 ///////////////////////////////////////////////////////////////////////////////
 
-function theme_confirm($title, $confirm_uri, $cancel_uri, $message, $options)
+function theme_confirm($title, $confirm_uri, $cancel_uri, $message, $options = NULL)
 {
     $message = "
         <p>$message</p>
-        <div>" . theme_button_set(array(anchor_ok($confirm_uri), anchor_cancel($cancel_uri))) . "</div>
+        <div class='text-center'>" . theme_button_set(array(anchor_ok($confirm_uri), anchor_cancel($cancel_uri))) . "</div>
     ";
 
-    return theme_infobox('highlight', $title, $message);
+    return theme_infobox('warning', $title, $message, $options);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2455,10 +2410,10 @@ function theme_confirm_delete($title, $confirm_uri, $cancel_uri, $items, $messag
     $message = "
         <p>$message</p>
         <div>$items_html</div>
-        <div>" . theme_button_set(array(anchor_ok($confirm_uri), anchor_cancel($cancel_uri))) . "</div>
+        <div class='text-center'>" . theme_button_set(array(anchor_ok($confirm_uri), anchor_cancel($cancel_uri))) . "</div>
     ";
 
-    return theme_infobox('highlight', $title, $message);
+    return theme_infobox('warning', $title, $message);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2484,11 +2439,29 @@ function theme_wizard_intro_box($data, $options)
         $img = clearos_app_base($data['basename']) . "htdocs/" . $data['basename'] . '.svg';
     else
         $img = clearos_theme_path('AdminLTE') . '/img/icon_missing.svg';
-    return theme_dialogbox_info("
+    return theme_container("
         <div class='theme-wizard-intro-title'>" . $data['wizard_name'] . "</div><div style='float: right; margin-right: 15px;'>" . $action . "</div>
         <div class='theme-wizard-intro-icon-container'><div class='theme-wizard-intro-icon'>" . file_get_contents($img) . "</div></div>
         <div class='theme-wizard-intro-description clearfix'>" . $data['wizard_description'] . "</div>
     ");
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// S I M P L E  C O N T A I N E R
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Displays a container.
+ *
+ */
+
+function theme_container($content, $options)
+{
+    return "
+        <div class='theme-container'>
+           $content
+        </div>
+    ";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2551,14 +2524,16 @@ function theme_help_box($data)
             $data['action']['js'] 
         );
 
-    return theme_dialogbox_info("
-        <div class='theme-help-box-breadcrumb' >" . $data['name'] . "</div><div style='float: right; margin-right: 15px;'>" . $action . "</div>
+    return theme_infobox(
+        'info',
+        'TODO',
+        "<div class='theme-help-box-breadcrumb' >" . $data['name'] . "</div><div style='float: right; margin-right: 15px;'>" . $action . "</div>
         <div class='theme-help-box-content'>
           <div class='theme-help-box-icon'><img src='" . $data['icon_path'] . "' alt=''></div>
           <div class='theme-help-box-assets'>$help_box_assets</div>
           <div class='theme-help-box-description'>" . $data['description'] . "</div>
-        </div>
-    ");
+        </div>"
+    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2586,7 +2561,7 @@ function theme_inline_help_box($data)
         $index++;
     }
 
-    $html = theme_dialogbox_info("
+    $html = theme_container("
         <h3 class='theme-inline-help-title'>" . lang('base_help') . "</h3>
         <div class='theme-inline-help'>$help</div>
         <div id='inline-help-hook'></div>
@@ -2680,7 +2655,7 @@ function theme_summary_box($data)
         ";
     }
 
-    $html = theme_dialogbox_info("
+    $html = theme_container("
         <div class='box-header'><h3 class='box-title'>" . $data['name'] . "</h3></div>
         <div class='box-body' id='theme_app_sidebar'>
             <div class='row'>

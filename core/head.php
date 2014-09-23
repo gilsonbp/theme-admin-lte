@@ -67,6 +67,7 @@ function theme_page_head($settings)
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/datatables/dataTables.bootstrap.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap-dialog/bootstrap-dialog.min.css'>
+<link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap-slider/slider.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/colorpicker/bootstrap-colorpicker.min.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/AdminLTE.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/nav-menu-" . $settings['menu'] . ".css'>

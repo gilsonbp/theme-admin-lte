@@ -57,6 +57,8 @@ function theme_page_javascript($custom_settings)
 <script type='text/javascript' src='$theme_url/js/plugins/colorpicker/bootstrap-colorpicker.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/dataTables.bootstrap.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.rowReordering.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/bootstrap-slider/bootstrap-slider.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/sparkline/jquery.sparkline.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.resize.min.js'></script>

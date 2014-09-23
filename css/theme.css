@@ -30,7 +30,9 @@ a.highlight-link:hover {
 .btn-xs {
   font-size: 11px;
 }
-
+.ui-sortable tr:hover {
+    cursor: pointer;
+}
 /* Selector category in LHS menu */
 .btn-default.active {
   background-color: #ebebeb!important;
@@ -51,6 +53,9 @@ body > .header .logo {
 
 #sdn_tos-message h2 {
   font-size: 20px;
+}
+.slider.slider-vertical {
+  height: 120px;
 }
 
 /* Overrides End */
