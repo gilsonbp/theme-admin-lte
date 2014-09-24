@@ -33,7 +33,7 @@ function theme_clearos_dialog_close(obj)
 
 function theme_clearos_dialog_box(id, title, message, options)
 {
-    var dialog_type = BootstrapDialog.TYPE_DEFAULT;
+    var dialog_type = BootstrapDialog.TYPE_INFO;
     if (typeof options != 'undefined') {
         if (options.type == 'success')
             dialog_type = BootstrapDialog.TYPE_SUCCESS;
