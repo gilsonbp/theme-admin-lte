@@ -70,11 +70,11 @@ function theme_page_head($settings)
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap-slider/slider.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/colorpicker/bootstrap-colorpicker.min.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/AdminLTE.css'>
-<link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/nav-menu-" . $settings['menu'] . ".css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/font-awesome.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/ionicons.min.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/lightbox.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/jQueryUI/jquery-ui-1.11.1.min.css'>
+<link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/nav-menu-" . $settings['menu'] . ".css'>
 
 <!-- TODO -->
 <link type='text/css' href='/themes/default/css/jquery.jqplot.min.css?v=6.5.0' rel='stylesheet'>
