@@ -511,6 +511,7 @@ function _get_header($page, $menus = array())
     }
 
     if (isset($page['devel_alerts']) && count($page['devel_alerts']) > 0) {
+        // TODO - Translate
         $alert_text = "
                         <ul class='dropdown-menu'>
                             <li class='header'>You have " . count($page['devel_alerts']) . " notification" . (count($page['devel_alerts']) >  1 ? "s" : "") . "</li>
@@ -853,10 +854,13 @@ function _get_left_menu_1($page)
     // If we're on a spotlight page (dashboard etc.) pick one
     if (!array_filter($active_category))
         $active_category['cloud'] = ' checked';
+
+    $img_path = clearos_theme_path('AdminLTE') . '/img/';
+
     return "
 <aside class='left-side sidebar-offcanvas'>
     <section class='sidebar'>
-<!--        <form action='#' method='get' class='sidebar-form'>
+       <form action='#' method='get' class='sidebar-form'>
             <div class='input-group'>
                 <input type='text' name='q' class='form-control' placeholder='Search...'>
                 <span class='input-group-btn'>
@@ -864,27 +868,44 @@ function _get_left_menu_1($page)
                 </span>
             </div>
         </form>
--->
         <form action='#' method='get' id='category-select'>
-            <div class='btn-toolbar' style='margin: 9px 8px;'> <!-- TODO move to css -->
+            <div class='btn-toolbar theme-menu-1-list'>
                 <div class='btn-group' data-toggle='buttons'>
-                    <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-cloud'" . $active_category['cloud'] . "><i class='fa fa-cloud theme-navbar-category' data-placement='top' title='" . lang('base_category_cloud') . "'></i>
+                    <label class='btn btn-default theme-menu-1-category'>
+                        <input type='radio' name='options' id='category-cloud'" . $active_category['cloud'] . ">
+                        <div data-toggle='tooltip' data-container='body' title='" . lang('base_category_cloud') . "'>
+                        " . file_get_contents($img_path . 'cloud.svg') . "
+                        </div>
                     </label>
-                    <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-network'" . $active_category['network'] . "><i class='fa fa-fire theme-navbar-category' data-placement='top' title='" . lang('base_category_network') . "'></i>
+                    <label class='btn btn-default theme-menu-1-category'>
+                        <input type='radio' name='options' id='category-network'" . $active_category['network'] . ">
+                        <div data-toggle='tooltip' data-container='body' title='" . lang('base_category_network') . "'>
+                        " . file_get_contents($img_path . 'network.svg') . "
+                        </div>
                     </label>
-                    <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-gateway'" . $active_category['gateway'] . "><i class='fa fa-shield theme-navbar-category' data-placement='top' title='" . lang('base_category_gateway') . "'></i>
+                    <label class='btn btn-default theme-menu-1-category'>
+                        <input type='radio' name='options' id='category-gateway'" . $active_category['gateway'] . ">
+                        <div data-toggle='tooltip' data-container='body' title='" . lang('base_category_gateway') . "'>
+                        " . file_get_contents($img_path . 'gateway.svg') . "
+                        </div>
                     </label>
-                    <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-server'" . $active_category['server'] . "><i class='fa fa-hdd-o theme-navbar-category' data-placement='top' title='" . lang('base_category_server') . "'></i>
+                    <label class='btn btn-default theme-menu-1-category'>
+                        <input type='radio' name='options' id='category-server'" . $active_category['server'] . ">
+                        <div data-toggle='tooltip' data-container='body' title='" . lang('base_category_server') . "'>
+                        " . file_get_contents($img_path . 'server.svg') . "
+                        </div>
                     </label>
-                    <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-system'" . $active_category['system'] . "><i class='fa fa-wrench theme-navbar-category' data-placement='top' title='" . lang('base_category_system') . "'></i>
+                    <label class='btn btn-default theme-menu-1-category'>
+                        <input type='radio' name='options' id='category-system'" . $active_category['system'] . ">
+                        <div data-toggle='tooltip' data-container='body' title='" . lang('base_category_system') . "'>
+                        " . file_get_contents($img_path . 'system.svg') . "
+                        </div>
                     </label>
-                    <label class='btn btn-default'>
-                        <input type='radio' name='options' id='category-report'" . $active_category['report'] . "><i class='fa fa-bar-chart-o theme-navbar-category' data-placement='top' title='" . lang('base_category_reports') . "'></i>
+                    <label class='btn btn-default theme-menu-1-category'>
+                        <input type='radio' name='options' id='category-report'" . $active_category['report'] . ">
+                        <div data-toggle='tooltip' data-container='body' title='" . lang('base_category_reports') . "'>
+                        " . file_get_contents($img_path . 'reports.svg') . "
+                        </div>
                     </label>
                 </div>
             </div>
