@@ -6,4 +6,12 @@
 .sidebar .sidebar-menu .treeview-menu > li > a {
   padding: 2px 5px 2px 34px;
 }
-
+.theme-menu-1-list {
+  margin: 10px;
+}
+.theme-menu-1-category {
+  width: 39px;
+  height: 38px;
+  text-align: center;
+  padding: 5px;
+}

@@ -78,15 +78,6 @@ body > .header .logo {
 .theme-top-navbar div:hover {
   background-color: #357ca5;
 }
-.theme-menu-1-list {
-  margin: 10px;
-}
-.theme-menu-1-category {
-  width: 39px;
-  height: 38px;
-  text-align: center;
-  padding: 5px;
-}
 #action-selected {
   font-weight: bold;
   font-style: italic;

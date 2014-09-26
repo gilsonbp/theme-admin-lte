@@ -931,6 +931,7 @@ function _get_left_menu_2($page)
     $menu_data = $page['menus'];
     $main_apps = '';
     $spotlights = '';
+    $img_path = clearos_theme_path('AdminLTE') . '/img/';
 
     foreach ($menu_data as $url => $page_meta) {
 
@@ -938,32 +939,32 @@ function _get_left_menu_2($page)
             continue;
         }
 
-        $icon = 'fa fa-cloud';
-        if (preg_match('/.*dashboard.*/', $url))
-            $icon = 'fa fa-dashboard';
-        else if (preg_match('/.*marketplace.*/', $url))
-            $icon = 'fa fa-cloud-download';
-        else if (lang('base_category_cloud') == $page_meta['category'])
-            $icon = 'fa fa-cloud';
-        else if (lang('base_category_network') == $page_meta['category'])
-            $icon = 'fa fa-fire';
-        else if (lang('base_category_gateway') == $page_meta['category'])
-            $icon = 'fa fa-shield';
-        else if (lang('base_category_server') == $page_meta['category'])
-            $icon = 'fa fa-hdd-o';
-        else if (lang('base_category_system') == $page_meta['category'])
-            $icon = 'fa fa-gear';
-        else if (lang('base_category_reports') == $page_meta['category'])
-            $icon = 'fa fa-bar-chart-o';
-        else if (lang('base_marketplace') == $page_meta['category'])
-            $icon = 'fa fa-cloud-download';
+        $icon = 'placeholder.svg';
+        if (preg_match('/.*dashboard.*/', $url) && file_exists($img_path . 'dashboard.svg'))
+            $icon = 'dashboard.svg';
+        else if (preg_match('/.*marketplace.*/', $url) && file_exists($img_path . 'marketplace.svg'))
+            $icon = 'marketplace.svg';
+        else if (lang('base_category_cloud') == $page_meta['category'] && file_exists($img_path . 'cloud.svg'))
+            $icon = 'cloud.svg';
+        else if (lang('base_category_network') == $page_meta['category'] && file_exists($img_path . 'network.svg'))
+            $icon = 'network.svg';
+        else if (lang('base_category_gateway') == $page_meta['category'] && file_exists($img_path . 'gateway.svg'))
+            $icon = 'gateway.svg';
+        else if (lang('base_category_server') == $page_meta['category'] && file_exists($img_path . 'server.svg'))
+            $icon = 'server.svg';
+        else if (lang('base_category_system') == $page_meta['category'] && file_exists($img_path . 'system.svg'))
+            $icon = 'system.svg';
+        else if (lang('base_category_reports') == $page_meta['category'] && file_exists($img_path . 'reports.svg'))
+            $icon = 'reports.svg';
+        else if (lang('base_marketplace') == $page_meta['category'] && file_exists($img_path . 'marketplace.svg'))
+            $icon = 'marketplace.svg';
 
         // Spotlight pages (read: Dashboard and Marketplace)
         //--------------------------------------------------
 
         if ($page_meta['category'] === lang('base_category_spotlight')) {
             $spotlights .= "\t\t<li>\n";
-            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><i class='$icon'></i>\n";
+            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><div class='theme-menu-2-category'>" . file_get_contents($img_path . $icon) . "</div>\n";
             $spotlights .= "\t\t\t<span class='menu-item'> " . $page_meta['title'] . " </span>\n";
             $spotlights .= "\t\t\t</a>\n";
             $spotlights .= "\t\t</li>\n";
@@ -991,7 +992,7 @@ function _get_left_menu_2($page)
         if ($page_meta['category'] != $current_category) {
             $current_category = $page_meta['category'];
             $main_apps .= "\t\t<li class='"  . ($page_meta['category'] == $page['current_category'] ? " active" : "") . "'>\n";
-            $main_apps .= "\t\t\t<a href='#'><i class='$icon'></i>\n";
+            $main_apps .= "\t\t\t<a href='#'><div class='theme-menu-2-category'>" . file_get_contents($img_path . $icon) . "</div>\n";
             $main_apps .= "\t\t\t\t<span class='menu-item'> " . $page_meta['category'] . " </span><span class='fa arrow'></span>\n";
             $main_apps .= "\t\t\t</a>\n";
             $main_apps .= "\t\t\t<ul class='nav nav-second-level'>\n";
