@@ -741,7 +741,7 @@ function theme_field_dropdown($name, $value, $label, $error, $values, $input_id,
     $field_id_html = (isset($options['field_id'])) ? $options['field_id'] : $input_id . '_field';
     $label_id_html = (isset($options['label_id'])) ? $options['label_id'] : $input_id . '_label';
     $error_id_html = (isset($options['error_id'])) ? $options['error_id'] : $input_id . '_error';
-    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . explode(' ', $options['class']) : '';
+    $add_classes = (isset($options['class'])) ? $add_classes = ' ' . implode(' ', $options['class']) : '';
 
     $error_html = (empty($error)) ? "" : "<span class='theme-validation-error' id='$error_id_html'>$error</span>";
 
@@ -1463,7 +1463,8 @@ function theme_form_banner($html, $options)
  * Form footer.
  *
  * Supported options:
- * - id 
+ * - loading 
+ * - buttons
  *
  * @param array $options options
  *
@@ -1473,17 +1474,20 @@ function theme_form_banner($html, $options)
 function theme_form_footer($options)
 {
     $loading = '';
+    $buttons = '';
     if (isset($options['loading']))
         $loading = "
             <div class='" . $options['loading'] . " overlay'></div>
             <div class='" . $options['loading'] . " theme-form-loading'>" .
-                theme_loading('1.8em', lang('base_loading') . '...', array('icon-below' => TRUE)) . "
+                theme_loading('1.8em', lang('base_loading...'), array('icon-below' => TRUE)) . "
             </div>
         ";
+    if (isset($options['buttons']))
+        $buttons = theme_button_set($options['buttons']);
  
     return "
                 </div>
-                <div class='box-footer'></div>
+                <div class='box-footer text-right'>$buttons</div>
                 $loading
             </div>
     ";
