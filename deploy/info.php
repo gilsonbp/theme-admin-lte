@@ -4,8 +4,8 @@
 //----------------------------
 
 $package['name'] = 'theme-AdminLTE';
-$package['title'] = 'AdminLTE';
-$package['description'] = 'AdminLTE theme';
+$package['title'] = 'ClearOS Admin Theme';
+$package['description'] = 'The ClearOS Admin Theme ';
 
 $package['version'] = '1.0';
 $package['release'] = '0.0';
@@ -13,20 +13,15 @@ $package['release'] = '0.0';
 $package['vendor'] = 'ClearFoundation';
 $package['packager'] = 'ClearFoundation';
 $package['license'] = 'Copyright ClearFoundation 2014.  All rights reserved.';
-$package['credits'] = array(
-    0 => array(
-        'contact' => 'Abdullah Almsaeed',
-        'url' => 'http://almsaeedstudio.com/'
-    )
-);
+$package['credits'] = array();
     
 $package['settings'] = array(
     'menu' => array(
         'lang_tag' => 'base_menu',
         'type' => 'dropdown',
         'options' => array(
-            1 => 'Type 1',
-            2 => 'Type 2',
+            1 => 'Expanding Sidebar',
+            2 => 'Category Headers',
         ),
         'required' => TRUE,
         'default' => 0,

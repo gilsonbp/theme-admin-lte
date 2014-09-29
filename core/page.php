@@ -735,10 +735,11 @@ function _get_wizard_menu($page)
 
 function _get_left_menu($page)
 {
-    if ($page['theme_AdminLTE']['menu'] == 1)
-        return _get_left_menu_1($page);
-    else
+    // Default is Menu 1 (long sidebar)
+    if (isset($page['theme_AdminLTE']['menu']) && $page['theme_AdminLTE']['menu'] == 2)
         return _get_left_menu_2($page);
+    else
+        return _get_left_menu_1($page);
 }
 
 /**
@@ -750,6 +751,125 @@ function _get_left_menu($page)
  */
 
 function _get_left_menu_1($page)
+{
+    $menu_data = $page['menus'];
+    $main_apps = '';
+    $spotlights = '';
+    $img_path = clearos_theme_path('AdminLTE') . '/img/';
+
+    foreach ($menu_data as $url => $page_meta) {
+
+        if ($page_meta['category'] === lang('base_category_my_account')) {
+            continue;
+        }
+
+        $icon = 'placeholder.svg';
+        if (preg_match('/.*dashboard.*/', $url) && file_exists($img_path . 'dashboard.svg'))
+            $icon = 'dashboard.svg';
+        else if (preg_match('/.*marketplace.*/', $url) && file_exists($img_path . 'marketplace.svg'))
+            $icon = 'marketplace.svg';
+        else if (lang('base_category_cloud') == $page_meta['category'] && file_exists($img_path . 'cloud.svg'))
+            $icon = 'cloud.svg';
+        else if (lang('base_category_network') == $page_meta['category'] && file_exists($img_path . 'network.svg'))
+            $icon = 'network.svg';
+        else if (lang('base_category_gateway') == $page_meta['category'] && file_exists($img_path . 'gateway.svg'))
+            $icon = 'gateway.svg';
+        else if (lang('base_category_server') == $page_meta['category'] && file_exists($img_path . 'server.svg'))
+            $icon = 'server.svg';
+        else if (lang('base_category_system') == $page_meta['category'] && file_exists($img_path . 'system.svg'))
+            $icon = 'system.svg';
+        else if (lang('base_category_reports') == $page_meta['category'] && file_exists($img_path . 'reports.svg'))
+            $icon = 'reports.svg';
+        else if (lang('base_marketplace') == $page_meta['category'] && file_exists($img_path . 'marketplace.svg'))
+            $icon = 'marketplace.svg';
+
+        // Spotlight pages (read: Dashboard and Marketplace)
+        //--------------------------------------------------
+
+        if ($page_meta['category'] === lang('base_category_spotlight')) {
+            $spotlights .= "\t\t<li>\n";
+            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><div class='theme-menu-2-category'>" . file_get_contents($img_path . $icon) . "</div>\n";
+            $spotlights .= "\t\t\t<span class='menu-item'> " . $page_meta['title'] . " </span>\n";
+            $spotlights .= "\t\t\t</a>\n";
+            $spotlights .= "\t\t</li>\n";
+            continue;
+        }
+        // Close out menus on transitions
+        //-------------------------------
+
+        $new_category = ($page_meta['category'] == $current_category) ? FALSE : TRUE;
+        $new_subcategory = ($page_meta['subcategory'] == $current_subcategory) ? FALSE : TRUE;
+
+        if (empty($main_apps)) {
+            // do nothing
+        } else if ($new_category && $new_subcategory) {
+            // Close out subcategory and category
+            $main_apps .= "\t\t\t\t\t</ul>\n";
+            $main_apps .= "\t\t\t\t</li>\n";
+            $main_apps .= "\t\t\t</ul>\n";
+            $main_apps .= "\t\t</li>\n";
+        } else if ($new_subcategory) {
+            $main_apps .= "\t\t\t\t\t</ul>\n";
+            $main_apps .= "\t\t\t\t</li>\n";
+        }
+
+        if ($page_meta['category'] != $current_category) {
+            $current_category = $page_meta['category'];
+            $main_apps .= "\t\t<li class='"  . ($page_meta['category'] == $page['current_category'] ? " active" : "") . "'>\n";
+            $main_apps .= "\t\t\t<a href='#'><div class='theme-menu-2-category'>" . file_get_contents($img_path . $icon) . "</div>\n";
+            $main_apps .= "\t\t\t\t<span class='menu-item'> " . $page_meta['category'] . " </span><span class='fa arrow'></span>\n";
+            $main_apps .= "\t\t\t</a>\n";
+            $main_apps .= "\t\t\t<ul class='nav nav-second-level'>\n";
+        }
+        
+        // Subcategory transition
+        //-----------------------
+
+        if ($current_subcategory != $page_meta['subcategory']) {
+            $current_subcategory = $page_meta['subcategory'];
+
+            $main_apps .= "\t\t\t\t<li class='"  . ($page_meta['subcategory'] == $page['current_subcategory'] ? " active" : "") . "'>\n";
+            $main_apps .= "\t\t\t\t\t<a href='#'><span class='menu-item'>" . $page_meta['subcategory'] . "</span><span class='fa arrow'></span></a>\n";
+            $main_apps .= "\t\t\t\t\t<ul class='nav nav-third-level'>\n";
+        }
+
+        // App page
+        //---------
+
+        $main_apps .= "\t\t\t\t\t\t<li><a href='" . $url . "'>" . htmlspecialchars($page_meta['title']) . " </a></li>\n";
+    }
+
+    // Close out open HTML tags
+    //-------------------------
+
+    $main_apps .= "\t\t\t\t\t\t</ul>\n";
+    $main_apps .= "\t\t\t\t\t</li>\n";
+    $main_apps .= "\t\t\t\t</ul>\n";
+    $main_apps .= "\t\t\t</li>\n";
+
+    return "
+        <aside class='left-side sidebar-offcanvas'>
+            <div class='navbar-default navbar-static-side' role='navigation'>
+                <div class='sidebar-collapse'>
+                    <ul class='nav' id='side-menu'>
+                        $spotlights
+                        $main_apps
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    ";
+}
+
+/**
+ * Returns left panel menu
+ * 
+ * @param array $page page data
+ *
+ * @return string menu HTML output
+ */
+
+function _get_left_menu_2($page)
 {
     $menu_data = $page['menus'];
     $spotlights = '';
@@ -916,125 +1036,6 @@ $main_apps
     </section>
 </aside>
 ";
-}
-
-/**
- * Returns left panel menu
- * 
- * @param array $page page data
- *
- * @return string menu HTML output
- */
-
-function _get_left_menu_2($page)
-{
-    $menu_data = $page['menus'];
-    $main_apps = '';
-    $spotlights = '';
-    $img_path = clearos_theme_path('AdminLTE') . '/img/';
-
-    foreach ($menu_data as $url => $page_meta) {
-
-        if ($page_meta['category'] === lang('base_category_my_account')) {
-            continue;
-        }
-
-        $icon = 'placeholder.svg';
-        if (preg_match('/.*dashboard.*/', $url) && file_exists($img_path . 'dashboard.svg'))
-            $icon = 'dashboard.svg';
-        else if (preg_match('/.*marketplace.*/', $url) && file_exists($img_path . 'marketplace.svg'))
-            $icon = 'marketplace.svg';
-        else if (lang('base_category_cloud') == $page_meta['category'] && file_exists($img_path . 'cloud.svg'))
-            $icon = 'cloud.svg';
-        else if (lang('base_category_network') == $page_meta['category'] && file_exists($img_path . 'network.svg'))
-            $icon = 'network.svg';
-        else if (lang('base_category_gateway') == $page_meta['category'] && file_exists($img_path . 'gateway.svg'))
-            $icon = 'gateway.svg';
-        else if (lang('base_category_server') == $page_meta['category'] && file_exists($img_path . 'server.svg'))
-            $icon = 'server.svg';
-        else if (lang('base_category_system') == $page_meta['category'] && file_exists($img_path . 'system.svg'))
-            $icon = 'system.svg';
-        else if (lang('base_category_reports') == $page_meta['category'] && file_exists($img_path . 'reports.svg'))
-            $icon = 'reports.svg';
-        else if (lang('base_marketplace') == $page_meta['category'] && file_exists($img_path . 'marketplace.svg'))
-            $icon = 'marketplace.svg';
-
-        // Spotlight pages (read: Dashboard and Marketplace)
-        //--------------------------------------------------
-
-        if ($page_meta['category'] === lang('base_category_spotlight')) {
-            $spotlights .= "\t\t<li>\n";
-            $spotlights .= "\t\t\t<a href='" . $url . "' title='" . $page_meta['title'] . "'><div class='theme-menu-2-category'>" . file_get_contents($img_path . $icon) . "</div>\n";
-            $spotlights .= "\t\t\t<span class='menu-item'> " . $page_meta['title'] . " </span>\n";
-            $spotlights .= "\t\t\t</a>\n";
-            $spotlights .= "\t\t</li>\n";
-            continue;
-        }
-        // Close out menus on transitions
-        //-------------------------------
-
-        $new_category = ($page_meta['category'] == $current_category) ? FALSE : TRUE;
-        $new_subcategory = ($page_meta['subcategory'] == $current_subcategory) ? FALSE : TRUE;
-
-        if (empty($main_apps)) {
-            // do nothing
-        } else if ($new_category && $new_subcategory) {
-            // Close out subcategory and category
-            $main_apps .= "\t\t\t\t\t</ul>\n";
-            $main_apps .= "\t\t\t\t</li>\n";
-            $main_apps .= "\t\t\t</ul>\n";
-            $main_apps .= "\t\t</li>\n";
-        } else if ($new_subcategory) {
-            $main_apps .= "\t\t\t\t\t</ul>\n";
-            $main_apps .= "\t\t\t\t</li>\n";
-        }
-
-        if ($page_meta['category'] != $current_category) {
-            $current_category = $page_meta['category'];
-            $main_apps .= "\t\t<li class='"  . ($page_meta['category'] == $page['current_category'] ? " active" : "") . "'>\n";
-            $main_apps .= "\t\t\t<a href='#'><div class='theme-menu-2-category'>" . file_get_contents($img_path . $icon) . "</div>\n";
-            $main_apps .= "\t\t\t\t<span class='menu-item'> " . $page_meta['category'] . " </span><span class='fa arrow'></span>\n";
-            $main_apps .= "\t\t\t</a>\n";
-            $main_apps .= "\t\t\t<ul class='nav nav-second-level'>\n";
-        }
-        
-        // Subcategory transition
-        //-----------------------
-
-        if ($current_subcategory != $page_meta['subcategory']) {
-            $current_subcategory = $page_meta['subcategory'];
-
-            $main_apps .= "\t\t\t\t<li class='"  . ($page_meta['subcategory'] == $page['current_subcategory'] ? " active" : "") . "'>\n";
-            $main_apps .= "\t\t\t\t\t<a href='#'><span class='menu-item'>" . $page_meta['subcategory'] . "</span><span class='fa arrow'></span></a>\n";
-            $main_apps .= "\t\t\t\t\t<ul class='nav nav-third-level'>\n";
-        }
-
-        // App page
-        //---------
-
-        $main_apps .= "\t\t\t\t\t\t<li><a href='" . $url . "'>" . htmlspecialchars($page_meta['title']) . " </a></li>\n";
-    }
-
-    // Close out open HTML tags
-    //-------------------------
-
-    $main_apps .= "\t\t\t\t\t\t</ul>\n";
-    $main_apps .= "\t\t\t\t\t</li>\n";
-    $main_apps .= "\t\t\t\t</ul>\n";
-    $main_apps .= "\t\t\t</li>\n";
-
-    return "
-        <aside class='left-side sidebar-offcanvas'>
-            <div class='navbar-default navbar-static-side' role='navigation'>
-                <div class='sidebar-collapse'>
-                    <ul class='nav' id='side-menu'>
-                        $spotlights
-                        $main_apps
-                    </ul>
-                </div>
-            </div>
-        </aside>
-    ";
 }
 
 /**
