@@ -13,6 +13,10 @@ a.highlight-link:hover {
   color: #62799A;
 }
 
+.box .box-header {
+  padding-bottom: 0px;
+}
+
 .btn {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
@@ -606,6 +610,17 @@ body > .header .logo {
   text-align: center;
 }
 
+/* ================= */
+/* S U P P O R T
+/* ================= */
+
+.support-item {
+  width: 80px;
+  height: 80px;
+  padding-bottom: 10px;
+  margin-top: -10px;
+  margin: auto;
+}
 /* ================= */
 /* D A S H B O A R D
 /* ================= */

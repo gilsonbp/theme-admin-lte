@@ -1383,14 +1383,17 @@ function theme_box_open($title, $options)
  * Box footer.
  *
  * @param string $content content
+ * @param array  $options options
  *
  * @return string HTML
  */
 
-function theme_box_footer($id = NULL, $content = '')
+function theme_box_footer($id = NULL, $content = '', $options = NULL)
 {
+    $id_html = ($id != NULL ? " id='" . $id . "'" : '');
+    $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
     return "
-        <div class='box-footer' id='$id'>$content</div>
+        <div class='box-footer$classes'$id_html>$content</div>
     ";
 }
 
@@ -2826,6 +2829,32 @@ function theme_column_close($options = NULL)
 ///////////////////////////////////////////////////////////////////////////////
 // A P P   L O G O
 ///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Get a image.
+ *
+ * @param string $name    name of image
+ * @param array  $options options
+ *
+ * Options:
+ *  id: DOM ID
+ *  size: DOM ID
+ *  alttext: Alt text
+ *  class: class(es)
+ *
+ * @return string HTML
+ */
+
+function theme_image($name, $options = NULL)
+{
+    $id = (isset($options['id'])) ? " id='" . $options['id'] . "'" : "";
+    $class = (isset($options['class'])) ? " " . $options['class'] : "";
+    $alt = (isset($options['alt'])) ? " " . $options['alt'] : "";
+    $size = (isset($options['size'])) ? " " . $options['size'] : "";
+    $color = (isset($options['color'])) ? " " . $options['color'] : "";
+    $filename = clearos_theme_path('AdminLTE') . "/img/$name";
+    return "<div $id class='$class'>" . file_get_contents($filename) . "</div>";
+}
 
 /**
  * Get an app logo.
