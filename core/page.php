@@ -578,7 +578,7 @@ function _get_header($page, $menus = array())
                     " . (! isset($framework->session->userdata['wizard']) ? "
                     <div class='theme-top-navbar'>
                         <a href='/app/dashboard'><div class='theme-dashboard'>" . lang('base_dashboard') . "</div></a>
-                        <a href='#'><div class='theme-support'>" . lang('base_support') . "</div></a>
+                        <a href='/app/support'><div class='theme-support'>" . lang('base_support') . "</div></a>
                         <a href='/app/marketplace'><div class='theme-marketplace'>" . lang('base_marketplace') . "</div></a>
                     " : "") . "
                     </div>
