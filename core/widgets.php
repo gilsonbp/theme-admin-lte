@@ -1367,12 +1367,12 @@ function theme_box_open($title, $options)
 {
     $id_html = (isset($options['id'])) ? $options['id'] : 'options_' . rand(0, 1000);
     $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
-    $anchors = (isset($options['anchors'])) ? $options['anchors'] : '';
+    $anchors = (isset($options['anchors'])) ? "<div style='float: right; padding-top: 10px; margin-right: 10px;'>" . $options['anchors'] . "</div>": '';
     return "
         <div class='box $classes' id='$id_html'>
             " . ($title != NULL ? "
             <div class='box-header'>
-                <h3 class='box-title' id='" . $id_html . "_title'>$title</h3><div style='float: right; padding-top: 10px; margin-right: 10px;'>$anchors</div>
+                <h3 class='box-title' id='" . $id_html . "_title'>$title</h3>$anchors
             </div>
             " : "") . "
             <div class='box-body'>

@@ -16,7 +16,12 @@ a.highlight-link:hover {
 .box .box-header {
   padding-bottom: 0px;
 }
-
+.box .box-header .box-title {
+  padding: 10px 10px 0px 10px;
+}
+.box .box-footer {
+  padding: 10px 0px 0px 0px;
+}
 .btn {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
