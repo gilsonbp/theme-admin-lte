@@ -23,7 +23,6 @@ a.highlight-link:hover {
   box-shadow: none !important;
   font-family: 'Arial' !important;
 }
-
 /* Override button dropdowns in Marketplace */
 .btn .caret {
 	margin-left: 5px;
@@ -267,13 +266,13 @@ body > .header .logo {
 .theme-field-radio-set input[type=radio] {
   margin-right: 6px;
 }
-.theme-text-alert {
+.theme-text-bad-status, .theme-text-alert {
   color: red;
 }
-.theme-text-bad-status {
-  color: red;
+.theme-text-warning-status, .theme-text-warning {
+  color: yellow;
 }
-.theme-text-good-status {
+.theme-text-good-status, .theme-text-ok {
   color: green;
 }
 .theme-box-tools {

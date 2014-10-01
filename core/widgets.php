@@ -1823,6 +1823,9 @@ function theme_action_table($title, $anchors, $items, $options = NULL)
 		\"sPaginationType\": \"full_numbers\"
     });
   }
+  $(document).ready(function() {
+    get_table_$dom_id_var();
+  });
 </script>
     ";
 }
@@ -1890,12 +1893,12 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     //-------------
 
     if (empty($items)) {
-        $item_html = "<tr>$empty_row</tr>";
+        $item_html = "<tr>\n$empty_row</tr>\n";
     } else {
         $item_html = '';
 
         foreach ($items as $item) {
-            $item_html .= "\t<tr" . (isset($item['row_id']) ? " id='r-" . $item['row_id'] . "'" : '') . ">";
+            $item_html .= "\t<tr" . (isset($item['row_id']) ? " id='r-" . $item['row_id'] . "'" : '') . ">\n";
             if (isset($item['current_state']) && $item['current_state'] === TRUE) {
                 $item_html .= "
                     <td>
@@ -2146,6 +2149,9 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
             \"aaSorting\": [ $first_column_fixed_sort ]
     })$row_reorder;
   }
+  $(document).ready(function() {
+    get_table_$dom_id_var();
+  });
 </script>
     ";
 }
