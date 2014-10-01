@@ -2426,13 +2426,13 @@ function theme_infobox($type, $title, $message, $options = NULL)
         $class[] = 'theme-hidden';
     $buttons = "";
     if (isset($options['buttons']))
-        $buttons = "<div class='text-center'><div class='btn-group theme-infobox-buttons'>" . implode($options['buttons']) . '</div></div>';
+        $buttons = "<div class='text-center'>" . theme_button_set($options['buttons']) . '</div>';
 
     return "
         <div class='" . implode(' ', $class) . "' $id>
             <i class='$iconclass'></i>
             <div class='theme-infobox-title'>$title</div>
-            <div>$message</div>
+            <div style='padding: 10px;'>$message</div>
             $buttons
         </div>
 
