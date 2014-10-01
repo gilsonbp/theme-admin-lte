@@ -358,7 +358,7 @@ function _wizard_page($page)
     // Add intro, as req'd
     if ($page['page_wizard_intro']) {
         $layout .= theme_box_open($page['page_wizard_name']);
-        $layout .= $page['page_wizard_intro'];
+        $layout .= theme_box_content($page['page_wizard_intro']);
         $layout .= theme_box_close();
     }
 

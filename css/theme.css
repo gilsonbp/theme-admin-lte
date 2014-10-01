@@ -19,9 +19,6 @@ a.highlight-link:hover {
 .box .box-header .box-title {
   padding: 10px 10px 0px 10px;
 }
-.box .box-footer {
-  padding: 10px 0px 0px 0px;
-}
 .btn {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
@@ -420,9 +417,6 @@ body > .header .logo {
 .marketplace-app-info-container .box-header .box-title {
   max-height: 14px;
 }
-.marketplace-app-info {
-  margin-top: -12px;
-}
 .marketplace-about {
   padding-top: 10px;
 }
@@ -483,6 +477,9 @@ body > .header .logo {
 }
 .marketplace-tile-title.theme-xs {
   font-size: 0.70em;
+}
+.marketplace-app.marketplace-tile .box-footer {
+  padding: 5px;
 }
 .marketplace-related-app {
   width: 48%;

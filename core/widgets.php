@@ -1356,6 +1356,8 @@ function theme_login_form($redirect, $languages, $lang, $errmsg, $options = NULL
  *
  * Supported options:
  * - id 
+ * - class 
+ * - anchors 
  *
  * @param string $title box title
  * @param array  $options options
@@ -1374,13 +1376,39 @@ function theme_box_open($title, $options)
             <div class='box-header'>
                 <h3 class='box-title' id='" . $id_html . "_title'>$title</h3>$anchors
             </div>
-            " : "") . "
-            <div class='box-body'>
-    ";
+            " : "")
+    ;
 }
 
 /**
- * Box footer.
+ * Box content open.
+ *
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_box_content_open($options = NULL)
+{
+    return "<div class='box-body'>";
+}
+
+/**
+ * Box content close.
+ *
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_box_content_close($options = NULL)
+{
+    return "</div>";
+}
+
+/**
+ * Box content.
+ * Use this function when the content is small
  *
  * @param string $content content
  * @param array  $options options
@@ -1388,12 +1416,26 @@ function theme_box_open($title, $options)
  * @return string HTML
  */
 
-function theme_box_footer($id = NULL, $content = '', $options = NULL)
+function theme_box_content($content, $options = NULL)
+{
+    return "<div class='box-body'>$content</div>";
+}
+
+/**
+ * Box footer.
+ *
+ * @param string $footer  footer content
+ * @param array  $options options
+ *
+ * @return string HTML
+ */
+
+function theme_box_footer($id = NULL, $footer = '', $options = NULL)
 {
     $id_html = ($id != NULL ? " id='" . $id . "'" : '');
     $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
     return "
-        <div class='box-footer$classes'$id_html>$content</div>
+        <div class='box-footer$classes'$id_html>$footer</div>
     ";
 }
 
@@ -1405,10 +1447,7 @@ function theme_box_footer($id = NULL, $content = '', $options = NULL)
 
 function theme_box_close()
 {
-    return "
-            </div>
-        </div>
-    ";
+    return "</div>";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
