@@ -3136,7 +3136,7 @@ function theme_marketplace_review($basename, $pseudonum)
                     else
                         $('#star' + starindex).removeClass('on');
                 }
-                $('#rating').val(rating);
+                $('#review-rating').val(rating);
             });
         </script>" .
         theme_modal_confirm(lang('base_warning'), lang('marketplace_confirm_review_replace'), array("submit_review(true);"), NULL, NULL, 'confirm-review-replace')
