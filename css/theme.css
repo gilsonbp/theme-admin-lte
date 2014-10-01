@@ -161,10 +161,6 @@ body > .header .logo {
   padding: 5px;
   margin-top: -5px;
 }
-.theme-app-logo.box-body > svg {
-  height: 48px;
-  width: 48px;
-}
 .theme-app-logo-svg {
   fill: #e1852e !important;
 }
@@ -412,10 +408,7 @@ body > .header .logo {
   text-align: center;
 }
 .marketplace-app-info-container .theme-app-logo-container {
-  height: 120px;
-}
-.marketplace-app-info-container .box-header .box-title {
-  max-height: 14px;
+  height: 145px;
 }
 .marketplace-about {
   padding-top: 10px;
@@ -515,10 +508,6 @@ body > .header .logo {
   float: left;
   width: 55px;
   text-align: center;
-}
-.marketplace-app-info-more {
-  text-align: right;
-  clear: both;
 }
 .marketplace-app-info-description {
   max-height: 100px;

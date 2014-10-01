@@ -222,7 +222,7 @@ function get_app_full(app, options)
                 <div id="active-select-' + app.basename + '" class="' + (app.incart ? '' : 'theme-hidden ') + 'marketplace-selected"><i class="fa fa-check-square-o"></i></div>\
             </div>\
             ' + (app.installed ? '<span class="marketplace-installed">' + lang_installed.toUpperCase() + '</span>' : '') + '\
-            <div class="box-body">\
+            <div class="box-body clearfix">\
                 <div class="marketplace-app-info">\
                     <div class="marketplace-app-lhs">\
                         <div class="marketplace-app-info-icon">\
@@ -244,18 +244,18 @@ function get_app_full(app, options)
                         </div>\
                     </div>\
                 </div>\
-                <div class="marketplace-app-info-more"><a href="/app/marketplace/view/' + app.basename + '"' + learn_more_target + '>' + lang_marketplace_learn_more + '</a></div>\
             </div>\
             <div class="box-footer">\
                 <div style="float: right;">' +
-                (app.installed
-                    ? '<div class="btn-group">' +
+                    '<div class="btn-group">' +
+                (app.installed ?
                     '<a href="/app/' + app.basename + '" class="btn btn-primary btn-sm' + disable_buttons + '">' + lang_configure + '</a>' +
-                    '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm' + disable_buttons + '">' + lang_uninstall + '</a>' +
-                    '</div>'
+                    '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-sm' + disable_buttons + '">' + lang_uninstall + '</a>'
                     : '<input type="submit" name="install" value="' + (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) + '" id="' + app.basename + '" class="btn btn-primary btn-sm marketplace-app-event" data-appname="' + app.name + '"/>' +
                     '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>'
-                ) + '\
+                ) +
+                '<a href="/app/marketplace/view/' + app.basename + '"' + learn_more_target + ' class="btn btn-secondary btn-sm">' + lang_marketplace_learn_more + '</a>\
+                </div>\
                 </div>\
                 <div style="clear: both;"></div>\
             </div>\
