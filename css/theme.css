@@ -195,7 +195,8 @@ body > .header .logo {
   padding-bottom: 50px;
 }
 .theme-review {
-  padding-top: 10px;
+  padding: 10px 0px;
+  border-bottom: dotted 1px #cccccc;
 }
 .theme-review-reviewer, .theme-review-rating {
   float: left;
@@ -204,7 +205,6 @@ body > .header .logo {
   padding-right: 10px;
 }
 .theme-review-title {
-  float: left;
   width: 80%;
 }
 .theme-review-title-highlight {
@@ -212,7 +212,7 @@ body > .header .logo {
 }
 .theme-review-mod {
   float: left;
-  width: 5%;
+  width: 35px;
 }
 .theme-breadcrumb {
   float: left;

@@ -479,24 +479,24 @@ function theme_rating_review(basename, id, title, comment, rating, pseudonym, ti
             <div class="theme-review-reviewer">' + pseudonym + '</div>\
             <div class="theme-review-rating">' + theme_star_rating(rating) + '</div>\
           </div>\
-          <div style="clear: both;"</div>\
+          <div class="clearfix"></div>\
           <div>\
             <div class="theme-review-title">\
-                <span class="theme-review-title-highlight">' + title + '</span>' + (comment != null ? comment.substr(title.length) : '') + '\
+                <div class="theme-review-title-highlight">' + title + '</div>' + (comment != null ? comment.substr(title.length) : '') + '\
             </div>\
             <div class="theme-review-mod agree">\
-                <a href="#" id="' + basename + '-' + id + '-up" class="btn btn-sm btn-primary review-action">\
+                <a href="#" id="' + basename + '-' + id + '-up" class="btn btn-xs btn-primary review-action">\
                     <span id="agree_' + id + '">' + agree + '</span> <i class="fa fa-thumbs-up"></i>\
                 </a>\
             </div>\
             <div class="theme-review-mod disagree">\
-                <a href="#" id="' + basename + '-' + id + '-dn" class="btn btn-sm btn-primary review-action">\
+                <a href="#" id="' + basename + '-' + id + '-dn" class="btn btn-xs btn-primary review-action">\
                     <span id="disagree_' + id + '">' + disagree + '</span> <i class="fa fa-thumbs-down"></i>\
                 </a>\
             </div>\
           </div>\
+          <div class="clearfix"></div>\
         </div>\
-        <div style="clear: both;"></div>\
     ';
 }
 
