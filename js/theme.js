@@ -302,7 +302,7 @@ function get_app_tile(app, options)
                     <div class="marketplace-app-tile-lhs">\
                         <div class="marketplace-app-info-icon">\
                             <div class="theme-app-logo-container">\
-                                <div id="app-logo-' + app.basename + '" class="theme-app-logo box-body theme-placeholder">\
+                                <div id="app-logo-' + app.basename + '" class="theme-app-logo theme-placeholder">\
                                     ' + get_placeholder("svg") + '\
                                 </div>\
                             </div>\

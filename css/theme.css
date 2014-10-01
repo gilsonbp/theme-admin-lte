@@ -134,7 +134,6 @@ body > .header .logo {
 
 .theme-app-logo-container {
   height: 80px;
-  margin-right: 10px;
   position: relative;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -159,7 +158,6 @@ body > .header .logo {
 }
 .marketplace-tile .theme-app-logo.box-body {
   padding: 5px;
-  margin-top: -5px;
 }
 .theme-app-logo-svg {
   fill: #e1852e !important;
@@ -452,7 +450,8 @@ body > .header .logo {
   width: 150px;
 }
 .marketplace-tile .theme-app-logo-container {
-  height: 60px;
+  height: 65px;
+  padding: 5px;
 }
 .marketplace-tile-title {
   color: #444444;
@@ -499,15 +498,24 @@ body > .header .logo {
   font-size: 11px;
 }
 .marketplace-app-tile-lhs {
-  padding-top: 10px;
-  width: 75px;
-  float; left;
+  width: 65px;
+  float: left;
 }
 .marketplace-app-tile-rhs {
-  padding: 25px 3px 0px 3px;
+  padding: 25px 3px 3px 10px;
   float: left;
-  width: 55px;
+  width: 65px;
   text-align: center;
+}
+.marketplace-app-lhs {
+  float: left;
+  width: 80px;
+  margin-right: 10px;
+  text-align: center;
+}
+.marketplace-app-rhs {
+  float: left;
+  width: 380px; /* Don't change to percent...borks dotdotdot plugin */
 }
 .marketplace-app-info-description {
   max-height: 100px;
@@ -566,15 +574,6 @@ body > .header .logo {
 }
 #marketplace_paginate_container {
   text-align: right;
-}
-.marketplace-app-lhs {
-  float: left;
-  width: 20%;
-  text-align: center;
-}
-.marketplace-app-rhs {
-  float: left;
-  width: 380px; /* Don't change to percent...borks dotdotdot plugin */
 }
 #marketplace-novice-options, #marketplace-category-options {
   text-align: center;
