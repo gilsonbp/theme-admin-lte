@@ -380,6 +380,9 @@ body > .header .logo {
 .theme-inline-help > p {
   font-size: 13px;
 }
+.theme-search-empty {
+  min-height: 120px;
+}
 
 /* ======================= */
 /* R E G I S T R A T I O N */

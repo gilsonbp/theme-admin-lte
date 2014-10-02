@@ -849,6 +849,14 @@ function _get_left_menu_1($page)
 
     return "
         <aside class='left-side sidebar-offcanvas'>
+       " . form_open('base/search', NULL, NULL, array('class' => 'sidebar-form')) . "
+            <div class='input-group'>
+                <input type='text' name='g_search' id='g_search' class='form-control' placeholder='" . lang('base_search') . "...' />
+                <span class='input-group-btn'>
+                    <button type='submit' name='btn_search' class='btn btn-flat'><i class='fa fa-search'></i></button>
+                </span>
+            </div>
+        " . form_close() . "
             <div class='navbar-default navbar-static-side' role='navigation'>
                 <div class='sidebar-collapse'>
                     <ul class='nav' id='side-menu'>
@@ -980,14 +988,14 @@ function _get_left_menu_2($page)
     return "
 <aside class='left-side sidebar-offcanvas'>
     <section class='sidebar'>
-       <form action='#' method='get' class='sidebar-form'>
+       " . form_open('base/search', NULL, NULL, array('class' => 'sidebar-form')) . "
             <div class='input-group'>
-                <input type='text' name='q' class='form-control' placeholder='Search...'>
+                <input type='text' name='g_search' id='g_search' class='form-control' placeholder='" . lang('base_search') . "...' />
                 <span class='input-group-btn'>
-                    <button type='submit' name='seach' id='search-btn' class='btn btn-flat'><i class='fa fa-search'></i></button>
+                    <button type='submit' name='btn_search' class='btn btn-flat'><i class='fa fa-search'></i></button>
                 </span>
             </div>
-        </form>
+        " . form_close() . "
         <form action='#' method='get' id='category-select'>
             <div class='btn-toolbar theme-menu-1-list'>
                 <div class='btn-group' data-toggle='buttons'>

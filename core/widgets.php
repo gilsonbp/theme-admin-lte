@@ -1418,7 +1418,9 @@ function theme_box_content_close($options = NULL)
 
 function theme_box_content($content, $options = NULL)
 {
-    return "<div class='box-body'>$content</div>";
+    $id = (isset($options['id'])) ? "id='" . $options['id'] . "'" : "";
+    $classes = (isset($options['class'])) ? $options['class'] : "";
+    return "<div $id class='box-body $classes'>$content</div>";
 }
 
 /**
@@ -1434,8 +1436,17 @@ function theme_box_footer($id = NULL, $footer = '', $options = NULL)
 {
     $id_html = ($id != NULL ? " id='" . $id . "'" : '');
     $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
+    $loading = '';
+    if (isset($options['loading']))
+        $loading = "
+            <div class='overlay clearos-loading-overlay'></div>
+            <div class='theme-form-loading clearos-loading-overlay'>" .
+                theme_loading('1.8em', lang('base_loading...'), array('icon-below' => TRUE)) . "
+            </div>
+        ";
     return "
         <div class='box-footer$classes'$id_html>$footer</div>
+        $loading
     ";
 }
 
@@ -1519,8 +1530,8 @@ function theme_form_footer($options)
     $buttons = '';
     if (isset($options['loading']))
         $loading = "
-            <div class='" . $options['loading'] . " overlay'></div>
-            <div class='" . $options['loading'] . " theme-form-loading'>" .
+            <div class='overlay'></div>
+            <div class='theme-form-loading'>" .
                 theme_loading('1.8em', lang('base_loading...'), array('icon-below' => TRUE)) . "
             </div>
         ";
@@ -1897,6 +1908,7 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     // Tabs are just for clean indentation HTML output
     $header_html = (isset($options['row-enable-disable']) ? '<th></th>' : '');
     $empty_row = (isset($options['row-enable-disable']) ? '<td></td>' : '');
+    $no_container = (isset($options['no_container']) ? TRUE : FALSE);
 
     foreach ($headers as $header) {
         $header_html .= "\n\t\t" . trim("<th>$header</th>");
@@ -1932,7 +1944,8 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     //-------------
 
     if (empty($items)) {
-        $item_html = "<tr>\n$empty_row</tr>\n";
+        //Why do we have this empty row?  Messes up no data
+        //$item_html = "<tr>\n$empty_row</tr>\n";
     } else {
         $item_html = '';
 
@@ -2133,12 +2146,10 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
 
     // FIXME: dom IDS with periods are valid, but some massaging is required.
     // Implement below in other places.
-    $dom_id_var = preg_replace('/\./', '_', $dom_id);
+    $dom_id_var = preg_replace('/\.|-/', '_', $dom_id);
     $dom_id_selector = preg_replace('/\./', '\\\\\\.', $dom_id);
 
     return "
-
-
 <div class='box'>
   <div class='box-header'>
     <h3 class='box-title'>$title</h3>

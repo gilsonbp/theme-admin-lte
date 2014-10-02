@@ -795,6 +795,48 @@ function get_support_policy(json) {
         '</div>' +
         '</div>';
 }
+
+function anchor(href, text, options)
+{
+    id = 'anchor-' + Math.random();
+    if (typeof options != 'undefined') {
+        if (options.id)
+            id = options.id;
+        if (options.buttons == 'extra-small')
+            button_class = 'btn btn-xs btn-primary';
+        else if (options.buttons)
+            button_class = 'btn btn-sm btn-primary';
+    }
+    return '<a href="' + href + '" id="' + id + '" class="' + button_class + '">' + text + '</a>';
+}
+
+function infobox(type, title, message)
+{
+    myclass = 'theme-infobox alert alert-info';
+    iconclass = 'fa fa-times-circle';
+    if (type == 'critical') {
+        myclass = 'theme-infobox alert alert-danger';
+        iconclass = 'fa fa-times-circle';
+    } else if (type == 'warning') {
+        myclass = 'theme-infobox alert alert-warning';
+        iconclass = 'fa fa-exclamation-triangle';
+    } else if (type == 'info') {
+        myclass = 'theme-infobox alert alert-info';
+        iconclass = 'fa fa-info';
+    } else {
+        myclass = 'theme-infobox alert alert-success';
+        iconclass = 'fa fa-check-circle';
+    }
+
+    return '\
+        <div class="' + myclass + '">\
+            <i class="' + iconclass + '"></i>\
+            <div class="theme-infobox-title">' + title + '</div>\
+            <div style="padding: 10px;">' + message + '</div>\
+        </div>\
+    ';
+}
+
 function get_placeholder(type) {
     if (type == 'svg')
         return '\
