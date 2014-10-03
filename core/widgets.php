@@ -1990,7 +1990,7 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
     // Number of rows
     //---------------
 
-    $default_rows = (empty($options['default_rows'])) ? 10 : $options['default_rows'];
+    $default_rows = 10;
 
     // Show a reasonable number of entries
     if ((count($items) > 100) || (isset($options['paginate_large']) && $options['paginate_large'])) {
@@ -2001,6 +2001,10 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
 
         $row_options = '[10, 25, 50, 100, -1], [10, 25, 50, 100, "' . lang('base_all') . '"]';
     }
+
+    // Page specified...don't guess.
+    if (!empty($options['default_rows']))
+        $default_rows = $options['default_rows'];
 
     // Size
     //-----
@@ -2015,7 +2019,6 @@ function theme_summary_table($title, $anchors, $headers, $items, $options = NULL
 
     if (isset($options['paginate'])) {
         $paginate = $options['paginate'];
-        $default_rows = 10000;
     } else {
         $paginate = FALSE;
         if ((count($items) > 10) || (isset($options['paginate']) && $options['paginate']))
@@ -2443,7 +2446,7 @@ function theme_infobox($type, $title, $message, $options = NULL)
         <div class='" . implode(' ', $class) . "' $id>
             <i class='$iconclass'></i>
             <div class='theme-infobox-title'>$title</div>
-            <div style='padding: 10px;'>$message</div>
+            <div class='theme-infobox-content'>$message</div>
             $buttons
         </div>
 
@@ -3018,7 +3021,7 @@ function theme_marketplace_search($search_string = NULL)
         <div class='input-group'>                                                            
             <input type='text' name='search' id='search'" .
             ($search_string != NULL ? " value='$search_string'" : "") . " class='form-control input-sm'" .
-            ($search_string == NULL ? " placeholder='" . lang('base_search') . "'" : "") . ">
+            ($search_string == NULL ? " placeholder='" . lang('base_search') . "...'" : "") . ">
             <div class='input-group-btn'>" .
                 ($search_string != NULL ? "<button type='submit' name='search_cancel' value='1' class='btn btn-sm'><i class='fa fa-times'></i></button>" : "") . "
                 <button type='submit' name='q' class='btn btn-sm btn-primary'><i class='fa fa-search'></i></button>

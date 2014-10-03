@@ -52,7 +52,10 @@ a.highlight-link:hover {
 body > .header .logo {
     font-family: Arial;
 }
-
+#clearos_installed_apps_wrapper ul.pagination a {
+  margin-top: 5px;
+  padding: 2px 6px; 
+}
 #sdn_tos-message h2 {
   font-size: 20px;
 }
@@ -94,6 +97,10 @@ body > .header .logo {
 .theme-infobox-title {
   margin-bottom: 10px;
   font-weight: bold;
+  text-align: left;
+}
+.theme-infobox-content {
+  text-align: left;
 }
 .form-control.theme-sidebar-search:focus {
   border-color: #fafafa !important;
@@ -237,6 +244,11 @@ body > .header .logo {
   background-color: #367fa9;
   color: #ffffff;
   border-color: #367fa9;
+}
+.theme-two-button-paginate {
+  padding-top: 10px;
+  font-size: 1.6em;
+  margin-right: 5px;
 }
 .theme-infobox-buttons {
   text-align: center;
@@ -452,7 +464,7 @@ body > .header .logo {
   overflow: hidden;
   display: inline-block;
 }
-#marketplace-app-container {
+#marketplace-app-container, #content-marketplace-apps {
   text-align: center;
 }
 .marketplace-app.marketplace-tile {

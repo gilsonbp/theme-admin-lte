@@ -1,14 +1,13 @@
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
 	"sDom":
-		"<'row'<'col-xs-6'l><'col-xs-6'f>r>"+
+		"<'row'<'col-xs-9'l><'col-xs-3'f>r>"+
 		"t"+
-		"<'row'<'col-xs-6'i><'col-xs-6'p>>",
+		"<'row'<'col-xs-5'i><'col-xs-7'p>>",
 	"oLanguage": {
 		"sLengthMenu": "_MENU_ records per page"
 	}
 } );
-
 
 /* Default class modification */
 $.extend( $.fn.dataTableExt.oStdClasses, {
@@ -157,7 +156,7 @@ else {
 			},
 
 			"fnUpdate": function ( oSettings, fnDraw ) {
-				var iListLength = 5;
+				var iListLength = 2;
 				var oPaging = oSettings.oInstance.fnPagingInfo();
 				var an = oSettings.aanFeatures.p;
 				var i, ien, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);

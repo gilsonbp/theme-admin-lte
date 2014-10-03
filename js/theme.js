@@ -182,6 +182,14 @@ function theme_sdn_account_setup(landing_url, username, device_id) {
 
 function theme_app(type, list, options)
 {
+    if (list.length == 0) {
+        none_found = infobox('info', lang_marketplace_search_marketplace, lang_marketplace_search_no_results);
+        if (options.container)
+            $('#' + options.container).append(none_found);
+        else
+            $('#marketplace-app-container').append(none_found);
+        return;
+    }
     for (index = 0 ; index < list.length; index++) {
         app = list[index];
 
@@ -199,7 +207,7 @@ function theme_app(type, list, options)
     }
 
     $('#marketplace-app-container').append('\
-        <div style="clear: both;"></div>\
+        <div class="clearfix"></div>\
         <script type="text/javascript">\
             $(".marketplace-app-info-description").dotdotdot({\
                 ellipsis: "..."\
@@ -834,7 +842,7 @@ function infobox(type, title, message)
         <div class="' + myclass + '">\
             <i class="' + iconclass + '"></i>\
             <div class="theme-infobox-title">' + title + '</div>\
-            <div style="padding: 10px;">' + message + '</div>\
+            <div class="theme-infobox-content">' + message + '</div>\
         </div>\
     ';
 }
