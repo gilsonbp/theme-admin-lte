@@ -192,6 +192,8 @@ function theme_app(type, list, options)
 
         if (options.optional_apps)
             $('#optional-apps').append(html);
+        else if (options.container)
+            $('#' + options.container).append(html);
         else
             $('#marketplace-app-container').append(html);
     }

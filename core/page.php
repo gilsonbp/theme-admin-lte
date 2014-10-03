@@ -851,7 +851,7 @@ function _get_left_menu_1($page)
         <aside class='left-side sidebar-offcanvas'>
        " . form_open('base/search', NULL, NULL, array('class' => 'sidebar-form')) . "
             <div class='input-group'>
-                <input type='text' name='g_search' id='g_search' class='form-control' placeholder='" . lang('base_search') . "...' />
+                <input type='text' name='g_search' id='g_search' class='form-control theme-sidebar-search' placeholder='" . lang('base_search') . "...' />
                 <span class='input-group-btn'>
                     <button type='submit' name='btn_search' class='btn btn-flat'><i class='fa fa-search'></i></button>
                 </span>
@@ -990,7 +990,7 @@ function _get_left_menu_2($page)
     <section class='sidebar'>
        " . form_open('base/search', NULL, NULL, array('class' => 'sidebar-form')) . "
             <div class='input-group'>
-                <input type='text' name='g_search' id='g_search' class='form-control' placeholder='" . lang('base_search') . "...' />
+                <input type='text' name='g_search' id='g_search' class='form-control theme-sidebar-search' placeholder='" . lang('base_search') . "...' />
                 <span class='input-group-btn'>
                     <button type='submit' name='btn_search' class='btn btn-flat'><i class='fa fa-search'></i></button>
                 </span>

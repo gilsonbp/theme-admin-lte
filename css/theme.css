@@ -95,6 +95,9 @@ body > .header .logo {
   margin-bottom: 10px;
   font-weight: bold;
 }
+.form-control.theme-sidebar-search:focus {
+  border-color: #fafafa !important;
+}
 .theme-modal-info {
   float: left;
   width: 60px;
@@ -446,8 +449,11 @@ body > .header .logo {
 .marketplace-app {
   width: 48%;
   margin: 10px;
-  float: left;
   overflow: hidden;
+  display: inline-block;
+}
+#marketplace-app-container {
+  text-align: center;
 }
 .marketplace-app.marketplace-tile {
   width: 150px;
