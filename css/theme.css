@@ -129,7 +129,12 @@ body > .header .logo {
 .theme-star.on {
   color: #e1852e;
 }
-
+.theme-icon-text-spacing {
+  padding-right: 5px;
+}
+.theme-text-icon-spacing {
+  padding-left: 5px;
+}
 .theme-center-text {
   margin-left: auto;
   margin-right: auto;
