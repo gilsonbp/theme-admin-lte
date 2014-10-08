@@ -76,9 +76,6 @@ function theme_page_head($settings)
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/jQueryUI/jquery-ui-1.11.1.min.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/nav-menu-" . $settings['menu'] . ".css'>
 
-<!-- TODO -->
-<link type='text/css' href='/themes/default/css/jquery.jqplot.min.css?v=6.5.0' rel='stylesheet'>
-
 <!-- Theme Customizations -->
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/theme.css'>
 $theme_extras
