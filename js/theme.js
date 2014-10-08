@@ -1,3 +1,13 @@
+/**
+ * Theme javascript helper.
+ *
+ * @category  Theme
+ * @package   ClearOS
+ * @author    ClearFoundation <developer@clearfoundation.com>
+ * @copyright 2014 ClearFoundation
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License version 3 or later
+ * @link      http://www.clearfoundation.com/docs/developer/theming/
+ */
 
 $(document).ready(function() {
     $(".my-colorpicker").colorpicker();
@@ -5,29 +15,6 @@ $(document).ready(function() {
       selector: '[data-toggle=tooltip]'
     });
 });
-/*
- * TODO
-    // Charts
-    $.jqplot.config.enablePlugins = true;
-
-	// Forms / FIXME
-	$('fieldset').addClass('ui-widget-content ui-corner-all');
-	$('legend').addClass('ui-widget-header ui-corner-all');
-	$('label').addClass('ui-widget ui-corner-all');
-
-    // Wizard - "next" button triggered by hitting enter button
-    $("#theme_wizard_nav_next").keyup(function(event){
-        if (event.keyCode == 13) {
-            $("#wizard_nav_next").click();
-        }
-    });
-
-    $("#theme_wizard_nav_previous").keyup(function(event){
-        if (event.keyCode == 13) {
-            $("#wizard_nav_previous").click();
-        }
-    });
-*/
 
 function theme_clearos_dialog_close(obj)
 {
