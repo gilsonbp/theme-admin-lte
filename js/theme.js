@@ -9,7 +9,7 @@ $(document).ready(function() {
  * TODO
     // Charts
     $.jqplot.config.enablePlugins = true;
-   
+
 	// Forms / FIXME
 	$('fieldset').addClass('ui-widget-content ui-corner-all');
 	$('legend').addClass('ui-widget-header ui-corner-all');
@@ -47,7 +47,7 @@ function theme_clearos_dialog_box(id, title, message, options)
         else if (options.type == 'danger')
             dialog_type = BootstrapDialog.TYPE_DANGER;
     }
-    
+
     var modal_dialog = new BootstrapDialog({
         type: dialog_type,
         title: title,
@@ -133,7 +133,7 @@ function theme_paginate(url, total, active)
     if (total < max)
         max = total;
 
-    for (i = offset; i < max + offset; i++) { 
+    for (i = offset; i < max + offset; i++) {
         html += '<a href="' + url + '/' + i + '" class="btn ' + (i == active ? 'btn-primary' : 'btn-secondary') + ' btn-sm">' + i + '</a>';
     }
     return html;
@@ -603,7 +603,7 @@ function get_marketplace_data(basename) {
                             position: 'center left',
                             effect: 'slide',
                             direction: 'left',
-                            slideOffset: 110, 
+                            slideOffset: 110,
                             opacity: 0.95
                         });
                     }
@@ -649,7 +649,7 @@ function get_marketplace_data(basename) {
                             bill_cycle = lang_marketplace_billing_cycle_2_years;
                         else if (json.license_info.unit == 3000)
                             bill_cycle = lang_marketplace_billing_cycle_3_years;
-        
+
                         $('#sidebar_additional_info_row').after(
                             c_row(
                                 lang_marketplace_billing_cycle,
@@ -914,4 +914,304 @@ function get_placeholder(type) {
             l-70.741,33.601L223.301,222.065z M374.078,341.782l-73,35.203V275.56l73-35.206V341.782z"/>\
         </svg>\
     ';
+}
+
+/**
+ * Summary table data.
+ *
+ * This is javascript helper for loading data summary tables (i.e. the
+ * theme_summary_table() function in page/widgets.php).
+ *
+ * @param string $table_id   table ID
+ * @param array  $data       data set
+ * @param array  $data_type  data types for the data set
+ * @param array  $urls       array of URLs associated with data set
+ * @param string $highlight  todo
+ * @param string $sort       todo
+ * @param string $report_id  ID of report related to the table (if relevant)
+ */
+
+function theme_summary_table_data(table_id, data, data_type, urls, highlight, sort, report_id) {
+
+    // Create reference to datatable
+    var table = $('#' + table_id).dataTable();
+
+    // Bail if datatable does not exist
+    if ($('#' + table_id).val() == undefined)
+        return;
+
+    // Clear the table
+    table.fnClearTable();
+
+    // Add rows to the data table
+    for (i = 0; i < data.length; i++) {
+        var row = new Array();
+
+        for (j = 0; j < data[i].length; j++) {
+            // Converting to human readable (e.g. IP addresses) can mess up sorting.
+            // Add hidden data that preserves the sort order.
+            var hidden_item = '';
+
+            if (data_type[j] == 'ip')
+                hidden_item = '<span style="display: none">' + data[i][j] + '</span>';
+            else
+                hidden_item = '';
+
+            // Change item in table to a URL if specified
+            var item = clearos_human_readable(data[i][j], data_type[j]);
+
+            if (urls[j])
+                item = '<a href="' + urls[j] + item + '">' + item + '</a>';
+
+            row.push(hidden_item + item);
+        }
+
+        table.fnAddData(row);
+    }
+
+    // Sort
+    table.fnSort( [ [highlight, sort] ] );
+    table.fnAdjustColumnSizing();
+
+    // TODO: review
+    // For data tables that are linked to charts, we provide a callback.
+    // Whenever a datatable is sorted, the callback is triggered.
+    if (report_id != null)
+        table.bind('sort', function () { clearos_report_trigger( 'Sort', table, report_id ); })
+}
+
+/**
+ * Chart creator.
+ *
+ * @param string $chart_id   chart ID
+ * @param string $chart_type chart type
+ * @param string $data       standard data set
+ * @param string $format     format information
+ * @param array  $series     converted series data
+ * @param array  $labels     labels for series data
+ *
+ * Format information is passed via the $format variable.  Information includes:
+ * - format.xaxis_label = Label for the x-axis
+ * - format.yaxis_label = Label for the y-axis
+ * - format.data_points = Number of data points to include in the chart
+ */
+
+function theme_chart(
+    chart_id,
+    chart_type,
+    data,
+    format,
+    series,
+    series_labels,
+    series_units,
+    series_title
+)
+{
+    //-------------------------
+    // O V E R V I E W
+    //-------------------------
+
+    // The data is passed into this function in a generic way.  This makes
+    // it possible to support different chart engines, but it also makes theme
+    // development more complex.
+
+    //-------------------------
+    // F L O T  D A T A S E T S
+    //-------------------------
+
+    // This section is non-intuitive.  We basically have to take the standard
+    // data format (FIXME: add link to doc) and convert it to the format
+    // used in flot - https://github.com/flot/flot/blob/master/API.md#data-format
+    // The code below looks crazy, but it's really just shuffling data around.
+
+    data_set = Array();
+    ticks = Array();
+
+    // Pie chart data set
+    if (chart_type == 'pie') {
+        for (i = 0; i < data.length; i++) {
+            data_set[i] = {
+                label: clearos_human_readable(data[i][0], 'ip'),
+                data: data[i][2]
+            }
+        }
+
+    // Bar chart data set
+    } else if (chart_type == 'bar') {
+        var data_points = Array();
+        for (i = 0; i < data.length; i++) {
+            ticks[i] = [ i, data[i][0] ];
+            data_points[i] = [i, data[i][1]]
+        }
+        data_set[0] = {
+            label: series_labels[0],
+            data: data_points
+        }
+
+    // Normal data set
+    } else {
+        for (i = 0; i < series.length; i++) {
+            data_set[i] = {
+                label: series_labels[i],
+                data: series[i]
+            }
+        }
+    }
+
+    //--------------
+    // O P T I O N S
+    //--------------
+
+    // The options below are mostly about picking a feature set for ClearOS
+    // charts.  A few bits of data from above (e.g. "ticks" in bar charts)
+    // come from the data set manipulation above.
+
+    var options = Array();
+
+    // Bar
+    //----
+
+    if (chart_type == 'bar') {
+        options = {
+            series: {
+                bars: {
+                    show: true
+                },
+                lines: {
+                    show: false,
+                    fill: true,
+                },
+            },
+            grid: {
+                hoverable: true,
+                clickable: true,
+            },
+            xaxis: {
+              ticks: ticks
+            }
+        };
+
+    // Pie
+    //----
+
+    } else if (chart_type == 'pie') {
+        options = {
+            series: {
+                pie: {
+                    show: true,
+                    label: {
+                        show: true,
+                    }
+                }
+            },
+            grid: {
+                hoverable: true,
+                clickable: true,
+            },
+        };
+
+    // Timeline
+    //---------
+
+    } else if (chart_type == 'timeline') {
+        options = {
+            series: {
+                lines: { show: true },
+                points: { show: true },
+            },
+            grid: {
+                hoverable: true,
+                clickable: true,
+                backgroundColor: { colors: [ "#ffffff", "#eeeeee" ] },
+            },
+            xaxis: {
+                mode: "time",
+                timeformat: "%m/%d %H:%M"
+            },
+        };
+
+    // Timeline stack
+    //---------------
+
+    } else if (chart_type == 'timeline_stack') {
+
+        options = {
+            series: {
+                stack: true,
+                lines: {
+                    fill: true
+                },
+            },
+            grid: {
+                hoverable: true,
+                clickable: true
+            },
+            xaxis: {
+                mode: "time",
+                timeformat: "%m/%d %H:%M"
+            },
+        };
+    }
+
+    //-------------------------------
+    // R E Q U E S T E D  F O R M A T
+    //-------------------------------
+    // See $format information in function doc above.
+
+    if (format.yaxis_label) {
+        if (typeof options['yaxis'] == 'undefined')
+            options['yaxis'] = Array();
+
+        options['yaxis']['axisLabel'] = format.yaxis_label;
+    }
+
+    if (format.xaxis_label) {
+        if (typeof options['xaxis'] == 'undefined')
+            options['xaxis'] = Array();
+
+        options['xaxis']['axisLabel'] = format.xaxis_label;
+    }
+
+    //-----------------
+    // O T H E R
+    //-----------------
+
+    // Interactive data points
+    //------------------------
+    // flot does not have native support for showing data points on the graph
+    // Here is our implentation.
+
+    $("<div id='clearos_chart_tooltip'></div>").css({
+        position: "absolute",
+        display: "none",
+        border: "1px solid #fdd",
+        padding: "2px",
+        "background-color": "#fee",
+        opacity: 0.80
+    }).appendTo("body");
+
+    $("#" + chart_id).bind("plothover", function (event, pos, item) {
+        if (item) {
+            var x = item.datapoint[0].toFixed(2);
+            var y = item.datapoint[1].toFixed(2);
+
+            var date = new Date(Math.round(x));
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+
+            var formattedTime = hours + ':' + minutes.substr(minutes.length-2) + ':' + seconds.substr(seconds.length-2);
+
+            $("#clearos_chart_tooltip").html(formattedTime + " - " + y)
+                .css({top: item.pageY+5, left: item.pageX+5})
+                .fadeIn(200);
+        } else {
+            $("#clearos_chart_tooltip").hide();
+        }
+    });
+
+    // Show plot
+    //----------
+
+    $.plot("#" + chart_id, data_set, options);
 }

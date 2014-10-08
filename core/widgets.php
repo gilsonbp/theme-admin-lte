@@ -495,6 +495,28 @@ function _theme_button_set($buttons, $options, $type)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// F I E L D  B A N N E R
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Displays a single block of text instead of showing a field/value pair.
+ *
+ * @param string $text     text shown
+ * @param array  $options  options
+ *
+ * @return string HTML for field view
+ */
+
+function theme_field_banner($text, $options = NULL)
+{
+    return "
+        <div class='theme-fieldview'>
+            $text
+        </div>
+    ";
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // F I E L D  V I E W
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -1509,7 +1531,7 @@ function theme_form_banner($html, $options)
 {
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
  
-    return "<legend$id_html>$html</legend>";
+    return "<p $id_html>$html</p>";
 }
 
 /**
@@ -1692,7 +1714,7 @@ function theme_sidebar_footer()
  * @return string HTML
  */
 
-function theme_chart_widget($title, $payload, $options)
+function theme_chart_widget($title, $chart_id, $options)
 {
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
 
@@ -1704,7 +1726,7 @@ function theme_chart_widget($title, $payload, $options)
             <h3 class='box-title'>$title</h3>
             <div class='theme-summary-table-action'>$action</div>
           </div>
-          <div class='box-body'>$payload</div>
+          <div class='box-body'><div class='theme-chart-container' id='$chart_id'></div></div>
           <div class='box-footer'></div>
         </div>
     ";

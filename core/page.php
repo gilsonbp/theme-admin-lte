@@ -38,10 +38,16 @@ function theme_page($page)
         if (!preg_match('/^\/usr\/clearos/', __FILE__))
             $page['devel_alerts']['theme'] = TRUE;
     }
+
     if ($page['devel_app_source'] != 'Live')
         $page['devel_alerts']['app'] = TRUE;
+
     if ($page['devel_framework_source'] != 'Live')
         $page['devel_alerts']['framework'] = TRUE;
+
+    // Legacy support for 'report' instead of MY_Page::TYPE_REPORTS
+    if ($page['type'] == 'report')
+        $page['type'] = MY_Page::TYPE_REPORTS;
 
     if ($page['type'] == MY_Page::TYPE_CONFIGURATION)
         return _configuration_page($page);
@@ -135,64 +141,12 @@ function _report_page($page)
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
+        _get_main_content($page) .
         "</div>" .
         _get_footer($page)
     ;
+
     return $layout;
-    $menus = _get_left_menu($page);
-
-    return "
-<!-- Body -->
-<body>
-" . $page['devel_message'] . "
-
-<!-- Page Container -->
-<div id='theme-page-container'>
-    " .
-    _get_banner($page, $menus) .
-    "
-    <!-- Main Content Container -->
-    <div id='theme-main-content-container'>
-        <div class='theme-main-content-top'>
-            <div class='theme-content-border-top'></div>
-            <div class='theme-content-border-left'></div>
-            <div class='theme-content-border-right'></div>
-        </div>
-        <div class='theme-core-content'>
-        " .
-            _get_left_menu($menus) .
-        "
-            <!-- Content -->
-            <div id='theme-content-container'>
-                <div id='theme-help-box-container'>
-                    <div class='theme-help-box'>
-                    " . $page['page_help'] . "
-                    </div>
-                </div>
-                <div id='theme-sidebar-container'>
-                    <div class='theme-sidebar-report-top'>
-                    " . $page['page_report_helper'] . "
-                    </div>
-                    $report
-                    <div class='theme-sidebar-bottom'></div>
-                </div>
-                <div id='theme-content-left'>
-                    " . _get_message() . "
-                    " . $page['page_report_chart'] . "
-                </div>
-                <div>
-                    " . $page['page_report_table'] . "
-                </div>
-            </div>
-        </div>
-        " .
-        _get_footer($page) .
-        "
-    </div>
-</div>
-</body>
-</html>
-";
 }
 
 /**
@@ -205,7 +159,16 @@ function _report_page($page)
 
 function _report_overview_page($page)
 {
-    echo "todo - report overview";
+    $layout = 
+        _get_header($page) .
+        "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
+        _get_left_menu($page) .
+        _get_main_content($page) .
+        "</div>" .
+        _get_footer($page)
+    ;
+
+    return $layout;
 }
 
 /**
@@ -431,17 +394,7 @@ function _get_message()
 
 function _get_main_content($page)
 {
-    if ($page['page_report']) {
-        $report = "
-            <div>
-            " . $page['page_report'] . "
-            </div>
-        ";
-    } else {
-        $report = '';
-    }
-
-    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION || $page['type'] == MY_Page::TYPE_SPOTLIGHT || $page['type'] == MY_Page::TYPE_WIZARD)
+    if ($page['type'] == MY_Page::TYPE_DASHBOARD || $page['type'] == MY_Page::TYPE_EXCEPTION || $page['type'] == MY_Page::TYPE_SPOTLIGHT || $page['type'] == MY_Page::TYPE_WIZARD) {
         return "
             <aside class='right-side'>
                 <section class='content-header clearfix'>
@@ -456,7 +409,7 @@ function _get_main_content($page)
                 </section>
             </aside>
         ";
-    else 
+    } else if ($page['type'] == MY_Page::TYPE_REPORT_OVERVIEW) {
         return "
             <aside class='right-side'>
                 <section class='content-header clearfix'>
@@ -473,18 +426,75 @@ function _get_main_content($page)
                             <div class='theme-sidebar-top box'>
                             " . $page['page_summary'] . "
                             </div>
-                            $report
-                        </div>" .
-                        (isset($page['page_report_helper']) ? "
-                        <div class='theme-sidebar-report-top'>
-                        " . $page['page_report_helper'] . "
+                            <div class='theme-sidebar-top box'>
+                            " . $page['page_report_helper'] . "
+                            </div>
                         </div>
-                        $report
-                        <div class='theme-sidebar-bottom'></div>" : "") . "
                     </div>
                 </section>
             </aside>
         ";
+    } else if ($page['type'] == MY_Page::TYPE_REPORTS) {
+        return "
+            <aside class='right-side'>
+                <section class='content-header clearfix'>
+                    " . _get_content_header() . "
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
+                </section>
+                <section class='content clearfix'>
+                    <div class='col-lg-8 theme-content'>
+                    " . _get_message() . "
+                    " . $page['page_report_chart'] . "
+                    " . $page['page_report_table'] . "
+                    </div>
+                    <div class='col-lg-4'>
+                        <div id='theme-sidebar-container'>
+                            <div class='theme-sidebar-top box'>
+                            " . $page['page_report_helper'] . "
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        ";
+    } else if ($page['type'] == MY_Page::TYPE_WIDE_CONFIGURATION) {
+        return "
+            <aside class='right-side'>
+                <section class='content-header clearfix'>
+                    " . _get_content_header() . "
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . " 
+                </section>
+                <section class='content clearfix'>
+                    <div class='theme-content'>
+                    " . _get_message() . "
+                    " . $page['app_view'] . "
+                    </div>
+                </section>
+            </aside>
+        ";
+    } else {
+        return "
+            <aside class='right-side'>
+                <section class='content-header clearfix'>
+                    " . _get_content_header() . "
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
+                </section>
+                <section class='content clearfix'>
+                    <div class='col-lg-8 theme-content'>
+                " . _get_message() . "
+                " . $page['app_view'] . "
+                    </div>
+                    <div class='col-lg-4'>
+                        <div id='theme-sidebar-container'>
+                            <div class='theme-sidebar-top box'>
+                            " . $page['page_summary'] . "
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        ";
+    }
 }
 
 /**
