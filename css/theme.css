@@ -1,10 +1,7 @@
-/* ========================================================================= */
-/* S T A N D A R D  H T M L  T A G S */
-/* ========================================================================= */
+/* ============================================= */
+/* C O M M O N                                   */
+/* ============================================= */
 
-/* Overrides Start */
-
-/* Standard links style doesn't exist?  Really? */
 a.highlight-link {
   color: #E1852E;
 }
@@ -13,12 +10,76 @@ a.highlight-link:hover {
   color: #62799A;
 }
 
-.box .box-header {
-  padding-bottom: 0px;
+body > .header .logo {
+    font-family: Arial;
 }
-.box .box-header .box-title {
-  padding: 10px 10px 0px 10px;
+
+/* ============================================= */
+/* W I D G E T S                                 */
+/* ============================================= */
+
+/* ----------------------- */
+/* Anchors and buttons     */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Fields                  */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Radio buttons and sets  */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Progress bars           */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Login form              */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Sidebar widget FIXME - discuss */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Charts                  */
+/* ----------------------- */
+
+.theme-chart-container {
+  width: 100%;
+  height: 300px !important; // FIXME: flot bails if 100% specified
 }
+
+/* ----------------------- */
+/* Tabs                    */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Boxes (bootstrap-like)  */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Infoboxes               */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Dialogboxes             */
+/* ----------------------- */
+
+/* ----------------------- */
+/* Wizard                  */
+/* ----------------------- */
+
+/* ----------------------- */
+/* etc.                    */
+/* ----------------------- */
+
+
+/* ========================================================================= */
+/* TODO:
+/* ========================================================================= */
+
 .btn {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
@@ -49,9 +110,6 @@ a.highlight-link:hover {
   border-color: #ebebeb;
 }
 
-body > .header .logo {
-    font-family: Arial;
-}
 #clearos_installed_apps_wrapper ul.pagination a {
   margin-top: 5px;
   padding: 2px 6px; 
@@ -399,34 +457,39 @@ body > .header .logo {
   min-height: 120px;
 }
 
-/* ===================================== */
-/* C H A R T S                           */
-/* ===================================== */
-
-.theme-chart-container {
-  width: 100%;
-  height: 300px !important; // FIXME: flot bails if 100% specified
+.theme-login-container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-top: 10%;
 }
 
-/* ======================= */
-/* R E G I S T R A T I O N */
-/* ======================= */
+/* FIXME: below don't seem to be used.
+/* Clear Background colors */
+.theme-bg-orange,
+.theme-bg-blue,
+.theme-bg-green {
+  color: #f9f9f9 !important;
+}
+.theme-bg-orange {
+  background-color: #de7921 !important;
+}
+.theme-bg-blue {
+  background-color: #5a6e9f !important;
+}
+.theme-bg-green {
+  background-color: #92af46 !important;
+} 
 
-#registration-subscription-details > h3 {
-  font-size: 18px;
-}
-#registration-subscription-details > div {
-  font-size: 13px;
-}
-#registration-subscription-details .theme-field {
-  text-align: right;
-  font-weight: bold;
-  padding-right: 0px;
-}
+/* ----------------------- */
+/* Forms                   */
+/* ----------------------- */
 
-/* ===================== */
-/* M A R K E T P L A C E */
-/* ===================== */
+
+/* ----------------------- */
+/* Marketplace             */
+/* ----------------------- */
 
 .marketplace-links {
   padding-top: 15px;
@@ -628,9 +691,34 @@ body > .header .logo {
   text-align: center;
 }
 
-/* ================= */
-/* S U P P O R T
-/* ================= */
+/* ============================================= */
+/* T E M P                                       */
+/* ============================================= */
+
+/* TODO the following is a work in progress.
+ * App-specific CSS will get pulled into the theme
+ * in a generic way -- the following are placeholders.
+ */
+
+/* ----------------------- */
+/* Registration            */
+/* ----------------------- */
+
+#registration-subscription-details > h3 {
+  font-size: 18px;
+}
+#registration-subscription-details > div {
+  font-size: 13px;
+}
+#registration-subscription-details .theme-field {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 0px;
+}
+
+/* ----------------------- */
+/* Support                 */
+/* ----------------------- */
 
 .support-item {
   width: 80px;
@@ -639,9 +727,10 @@ body > .header .logo {
   margin-top: -10px;
   margin: auto;
 }
-/* ================= */
-/* D A S H B O A R D
-/* ================= */
+
+/* ----------------------- */
+/* Dashboard               */
+/* ----------------------- */
 
 .dashboard-delete-element {
   font-size: 2em;
@@ -650,6 +739,7 @@ body > .header .logo {
   right: -10px;
   top: -15px;
 }
+
 .dashboard-delete-element:hover {
   color: red !important;
   -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=70)';
@@ -657,31 +747,3 @@ body > .header .logo {
   -moz-opacity: 0.7;
   opacity: 0.7;
 }
-
-/* ========================================================================= */
-/* L O G I N  O V E R I D E
-/* ========================================================================= */
-
-.theme-login-container {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  padding-top: 10%;
-}
-
-/* Clear Background colors */
-.theme-bg-orange,
-.theme-bg-blue,
-.theme-bg-green {
-  color: #f9f9f9 !important;
-}
-.theme-bg-orange {
-  background-color: #de7921 !important;
-}
-.theme-bg-blue {
-  background-color: #5a6e9f !important;
-}
-.theme-bg-green {
-  background-color: #92af46 !important;
-} 
