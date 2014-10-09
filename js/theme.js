@@ -278,7 +278,11 @@ function get_app_tile(app, options)
 {
     disable_buttons = '';
     learn_more_target = '';
-    if (options.wizard) {
+    search_only = false;
+    if (options.search_only ) {
+        search_only = true;
+        learn_more_url = '/app/marketplace/view/' + app.basename;
+    } else if (options.wizard) {
         disable_buttons = ' disabled';
         learn_more_target = ' target="_blank"';
         learn_more_url = app.url_redirect + '/marketplace/type/?basename=' + app.basename;
@@ -286,19 +290,27 @@ function get_app_tile(app, options)
         learn_more_url = '/app/marketplace/view/' + app.basename;
     }
 
+    var learn_more = '<a href="' + learn_more_url + '" data-toggle="tooltip" data-container="body" ' +
+        'class="btn btn-xs btn-secondary marketplace-learn-more" ' + learn_more_target + ' title="' +
+        lang_marketplace_learn_more + '"><i class="fa fa-question"></i></a>';
+
     var buttons = '<div class="btn-group">' +
         '<a href="/app/' + app.basename + '" data-toggle="tooltip" data-container="body" class="btn btn-primary btn-xs' + disable_buttons + '" title="' + lang_configure + '"><i class="fa fa-gears"></i></a>' +
         '<a href="/app/marketplace/uninstall/' + app.basename + '" class="btn btn-secondary btn-xs' + disable_buttons + '">' + lang_uninstall + '</a>' +
         '</div>'
     ;
-    if (!app.installed)
+    if (search_only) {
+        learn_more = '';
+        buttons = '<a href="' + learn_more_url + '" class="btn btn-xs btn-primary marketplace-learn-more">' + lang_marketplace_learn_more + '</a>';
+    } else if (!app.installed) {
         buttons = '<input type="submit" name="install" value="' +
             (app.incart ? lang_marketplace_remove : lang_marketplace_select_for_install) +
             '" id="' + app.basename + '" class="btn btn-primary btn-xs marketplace-app-event" data-appname="' +
             app.name + '"/>'
         ;
-    else if (options.wizard)
+    } else if (options.wizard) {
         buttons = '<a href="#" class="btn btn-warning btn-xs disabled">' + lang_installed + '</a>';
+    }
 
     var font_size = '';
     if (app.name.length > 60)
@@ -324,8 +336,8 @@ function get_app_tile(app, options)
                 </div>\
             </div>\
             <div class="marketplace-tile-title' + font_size + '">' + app.name + '</div>\
-            <div class="box-footer">\
-                <a href="' + learn_more_url + '" data-toggle="tooltip" data-container="body" class="btn btn-xs btn-secondary marketplace-learn-more" ' + learn_more_target + ' title="' + lang_marketplace_learn_more + '"><i class="fa fa-question"></i></a>\
+            <div class="box-footer clearfix">\
+                ' + learn_more + '\
                 <div style="float: right;">' + buttons +
                     '<input type="checkbox" name="cart" id="select-' + app.basename + '" class="theme-hidden"' + (app.incart ? ' CHECKED' : '') + '/>\
                 </div>\
