@@ -63,7 +63,7 @@ function theme_page_head($settings)
     return "
 <!-- Basic Styles -->
 
-<!-- SB Admin Styles -->
+<!-- Theme Styles -->
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/datatables/dataTables.bootstrap.css'>
 <link rel='stylesheet' type='text/css' media='screen' href='$theme_url/css/bootstrap-dialog/bootstrap-dialog.min.css'>
