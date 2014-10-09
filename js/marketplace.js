@@ -569,7 +569,7 @@ function clearos_is_authenticated() {
     $('#sdn-login-dialog-message-bar').html('');
     if (auth_options.action_type == 'login') {
         if ($('#sdn_password').val() == '') {
-            $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_password_invalid));
+            $('#sdn-login-dialog-message-bar').html(theme_infobox('warning', lang_warning, lang_sdn_password_invalid));
             $('#sdn-login-dialog-message-bar').show(200);
             $('.autofocus').focus();
             return;
@@ -578,7 +578,7 @@ function clearos_is_authenticated() {
         }
     } else if (auth_options.action_type == 'lost_password') {
         if ($('#sdn_email').val() == '') {
-            $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_email_invalid));
+            $('#sdn-login-dialog-message-bar').html(theme_infobox('warning', lang_warning, lang_sdn_email_invalid));
             $('#sdn-login-dialog-message-bar').show(200);
             $('.autofocus').focus();
             return;
@@ -624,7 +624,7 @@ function clearos_is_authenticated() {
                 // If email was submitted...reset was a success...
                 if (data.email != undefined) {
                     $('#sdn-login-dialog-message-bar').html(
-                        theme_clearos_info_box('info', lang_success + '!', lang_sdn_password_reset + ': <span style=\'font-weight: bold\'>' + data.email + '</span>')
+                        theme_infobox('info', lang_success + '!', lang_sdn_password_reset + ': <span style=\'font-weight: bold\'>' + data.email + '</span>')
                     );
                     $('#sdn-login-dialog-message-bar').show(200);
                     $('#sdn_password_group').show();
@@ -643,17 +643,17 @@ function clearos_is_authenticated() {
 
             } else if (data.code == 10) {
                 // Code 10 is an invalid email
-                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_email_invalid));
+                $('#sdn-login-dialog-message-bar').html(theme_infobox('warning', lang_warning, lang_sdn_email_invalid));
                 $('#sdn-login-dialog-message-bar').show(200);
             } else if (data.code == 11) {
                 // Code 11 is an email mismatch for lost password
-                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_email_mismatch));
+                $('#sdn-login-dialog-message-bar').html(theme_infobox('warning', lang_warning, lang_sdn_email_mismatch));
                 $('#sdn-login-dialog-message-bar').show(200);
             } else if (data.code > 0) {
-                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, lang_sdn_password_invalid));
+                $('#sdn-login-dialog-message-bar').html(theme_infobox('warning', lang_warning, lang_sdn_password_invalid));
                 $('#sdn-login-dialog-message-bar').show(200);
             } else if (data.code < 0) {
-                $('#sdn-login-dialog-message-bar').html(theme_clearos_info_box('warning', lang_warning, data.errmsg));
+                $('#sdn-login-dialog-message-bar').html(theme_infobox('warning', lang_warning, data.errmsg));
                 $('#sdn-login-dialog-message-bar').show(200);
                 return;
             }
@@ -683,7 +683,7 @@ function submit_review(update) {
                     $('#confirm-review-replace').modal('show');
                     return;
                 }
-                $('#review-message-bar').html(theme_clearos_info_box('warning', lang_warning, data.errmsg));
+                $('#review-message-bar').html(theme_infobox('warning', lang_warning, data.errmsg));
                 $('#review-message-bar').show(200);
             } else {
                 $('#review-form').modal('hide');

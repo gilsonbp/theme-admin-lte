@@ -43,12 +43,13 @@ function theme_anchor(url, text, options)
 }
 
 /**
- * D I A L O G  B O X
+ * Dialog box.
  */
 
-function theme_clearos_dialog_box(id, title, message, options)
+function theme_dialog_box(id, title, message, options)
 {
     var dialog_type = BootstrapDialog.TYPE_INFO;
+
     if (typeof options != 'undefined') {
         if (options.type == 'success')
             dialog_type = BootstrapDialog.TYPE_SUCCESS;
@@ -80,16 +81,20 @@ function theme_clearos_dialog_box(id, title, message, options)
     return modal_dialog;
 }
 
-function theme_clearos_dialog_close(obj)
+/**
+ * Dialog box close.
+ */
+
+function theme_dialog_close(obj)
 {
     obj.close();
 }
 
 /**
- * I N F O B O X
+ * Infobox.
  */
 
-function theme_clearos_info_box(type, title, message, options)
+function theme_info_box(type, title, message, options)
 {
     if (type === 'critical') {
         box_class = 'alert-danger';
@@ -112,10 +117,18 @@ function theme_clearos_info_box(type, title, message, options)
     ';
 }
 
+/**
+ * Modal infobox open.
+ */
+
 function theme_modal_infobox_open(id, options)
 {
     $('#' + id).modal({show: true, backdrop: 'static'});
 }
+
+/**
+ * Modal infobox close.
+ */
 
 function theme_modal_infobox_close(id, options)
 {
@@ -123,10 +136,10 @@ function theme_modal_infobox_close(id, options)
 }
 
 /**
- * P R O G R E S S  B A R
+ * Progress bar.
  */
 
-function theme_clearos_progress_bar(value, options)
+function theme_progress_bar(value, options)
 {
 
     id = (options != undefined && options.id != undefined) ? ' id="' . options.id + '"' : '';
@@ -140,23 +153,28 @@ function theme_clearos_progress_bar(value, options)
     ';
 }
 
-function theme_clearos_set_progress_bar(id, value, options)
+/**
+ * Set progress bar.
+ */
+
+function theme_set_progress_bar(id, value, options)
 {
     $('#' + id).css('width', value + '%').attr('aria-valuenow', value);
 }
 
 
 /**
- * L O A D I N G
+ * Loading whirlygig.
  */
 
-function theme_clearos_loading(options) {
+function theme_loading(options) {
     var id = null;
     var classes = '';
     var text = '';
     var center_begin = '';
     var center_end = '';
     var form_control = '';
+
     if (options != undefined) {
         if (options.id)
             id = options.id;
@@ -174,16 +192,19 @@ function theme_clearos_loading(options) {
             center_end = '</span>';
         }
     }
+
     return center_begin + '<i class=\'fa fa-spinner fa-spin ' + classes + '\'></i>' + text + center_end;
 }
 
 /**
- * S C R E E N S H O T S
+ * Screenshots.
  */
 
 function theme_screenshots(basename, screenshots) {
     var html = '';
+
     // Themers...do not change domID of img tag...used to fetch PNG from static.clearsdn.com.
+
     for (i = 0 ; i < screenshots.length; i++) {
         html += '\
             <a href="/cache/' + screenshots[i].filename + '" data-lightbox="ss-set" data-title="' + screenshots[i].caption + '">\
@@ -191,11 +212,12 @@ function theme_screenshots(basename, screenshots) {
             </a>\
         ';
     }
+
     return html;
 }
 
 /**
- * Related app widget
+ * Related app widget.
  */
 
 function theme_related_app(type, list)
@@ -240,6 +262,7 @@ function theme_related_app(type, list)
         ';
         $('#app_' + type).append(html);
     }
+
     // Make sure only to call this 'dotdotdot' once
     if (type == 'other_by_devel') {
         $('#app_' + type).append('\
@@ -251,7 +274,6 @@ function theme_related_app(type, list)
         ');
     }
 }
-
 
 /**
  * Summary table data.
