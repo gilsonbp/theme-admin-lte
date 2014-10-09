@@ -75,8 +75,10 @@ function theme_page_javascript($custom_settings)
 
 <![endif]-->
 
-<!-- Custom Javascript -->
+<!-- Theme Javascript -->
+<script type='text/javascript' src='$theme_url/js/translations.js.php?v=$version'></script>
 <script type='text/javascript' src='$theme_url/js/theme.js?v=$version'></script>
+<script type='text/javascript' src='$theme_url/js/marketplace.js?v=$version'></script>
 
 
 ";
