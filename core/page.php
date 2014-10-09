@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Header handler for the theme.
+ * Page layout handler for the theme.
  *
  * @category  Theme
  * @package   ClearOS
@@ -29,11 +29,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////
-// P A G E  L A Y O U T
+// P A G E  C A L L B A C K S
 //////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Main call back for creating a page.
+ *
+ * Every app in ClearOS (indirectly) calls the theme_page() function with
+ * a requested page layout.  As you can imaging, there are a few different
+ * types of page layouts that an app developer can use.  See the online
+ * documentation for a description and example of each:
+ *
+ * - http://www.clearfoundation.com/docs/developer/theming/page_layout
+ *
+ * @param array $page page details and content
+ * @return string page in HTML
+ */
 
 function theme_page($page)
 {
+    // The following is just some logic for showing some alerts in the
+    // header when a developer is in development mode.
+
     if ($_SERVER['SERVER_PORT'] == 1501 && !preg_match('/.*hide_devel$/', $_SERVER['REQUEST_URI'])) {
         if (!preg_match('/^\/usr\/clearos/', __FILE__))
             $page['devel_alerts']['theme'] = TRUE;
@@ -46,8 +63,13 @@ function theme_page($page)
         $page['devel_alerts']['framework'] = TRUE;
 
     // Legacy support for 'report' instead of MY_Page::TYPE_REPORTS
+    //-------------------------------------------------------------
+
     if ($page['type'] == 'report')
         $page['type'] = MY_Page::TYPE_REPORTS;
+
+    // Page layout
+    //------------
 
     if ($page['type'] == MY_Page::TYPE_CONFIGURATION)
         return _configuration_page($page);
@@ -73,18 +95,36 @@ function theme_page($page)
         return _console_page($page);
 }
 
+/**
+ * Opening content on the page, i.e. after <head>
+ *
+ * @param array $settings theme settings
+ * @return string HTML
+ */
+
 function theme_page_open($settings)
 {
     return "<body class='" . $settings['css'] . "'>\n";
 }
+
+/**
+ * Closing content on the page.
+ *
+ * @param array $page page details and content
+ * @return string HTML
+ */
 
 function theme_page_close($page)
 {
     return "</body></html>\n";
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// P A G E  L A Y O U T
+//////////////////////////////////////////////////////////////////////////////
+
 /**
- * Returns the configuration type page.
+ * Returns a common app page.
  *
  * @param array $page page data
  *
@@ -93,7 +133,7 @@ function theme_page_close($page)
 
 function _configuration_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -106,16 +146,16 @@ function _configuration_page($page)
 }
 
 /**
- * Returns the wide configuration page.
+ * Returns a wide configuration page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _wide_configuration_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -128,16 +168,16 @@ function _wide_configuration_page($page)
 }
 
 /**
- * Returns the report page.
+ * Returns a report page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _report_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -150,7 +190,7 @@ function _report_page($page)
 }
 
 /**
- * Returns the configuration type page.
+ * Returns a report overview page.
  *
  * @param array $page page data
  *
@@ -159,7 +199,7 @@ function _report_page($page)
 
 function _report_overview_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -174,14 +214,14 @@ function _report_overview_page($page)
 /**
  * Returns the dashboard page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _dashboard_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -196,14 +236,14 @@ function _dashboard_page($page)
 /**
  * Returns the spotlight page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _spotlight_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -218,10 +258,10 @@ function _spotlight_page($page)
 /**
  * Returns the login type page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _login_page($page)
 {
@@ -235,12 +275,12 @@ function _login_page($page)
 }
 
 /**
- * Returns the splash page.
+ * Returns a splash page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _splash_page($page)
 {
@@ -272,14 +312,14 @@ function _splash_page($page)
 /**
  * Returns the exception page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _exception_page($page)
 {
-    $layout = 
+    $layout =
         _get_header($page) .
         "<div class='wrapper row-offcanvas row-offcanvas-left'>" .
         _get_left_menu($page) .
@@ -294,10 +334,10 @@ function _exception_page($page)
 /**
  * Returns the wizard page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _wizard_page($page)
 {
@@ -352,10 +392,10 @@ function _wizard_page($page)
 /**
  * Returns the console page.
  *
- * @param array $page page data   
+ * @param array $page page data
  *
  * @return string HTML output
- */   
+ */
 
 function _console_page($page)
 {
@@ -365,6 +405,10 @@ function _console_page($page)
 //////////////////////////////////////////////////////////////////////////////
 // L A Y O U T  H E L P E R S
 //////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Returns messages sent from the system
+ */
 
 function _get_message()
 {
@@ -386,7 +430,7 @@ function _get_message()
 
 /**
  * Returns main content.
- * 
+ *
  * @param array $page page data
  *
  * @return string menu HTML output
@@ -462,7 +506,7 @@ function _get_main_content($page)
             <aside class='right-side'>
                 <section class='content-header clearfix'>
                     " . _get_content_header() . "
-                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . " 
+                    <h1 class='theme-breadcrumb'>" . $page['title'] . "</h1>" . (isset($page['breadcrumb_links']) ? _get_breadcrumb_links($page['breadcrumb_links']) : "") . "
                 </section>
                 <section class='content clearfix'>
                     <div class='theme-content'>
@@ -634,7 +678,7 @@ function _get_header($page, $menus = array())
 
 /**
  * Returns content header
- * 
+ *
  * @return string menu HTML output
  */
 
@@ -646,13 +690,13 @@ function _get_content_header()
 
 /**
  * Returns footer
- * 
+ *
  * @param array $page page data
  *
  * @return string menu HTML output
  */
 
-function _get_footer($page) 
+function _get_footer($page)
 {
     return "
     <!-- Footer -->
@@ -665,8 +709,8 @@ function _get_footer($page)
 }
 
 /**
- * Returns wizard left panel menu
- * 
+ * Returns wizard left panel menu.
+ *
  * @param array $page page data
  *
  * @return string menu HTML output
@@ -692,12 +736,12 @@ function _get_wizard_menu($page)
         else
             $sub_class = 'fa fa-angle-double-right';
 
-        $disabled = ''; 
+        $disabled = '';
         if ($step_no > $page['wizard_current'])
-            $disabled = 'theme-link-disabled'; 
-        $active = ''; 
+            $disabled = 'theme-link-disabled';
+        $active = '';
         if ($step_no == $page['wizard_current'])
-            $active = 'active'; 
+            $active = 'active';
 
         if ($current_subcategory == NULL) {
             $current_subcategory = $menu['subcategory'];
@@ -736,8 +780,8 @@ function _get_wizard_menu($page)
 }
 
 /**
- * Returns left panel menu
- * 
+ * Returns left panel menu.
+ *
  * @param array $page page data
  *
  * @return string menu HTML output
@@ -753,8 +797,8 @@ function _get_left_menu($page)
 }
 
 /**
- * Returns left panel menu
- * 
+ * Returns left panel menu, type 1.
+ *
  * @param array $page page data
  *
  * @return string menu HTML output
@@ -831,7 +875,7 @@ function _get_left_menu_1($page)
             $main_apps .= "\t\t\t</a>\n";
             $main_apps .= "\t\t\t<ul class='nav nav-second-level'>\n";
         }
-        
+
         // Subcategory transition
         //-----------------------
 
@@ -880,8 +924,8 @@ function _get_left_menu_1($page)
 }
 
 /**
- * Returns left panel menu
- * 
+ * Returns left panel menu, type 2.
+ *
  * @param array $page page data
  *
  * @return string menu HTML output
@@ -943,7 +987,7 @@ function _get_left_menu_2($page)
 
         if ($page_meta['category'] != $current_category)
             $current_category = $page_meta['category'];
-        
+
         // Subcategory transition
         //-----------------------
 
@@ -1057,8 +1101,8 @@ $main_apps
 }
 
 /**
- * Returns links related to page
- * 
+ * Returns breadcrumb.
+ *
  * @param array $links link data
  *
  * @return string menu HTML output
@@ -1113,7 +1157,7 @@ function _get_breadcrumb_links($links)
 
         $link_html .= "<a href='" . $link['url'] . "' id='$id' class='$button_class " . (isset($link['class']) ? $link['class'] : "") . "'>
             $text_left<i class='$icon' title='" . $link['tag'] . "'></i>$text_right</a>";
-        
+
     }
     return "<span class='theme-breadcrumb-links $button_grp'>" . $link_html . "</span>";
 };
