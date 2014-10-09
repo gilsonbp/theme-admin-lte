@@ -1417,7 +1417,9 @@ function theme_box_open($title, $options)
 
 function theme_box_content_open($options = NULL)
 {
-    return "<div class='box-body'>";
+    $id = (isset($options['id'])) ? "id='" . $options['id'] . "'" : "";
+    $classes = (isset($options['class'])) ? $options['class'] : "";
+    return "<div $id class='box-body $classes'>";
 }
 
 /**
