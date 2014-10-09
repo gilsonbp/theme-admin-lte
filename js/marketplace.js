@@ -18,7 +18,7 @@ var sdn_org = '';
 var internet_connection = false;
 var lang = new Object();
 
-// TODO: what's this
+// TODO: document
 $(document).ready(function() {
     $(".my-colorpicker").colorpicker();
     $('body').tooltip({
@@ -30,7 +30,6 @@ $(document).ready(function() {
 $(document).ready(function() {
     handle_marketplace_on_page_ready();
 });
-
 
 
 function theme_paginate(url, total, active)
