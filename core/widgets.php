@@ -87,6 +87,14 @@ function theme_anchor($url, $text, $importance, $class, $options)
     // Additional classes
     $class = explode(' ', $class);
 
+
+    $target = '';
+    if (isset($options['target'])) {
+        $target = " target='" . $options['target'] . "'";
+        if ($options['target'] == '_blank')
+            $text .= "<i class='fa fa-external-link theme-text-icon-spacing'></i>";
+    }
+    $tabindex = isset($options['tabindex']) ? " tabindex='" . $options['tabindex'] . "'" : '';
     if (isset($options['class']))
         $class = array_merge($class, explode(' ', $options['class']));
 

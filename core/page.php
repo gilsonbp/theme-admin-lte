@@ -1156,8 +1156,7 @@ function _get_breadcrumb_links($links)
             $icon = 'fa fa-arrow-circle-left';
 
         $link_html .= "<a href='" . $link['url'] . "' id='$id' class='$button_class " . (isset($link['class']) ? $link['class'] : "") . "'>
-            $text_left<i class='$icon' title='" . $link['tag'] . "'></i>$text_right</a>";
-
+            $text_left<i class='$icon' data-toggle='tooltip' data-container='body' title='" . $link['tag'] . "'></i>$text_right</a>";
     }
     return "<span class='theme-breadcrumb-links $button_grp'>" . $link_html . "</span>";
 };
