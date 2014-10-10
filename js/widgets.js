@@ -162,7 +162,6 @@ function theme_set_progress_bar(id, value, options)
     $('#' + id).css('width', value + '%').attr('aria-valuenow', value);
 }
 
-
 /**
  * Loading whirlygig.
  */
@@ -191,9 +190,26 @@ function theme_loading(options) {
             center_begin = '<span ' + form_control + ' ' + ' ' + (id != null ? 'id="' + id + '"' : '') + '>';
             center_end = '</span>';
         }
+    } else {
+        center_begin = '<div' + (id != null ? ' id="' + id + '"' : '') + '>';
+        center_end = '</div>';
     }
 
     return center_begin + '<i class=\'fa fa-spinner fa-spin ' + classes + '\'></i>' + text + center_end;
+}
+
+/**
+ * Remove loading whirlygig.
+ */
+
+function theme_loaded(id) {
+    // May be a box overlay
+    if ($('#' + id + ' .clearos-loading-overlay').length != 0) {
+        $('#' + id + ' .clearos-loading-overlay').hide();
+        return;
+    }
+    // Or may be a loading widget
+    $('#' + id).hide();
 }
 
 /**
@@ -389,9 +405,12 @@ function theme_chart(
     // Pie chart data set
     if (chart_type == 'pie') {
         for (i = 0; i < data.length; i++) {
+            label = data[i][0];
+            if (data[i][2] == 'format_ip')
+                label = clearos_human_readable(data[i][0], 'ip');
             data_set[i] = {
-                label: clearos_human_readable(data[i][0], 'ip'),
-                data: data[i][2]
+                label: label,
+                data: data[i][1]
             }
         }
 

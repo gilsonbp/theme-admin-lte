@@ -48,7 +48,19 @@ body > .header .logo {
 
 .theme-chart-container {
   width: 100%;
-  height: 300px !important; // FIXME: flot bails if 100% specified
+  height: 100px;
+}
+.theme-chart-xs {
+  height: 50px;
+}
+.theme-chart-small {
+  height: 100px;
+}
+.theme-chart-medium {
+  height: 200px;
+}
+.theme-chart-large {
+  height: 350px;
 }
 
 /* ----------------------- */
@@ -320,8 +332,10 @@ body > .header .logo {
 .theme-form-loading {
   position: absolute;
   text-align: center;
-  top: 45%;
-  left: 45%;
+  margin: auto;
+  display: block;
+  top: 40%;
+  width: 100%;
   color: #555555;
   z-index: 1020;
 }

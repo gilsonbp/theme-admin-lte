@@ -1377,6 +1377,30 @@ function theme_chart_container($title, $chart_id, $options)
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
 
     $action = ($options['action']) ? $options['action'] : '';
+    $size = 'theme-chart-medium';
+    $override_size = '';
+    if (isset($options['chart-size'])) {
+        if (preg_match('/\(\d+\)x\(\d+\)/', $options['chart-size'], $match)) {
+            $override_size = "style='width: " . $match[0] . "; height: " . $match[1] . ";'";
+            $size = '';
+        } else if ($options['chart-size'] == 'tiny')
+            $size = 'theme-chart-xs';
+        else if ($options['chart-size'] == 'small')
+            $size = 'theme-chart-small';
+        else if ($options['chart-size'] == 'medium')
+            $size = 'theme-chart-medium';
+        else if ($options['chart-size'] == 'large')
+            $size = 'theme-chart-large';
+    }
+
+    $loading = '';
+    if (isset($options['loading']))
+        $loading = "
+            <div class='overlay clearos-loading-overlay'></div>
+            <div class='theme-form-loading clearos-loading-overlay'>" .
+                theme_loading('1.4em', lang('base_loading...'), array('icon-below' => TRUE)) . "
+            </div>
+        ";
 
     return "
         <div class='box'$id_html>
@@ -1384,8 +1408,9 @@ function theme_chart_container($title, $chart_id, $options)
             <h3 class='box-title'>$title</h3>
             <div class='theme-summary-table-action'>$action</div>
           </div>
-          <div class='box-body'><div class='theme-chart-container' id='$chart_id'></div></div>
+          <div class='box-body'><div class='theme-chart-container $size' id='$chart_id' $override_size></div></div>
           <div class='box-footer'></div>
+          $loading
         </div>
     ";
 }
