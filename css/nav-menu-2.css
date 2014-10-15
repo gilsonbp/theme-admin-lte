@@ -15,3 +15,6 @@
   text-align: center;
   padding: 5px;
 }
+.btn-default.active {
+  background-color: #ebebeb!important;
+}

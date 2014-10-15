@@ -94,7 +94,7 @@ function theme_dialog_close(obj)
  * Infobox.
  */
 
-function theme_info_box(type, title, message, options)
+function theme_infobox(type, title, message, options)
 {
     if (type === 'critical') {
         box_class = 'alert-danger';

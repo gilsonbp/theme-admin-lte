@@ -135,7 +135,7 @@ function theme_anchor($url, $text, $importance, $class, $options)
                 <span class='caret'></span>
                 <span class='sr-only'>Toggle Dropdown</span>
               </button>
-              <ul class='dropdown-menu' role='menu'>
+              <ul class='dropdown-menu dropdown-menu-right' role='menu'>
                 $url_text
               </ul>
             </div>
@@ -1182,8 +1182,8 @@ function theme_form_footer($options)
     $buttons = '';
     if (isset($options['loading']))
         $loading = "
-            <div class='overlay'></div>
-            <div class='theme-form-loading'>" .
+            <div class='overlay clearos-loading-overlay'></div>
+            <div class='theme-form-loading clearos-loading-overlay'>" .
                 theme_loading('1.8em', lang('base_loading...'), array('icon-below' => TRUE)) . "
             </div>
         ";

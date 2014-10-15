@@ -111,8 +111,6 @@ function change_layout() {
 
 $(document).ready(function() {
 
-    $('.theme-navbar-category').tooltip({container: 'body'});
-
     var menu_category = $('input[name=options]:checked', '#category-select').attr('id');
     // Hacks below keep style the same even though we're hiding li elements
     $('.' + menu_category).filter(':first').css('border-top', '1px solid #dbdbdb');
