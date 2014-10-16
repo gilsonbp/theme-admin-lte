@@ -111,6 +111,7 @@ var lang_marketplace_sdn_account_setup_help_1 = '" . lang("marketplace_sdn_accou
 var lang_marketplace_sdn_account_setup_help_2 = '" . lang("marketplace_sdn_account_setup_help_2") . "';
 var lang_marketplace_sdn_account_setup = '" . lang('marketplace_sdn_account_setup') . "';
 var lang_marketplace_setup_payment_on_clear = '" . lang('marketplace_setup_payment_on_clear') . "';
+var lang_marketplace_no_install_no_review = '" . lang('marketplace_no_install_no_review') . "';
 var lang_warning = '" . lang("base_warning") . "';
 var lang_information = '" . lang("base_information") . "';
 

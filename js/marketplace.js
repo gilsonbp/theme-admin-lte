@@ -18,6 +18,11 @@ var sdn_org = '';
 var internet_connection = false;
 var lang = new Object();
 
+$(document).on('click', '.sidebar-review-app', function(e) {
+    e.preventDefault();
+    add_review();
+});
+
 // TODO: document
 $(document).ready(function() {
     $(".my-colorpicker").colorpicker();
@@ -667,6 +672,38 @@ function clearos_is_authenticated() {
         }
     });
 }
+
+/**
+ * Prevent review.
+ */
+
+function prevent_review() {
+    clearos_dialog_box('review_error', lang_warning, lang_marketplace_no_install_no_review);
+}
+
+/**
+ * Add review.
+ */
+
+function add_review() {
+    auth_options.no_redirect_on_cancel = true;
+    auth_options.callback = 'display_review_form';
+    clearos_is_authenticated();
+}
+
+/**
+ * Display review form.
+ */
+
+function display_review_form() {
+    clearos_modal_infobox_open('review-form');
+    // Sometimes browser autocompletes this field
+    $('#review-comment').val('');
+}
+
+/**
+ * Submit review.
+ */
 
 function submit_review(update) {
     $.ajax({
