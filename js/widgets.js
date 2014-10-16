@@ -355,6 +355,20 @@ function theme_summary_table(table_id, data, data_type, urls, highlight, sort, r
         table.bind('sort', function () { clearos_report_trigger( 'Sort', table, report_id ); })
 }
 
+function get_option_key(obj, keys) {
+    if (typeof keys == 'string')
+        keys = keys.split('.');
+    var last = keys.pop();
+    for (var i in keys) {
+        if (!obj.hasOwnProperty(keys[i]))
+            break;
+        obj = obj[keys[i]];
+    }
+    if (obj.hasOwnProperty(last))
+        return obj[last];
+    return null;
+}
+
 /**
  * Chart creator.
  *
@@ -364,6 +378,7 @@ function theme_summary_table(table_id, data, data_type, urls, highlight, sort, r
  * @param string $format     format information
  * @param array  $series     converted series data
  * @param array  $labels     labels for series data
+ * @param object $custom     custom options
  *
  * Format information is passed via the $format variable.  Information includes:
  * - format.xaxis_label = Label for the x-axis
@@ -379,7 +394,8 @@ function theme_chart(
     series,
     series_labels,
     series_units,
-    series_title
+    series_title,
+    custom 
 )
 {
     //-------------------------
@@ -401,6 +417,9 @@ function theme_chart(
 
     data_set = Array();
     ticks = Array();
+    
+    if (typeof custom === 'undefined')
+        custom = new Object();
 
     // Pie chart data set
     if (chart_type == 'pie') {
@@ -473,12 +492,13 @@ function theme_chart(
     //----
 
     } else if (chart_type == 'pie') {
+        console.log(custom);
         options = {
             series: {
                 pie: {
                     show: true,
                     label: {
-                        show: true,
+                        show: (get_option_key(custom, 'pie.label.show') != null ? true: false),
                     }
                 }
             },
@@ -557,36 +577,38 @@ function theme_chart(
     // Interactive data points
     //------------------------
     // flot does not have native support for showing data points on the graph
-    // Here is our implentation.
+    // Here is our implementation.
 
-    $("<div id='clearos_chart_tooltip'></div>").css({
-        position: "absolute",
-        display: "none",
-        border: "1px solid #fdd",
-        padding: "2px",
-        "background-color": "#fee",
-        opacity: 0.80
-    }).appendTo("body");
+    if (chart_type != 'pie') {
+        $("<div id='clearos_chart_tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #fdd",
+            padding: "2px",
+            "background-color": "#fee",
+            opacity: 0.80
+        }).appendTo("body");
 
-    $("#" + chart_id).bind("plothover", function (event, pos, item) {
-        if (item) {
-            var x = item.datapoint[0].toFixed(2);
-            var y = item.datapoint[1].toFixed(2);
+        $("#" + chart_id).bind("plothover", function (event, pos, item) {
+            if (item) {
+                var x = item.datapoint[0].toFixed(2);
+                var y = item.datapoint[1].toFixed(2);
 
-            var date = new Date(Math.round(x));
-            var hours = date.getHours();
-            var minutes = "0" + date.getMinutes();
-            var seconds = "0" + date.getSeconds();
+                var date = new Date(Math.round(x));
+                var hours = date.getHours();
+                var minutes = "0" + date.getMinutes();
+                var seconds = "0" + date.getSeconds();
 
-            var formattedTime = hours + ':' + minutes.substr(minutes.length-2) + ':' + seconds.substr(seconds.length-2);
+                var formattedTime = hours + ':' + minutes.substr(minutes.length-2) + ':' + seconds.substr(seconds.length-2);
 
-            $("#clearos_chart_tooltip").html(formattedTime + " - " + y)
-                .css({top: item.pageY+5, left: item.pageX+5})
-                .fadeIn(200);
-        } else {
-            $("#clearos_chart_tooltip").hide();
-        }
-    });
+                $("#clearos_chart_tooltip").html(formattedTime + " - " + y)
+                    .css({top: item.pageY+5, left: item.pageX+5})
+                    .fadeIn(200);
+            } else {
+                $("#clearos_chart_tooltip").hide();
+            }
+        });
+    }
 
     // Show plot
     //----------
