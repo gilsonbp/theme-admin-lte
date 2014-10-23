@@ -2701,6 +2701,8 @@ function theme_help_box($data)
             $data['action']['js']
         );
 
+    return theme_modal_info('app-info-content', $data['name'], $data['description']);
+    /*
     return theme_infobox(
         'info',
         'TODO',
@@ -2711,6 +2713,7 @@ function theme_help_box($data)
           <div class='theme-help-box-description'>" . $data['description'] . "</div>
         </div>"
     );
+    */
 }
 
 ///////////////////////////////////////////////////////////////////////////////
