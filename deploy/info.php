@@ -4,7 +4,7 @@
 //----------------------------
 
 $package['name'] = 'theme-AdminLTE';
-$package['title'] = 'ClearOS Admin Theme';
+$package['title'] = 'ClearOS Admin Theme (Old)';
 $package['description'] = 'The ClearOS Admin Theme ';
 
 $package['version'] = '1.0';
