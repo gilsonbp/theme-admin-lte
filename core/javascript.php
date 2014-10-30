@@ -66,6 +66,7 @@ function theme_page_javascript($custom_settings)
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.time.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.stack.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.categories.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/flot/jquery.flot.tooltip.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery.flot.axislabels.js'></script>
 <script type='text/javascript' src='$theme_url/js/nav-menu-" . $custom_settings['menu'] . ".js'></script>
 

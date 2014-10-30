@@ -492,7 +492,6 @@ function theme_chart(
     //----
 
     } else if (chart_type == 'pie') {
-        console.log(custom);
         options = {
             series: {
                 pie: {
@@ -579,18 +578,22 @@ function theme_chart(
     // flot does not have native support for showing data points on the graph
     // Here is our implementation.
 
-    if (chart_type != 'pie') {
-        $("<div id='clearos_chart_tooltip'></div>").css({
-            position: "absolute",
-            display: "none",
-            border: "1px solid #fdd",
-            padding: "2px",
-            "background-color": "#fee",
-            opacity: 0.80
-        }).appendTo("body");
-
-        $("#" + chart_id).bind("plothover", function (event, pos, item) {
-            if (item) {
+    options['tooltip'] = 'true';
+    options['tooltipOpts'] = {
+        content: '%p.0%, %s',
+        shifts: {
+          x: 20,
+          y: 0
+        },
+        defaultTheme: false 
+    };
+    $("#" + chart_id).bind("plothover", function (event, pos, item) {
+        if (item) {
+            if (!item)
+                return;
+            if (chart_type == 'pie') {
+                var percent = parseFloat(item.series.percent).toFixed(2);
+            } else {
                 var x = item.datapoint[0].toFixed(2);
                 var y = item.datapoint[1].toFixed(2);
 
@@ -601,17 +604,29 @@ function theme_chart(
 
                 var formattedTime = hours + ':' + minutes.substr(minutes.length-2) + ':' + seconds.substr(seconds.length-2);
 
-                $("#clearos_chart_tooltip").html(formattedTime + " - " + y)
+                $("#" + chart_id + "_chart_tooltip").html(formattedTime + " - " + y)
                     .css({top: item.pageY+5, left: item.pageX+5})
                     .fadeIn(200);
-            } else {
-                $("#clearos_chart_tooltip").hide();
             }
-        });
-    }
+        } else {
+            $("#" + chart_id + "_chart_tooltip").hide();
+        }
+    });
 
     // Show plot
     //----------
 
     $.plot("#" + chart_id, data_set, options);
+}
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+      
+    while (element) {
+        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
 }

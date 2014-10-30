@@ -1408,7 +1408,9 @@ function theme_chart_container($title, $chart_id, $options)
             <h3 class='box-title'>$title</h3>
             <div class='theme-summary-table-action'>$action</div>
           </div>
-          <div class='box-body'><div class='theme-chart-container $size' id='$chart_id' $override_size></div></div>
+          <div class='box-body'>
+            <div class='theme-chart-container $size' id='$chart_id' $override_size></div>
+          </div>
           <div class='box-footer'></div>
           $loading
         </div>
