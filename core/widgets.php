@@ -1146,6 +1146,28 @@ function theme_login_form($redirect, $languages, $lang, $errmsg, $options = NULL
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
+ * Set class in form for custom styling.
+ *
+ * @param array  $options    options
+ *
+ * @return string HTML
+ */
+
+function theme_form_classes($options = array())
+{
+    $classes = array();
+    if (empty($options)) {
+        $classes[] = 'form-horizontal';
+    } else if (isset($options['class'])) {
+        if (is_array($options['class']))
+            $classes = $options['class'];
+        else
+            $classes = preg_split('/\s+/', $options['class']);
+    }
+    return $classes;
+}
+
+/**
  * Form banner.
  *
  * Supported options:
@@ -2899,13 +2921,25 @@ function theme_summary_box($data)
 
 function theme_image($name, $options = NULL)
 {
+    $override_size = "";
     $id = (isset($options['id'])) ? " id='" . $options['id'] . "'" : "";
-    $class = (isset($options['class'])) ? " " . $options['class'] : "";
+    $class = array();
+    if ((isset($options['class']))) {
+        // Additional classes
+        $class = explode(' ', $class);
+    }
+    if (isset($options['size'])) {
+        if (preg_match('/^(\d+)x(\d+)$/', $options['size'], $match)) {
+            $override_size = "style='width: " . $match[1] . "px; height: " . $match[2] . "px;'";
+            $size = '';
+        } else {
+            $class[] = $options['size'];
+        }
+    }
     $alt = (isset($options['alt'])) ? " " . $options['alt'] : "";
-    $size = (isset($options['size'])) ? " " . $options['size'] : "";
     $color = (isset($options['color'])) ? " " . $options['color'] : "";
     $filename = clearos_theme_path('AdminLTE') . "/img/$name";
-    return "<div $id class='$class'>" . file_get_contents($filename) . "</div>";
+    return "<div $id class='" . implode(' ' , $class) . "' $override_size>" . file_get_contents($filename) . "</div>";
 }
 
 /**
