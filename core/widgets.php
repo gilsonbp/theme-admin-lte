@@ -2965,18 +2965,22 @@ function theme_app_logo($basename, $options = NULL)
     $size = (isset($options['size'])) ? " " . $options['size'] : "";
     $color = (isset($options['color'])) ? " " . $options['color'] : "";
     $filename = clearos_theme_path('AdminLTE') . '/img/placeholder.svg';
+    $no_container = (isset($options['no_container'])) ? TRUE : FALSE;
     if (file_exists(clearos_app_base($basename) . "htdocs/$basename.svg"))
         $filename = clearos_app_base($basename) . "htdocs/$basename.svg";
     else if (file_exists(CLEAROS_CACHE_DIR . "/mp-logo-$basename.svg"))
         $filename = CLEAROS_CACHE_DIR . "/mp-logo-$basename.svg";
 
-    return "
-        <div class='theme-app-logo-container box'>
-            <div class='theme-app-logo box-body$class'>
-                " . file_get_contents($filename) . "
+    if ($no_container)
+        return file_get_contents($filename);
+    else
+        return "
+            <div class='theme-app-logo-container box'>
+                <div class='theme-app-logo box-body$class'>
+                    " . file_get_contents($filename) . "
+                </div>
             </div>
-        </div>
-    ";
+        ";
 }
 
 /**
