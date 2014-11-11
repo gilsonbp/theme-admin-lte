@@ -48,13 +48,14 @@ function theme_page_javascript($custom_settings)
 
 <script type='text/javascript' src='$theme_url/js/jquery.cookie.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery.base64.min.js'></script>
-<script type='text/javascript' src='$theme_url/js/jquery-ui-1.11.1.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/jquery-ui.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/lightbox.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/jquery.dotdotdot.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/bootstrap-dialog/bootstrap-dialog.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/metisMenu/jquery.metisMenu.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/colorpicker/bootstrap-colorpicker.min.js'></script>
+<script type='text/javascript' src='$theme_url/js/plugins/dateFormat/dateFormat.min.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/dataTables.bootstrap.js'></script>
 <script type='text/javascript' src='$theme_url/js/plugins/datatables/jquery.dataTables.rowReordering.js'></script>
