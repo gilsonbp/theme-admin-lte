@@ -140,7 +140,7 @@ function theme_app(type, list, options)
 
 
 
-function handle_marketplace_on_page_ready(my_location)
+function handle_marketplace_on_page_ready()
 {
     var my_location = _get_location_info();
 
