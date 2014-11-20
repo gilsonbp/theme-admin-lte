@@ -190,7 +190,6 @@ function handle_marketplace_on_page_ready()
     ');
 
     $('#sdn_login_action').on('click', function () {
-        auth_options.reload_after_auth = false;
         auth_options.action_type = 'login';
 
         if ($('#sdn_lost_password_group').is(':visible'))
@@ -568,6 +567,8 @@ function get_placeholder(type) {
 
 
 function clearos_is_authenticated() {
+    var my_location = _get_location_info();
+
     data_payload = 'ci_csrf_token=' + $.cookie('ci_csrf_token');
     if ($('#sdn_username').val() != undefined)
         data_payload += '&username=' + $('#sdn_username').val();
