@@ -2938,7 +2938,15 @@ function theme_image($name, $options = NULL)
     }
     $alt = (isset($options['alt'])) ? " " . $options['alt'] : "";
     $color = (isset($options['color'])) ? " " . $options['color'] : "";
-    $filename = clearos_theme_path('AdminLTE') . "/img/$name";
+
+    // First check app htdocs
+    $filename = clearos_app_base($basename) . '/htdocs/' . $name;
+    if (!file_exists($filename))
+        $filename = clearos_theme_path('AdminLTE') . "/img/missing.svg";
+
+    // Now check for theme override
+    if (file_exists(clearos_theme_path('AdminLTE') . "/img/$name"))
+        $filename = clearos_theme_path('AdminLTE') . "/img/$name";
     return "<div $id class='" . implode(' ' , $class) . "' $override_size>" . file_get_contents($filename) . "</div>";
 }
 
