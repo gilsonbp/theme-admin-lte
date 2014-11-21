@@ -456,10 +456,7 @@ body > .header .logo {
   width: 100%;
 }
 .marketplace-app {
-  width: 48%;
-  margin: 10px;
   overflow: hidden;
-  display: inline-block;
 }
 #marketplace-app-container, #content-marketplace-apps {
   text-align: center;
@@ -532,7 +529,8 @@ body > .header .logo {
 }
 .marketplace-app-rhs {
   float: left;
-  width: 380px; /* Don't change to percent...borks dotdotdot plugin */
+  width: 80%;
+  text-align: left;
 }
 .marketplace-app-info-description {
   max-height: 100px;

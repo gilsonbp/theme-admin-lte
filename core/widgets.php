@@ -3028,11 +3028,13 @@ function theme_marketplace_filter($name, $values, $selected = 'all', $options)
 {
     $class = (isset($options['class'])) ? " " . $options['class'] : "";
 
-    $html =  "<div class='btn-group'>";
-    $html .= "    <select id='filter_$name' name='filter_$name' class='marketplace-filter filter-event btn btn-default btn-sm btn-flat'>";
+    $html =  "<div class='col-md-3' style='padding-right: 0px;'>";
+    $html .= "  <div class='btn-group' style='width: 100%;'>";
+    $html .= "    <select id='filter_$name' style='width: 100%; min-height: 30px;' name='filter_$name' class='marketplace-filter filter-event btn btn-default btn-sm btn-flat'>";
     foreach ($values as $key => $readable)
-        $html .= "        <option value='$key'" . ($selected === $key ? ' SELECTED' : '') . ">$readable</option>\n";
+        $html .= "   <option value='$key'" . ($selected === $key ? ' SELECTED' : '') . ">$readable</option>\n";
     $html .= "    </select>";
+    $html .= "  </div>";
     $html .= "</div>";
     return $html;
 }
@@ -3051,7 +3053,7 @@ function theme_marketplace_search($search_string = NULL)
     $html = "
         <div class='input-group'>
             <input type='text' name='search' id='search'" .
-            ($search_string != NULL ? " value='$search_string'" : "") . " class='form-control input-sm'" .
+            ($search_string != NULL ? " value='$search_string'" : "") . " style='min-height: 30px;' class='form-control input-sm'" .
             ($search_string == NULL ? " placeholder='" . lang('base_search') . "...'" : "") . ">
             <div class='input-group-btn'>" .
                 ($search_string != NULL ? "<button type='submit' name='search_cancel' value='1' class='btn btn-sm'><i class='fa fa-times'></i></button>" : "") . "
@@ -3196,7 +3198,7 @@ function theme_marketplace_review($basename, $pseudonum)
 
 function theme_marketplace_layout()
 {
-    echo "<div id='marketplace-app-container'></div>";
+    echo "<div id='marketplace-app-container' class='row'></div>";
     echo "<div style='clear: both;'></div>";
 }
 
