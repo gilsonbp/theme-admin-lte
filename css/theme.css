@@ -729,6 +729,33 @@ body > .header .logo {
 /* Support                 */
 /* ----------------------- */
 
+.support-box-container {
+  height: 200px;
+  overflow: hidden;
+}
+
+.support-upgrade-required-banner {
+  display: block;
+  position: absolute;
+  text-align: center;
+  opacity: 0.9;
+  -webkit-transform: rotate(315deg);
+  -moz-transform:    rotate(315deg);
+  -ms-transform:     rotate(315deg);
+  transform:         rotate(315deg);
+  text-transform: uppercase;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: white;
+  background-color: red;
+  border: none;
+  padding: 10px 80px 100px 80px;
+  z-index: 500;
+  top: 120px;
+  left: 180px;
+  height: 32px;
+  line-height: 32px;
+}
 .support-item {
   width: 80px;
   height: 80px;
@@ -737,6 +764,12 @@ body > .header .logo {
   margin: auto;
 }
 
+.support-upgrade-days-remaining {
+  font-weight: 700;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+}
 /* ----------------------- */
 /* Dashboard               */
 /* ----------------------- */
@@ -766,10 +799,11 @@ body > .header .logo {
 }
 
 /* ----------------------- */
-/* Support                 */
+/* Search                  */
 /* ----------------------- */
 
 #clearos_installed_apps_wrapper ul.pagination a {
   margin-top: 5px;
   padding: 2px 6px; 
 }
+

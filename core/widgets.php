@@ -2192,7 +2192,7 @@ function theme_box_footer($id = NULL, $footer = '', $options = NULL)
 function theme_box_open($title, $options)
 {
     $id_html = (isset($options['id'])) ? $options['id'] : 'options_' . rand(0, 1000);
-    $classes = (isset($options['class'])) ? ' ' . $options['class'] : '';
+    $classes = (isset($options['class'])) ? $options['class'] : '';
     $anchors = (isset($options['anchors'])) ? "<div style='float: right; padding-top: 10px; margin-right: 10px;'>" . $options['anchors'] . "</div>": '';
     return "
         <div class='box $classes' id='$id_html'>
@@ -2908,6 +2908,7 @@ function theme_summary_box($data)
  * Get a image.
  *
  * @param string $name    name of image
+ * @param string $basename basename where image request called from
  * @param array  $options options
  *
  * Options:
@@ -2919,14 +2920,17 @@ function theme_summary_box($data)
  * @return string HTML
  */
 
-function theme_image($name, $options = NULL)
+function theme_image($name, $basename, $options = NULL)
 {
     $override_size = "";
     $id = (isset($options['id'])) ? " id='" . $options['id'] . "'" : "";
     $class = array();
     if ((isset($options['class']))) {
         // Additional classes
-        $class = explode(' ', $class);
+        if (is_array($options['class']))
+            $class = $options['class'];
+        else
+            $class = explode(' ', $options['class']);
     }
     if (isset($options['size'])) {
         if (preg_match('/^(\d+)x(\d+)$/', $options['size'], $match)) {
