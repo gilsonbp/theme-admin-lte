@@ -2947,21 +2947,21 @@ function theme_image($name, $basename, $options = NULL)
         // First check app htdocs
         $filename = clearos_app_base($basename) . '/htdocs/' . $name;
         if (!file_exists($filename))
-            $filename = clearos_theme_path('ClearOS-Admin') . "/img/missing.svg";
+            $filename = clearos_theme_path('AdminLTE') . "/img/missing.svg";
 
         // Now check for theme override
-        if (file_exists(clearos_theme_path('ClearOS-Admin') . "/img/$name"))
-            $filename = clearos_theme_path('ClearOS-Admin') . "/img/$name";
+        if (file_exists(clearos_theme_path('AdminLTE') . "/img/$name"))
+            $filename = clearos_theme_path('AdminLTE') . "/img/$name";
         return "<div $id class='" . implode(' ' , $class) . "' $override_size>" . file_get_contents($filename) . "</div>";
     } else {
         // First check app htdocs
         $src = clearos_app_htdocs($basename) . '/' . $name;
         $filename = clearos_app_base($basename) . '/htdocs/' . $name;
         if (!file_exists($filename))
-            $src = clearos_theme_url('ClearOS-Admin') . "/img/missing.svg";
+            $src = clearos_theme_url('AdminLTE') . "/img/missing.svg";
         // Now check for theme override
-        if (file_exists(clearos_theme_path('ClearOS-Admin') . "/img/$name"))
-            $src = clearos_theme_url('ClearOS-Admin') . "/img/$name";
+        if (file_exists(clearos_theme_path('AdminLTE') . "/img/$name"))
+            $src = clearos_theme_url('AdminLTE') . "/img/$name";
             
         return "<img src='" . $src . "' $id class='" . implode(' ' , $class) . "' $override_size>";
     }
