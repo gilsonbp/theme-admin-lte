@@ -11,6 +11,11 @@ a.highlight-link:hover {
 body > .header .logo {
     font-family: Arial;
 }
+.theme-clear:after {
+  content:'';
+  display:block;
+  clear: both;
+}
 .theme-center-text {
   margin-left: auto;
   margin-right: auto;
