@@ -114,6 +114,9 @@ function theme_infobox(type, title, message, options)
     } else if (type === 'warning') {
         box_class = 'alert-warning';
         icon_class = 'fa fa-exclamation-triangle';
+    } else if (type === 'info') {
+        box_class = 'alert-info';
+        icon_class = 'fa fa-info-circle';
     } else {
         box_class = 'alert-success';
         icon_class = 'fa fa-check-circle';
@@ -250,6 +253,7 @@ function theme_screenshots(basename, screenshots) {
 
 function theme_related_app(type, list)
 {
+    html = '<div class="row">';
     for (index = 0 ; index < list.length; index++) {
         app = list[index];
         box_class = 'box-primary';
@@ -258,8 +262,8 @@ function theme_related_app(type, list)
             box_class = 'box-primary';
         else if (type == 'other_by_devel')
             box_class = 'box-warning';
-        html = '\
-            <div class="box ' + box_class + ' marketplace-related-app" id="box-' + app.basename + '">\
+        html += '\
+            <div class="col-md-6 box ' + box_class + ' marketplace-related-app" id="box-' + app.basename + '">\
                 <div class="box-header">\
                     <h3 class="box-title">' + app.name + '</h3>\
                 </div>\
@@ -288,8 +292,9 @@ function theme_related_app(type, list)
                 </div>\
             </div>\
         ';
-        $('#app_' + type).append(html);
     }
+    html += '</div>';
+    $('#app_' + type).append(html);
 
     // Make sure only to call this 'dotdotdot' once
     if (type == 'other_by_devel') {
@@ -407,7 +412,7 @@ function theme_chart(
     series_labels,
     series_units,
     series_title,
-    custom 
+    custom
 )
 {
     //-------------------------
@@ -429,7 +434,7 @@ function theme_chart(
 
     data_set = Array();
     ticks = Array();
-    
+
     if (typeof custom === 'undefined')
         custom = new Object();
 
@@ -587,8 +592,6 @@ function theme_chart(
 
     // Interactive data points
     //------------------------
-    // flot does not have native support for showing data points on the graph
-    // Here is our implementation.
 
     options['tooltip'] = 'true';
     options['tooltipOpts'] = {
