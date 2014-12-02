@@ -303,6 +303,9 @@ body > .header .logo {
 /* Wizard                  */
 /* ----------------------- */
 
+#wizard_nav_previous, #wizard_nav_next {
+  min-width: 100px;
+}
 .theme-wizard-intro-title {
   font-weight: bold;
   padding-bottom: 10px;

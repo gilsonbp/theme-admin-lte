@@ -1401,6 +1401,7 @@ function theme_chart_container($title, $chart_id, $options)
     $id_html = (isset($options['id'])) ? " id='" . $options['id'] . "'" : '';
 
     $action = ($options['action']) ? $options['action'] : '';
+    $footer_content = ($options['footer']) ? $options['footer'] : '';
     $size = 'theme-chart-medium';
     $override_size = '';
     if (isset($options['chart-size'])) {
@@ -1435,7 +1436,7 @@ function theme_chart_container($title, $chart_id, $options)
           <div class='box-body'>
             <div class='theme-chart-container $size' id='$chart_id' $override_size></div>
           </div>
-          <div class='box-footer'></div>
+          <div class='box-footer pull-right '>$footer_content</div>
           $loading
         </div>
     ";
